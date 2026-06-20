@@ -5,6 +5,7 @@ public class CombatStateMachine : MonoBehaviour
     public SlotMachineSystem SlotMachine;
     public AttackBuilder AttackBuilder;
     public AttackExecutionSystem AttackExecution;
+    public RoomSystem RoomSystem;
 
     public Health PlayerHealth;
     public EnemyAI Enemy;
@@ -35,6 +36,7 @@ public class CombatStateMachine : MonoBehaviour
         {
             CurrentState = CombatState.Victory;
             Debug.Log("[Combat] Victory!");
+            RoomSystem.OnCombatVictory(); 
             return;
         }
 

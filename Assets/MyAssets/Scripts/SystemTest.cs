@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class SystemTest : MonoBehaviour
 {
+    public RunManager RunManager;
     public CombatStateMachine Combat;
 
     private void Start()
     {
-        Combat.StartCombat();
+        RunManager.StartRun();
     }
 
     private void Update()
