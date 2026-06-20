@@ -1,0 +1,25 @@
+using System;
+using System.Collections;
+using UnityEngine;
+
+public class AttackExecutionSystem : MonoBehaviour
+{
+    public DamageSystem DamageSystem;
+
+    public void Execute(Attack attack, Health target, Action onComplete = null)
+    {
+        StartCoroutine(ExecuteRoutine(attack, target, onComplete));
+    }
+
+    private IEnumerator ExecuteRoutine(Attack attack, Health target, Action onComplete)
+    {
+        for (int i = 0; i < attack.HitCount; i++)
+        {
+            DamageSystem.ResolveSingleHit(attack, target);
+            if (target.IsDead) break;
+            yield return null; //one frame between hits, later we can add delays instead
+        }
+
+        onComplete?.Invoke();
+    }
+}

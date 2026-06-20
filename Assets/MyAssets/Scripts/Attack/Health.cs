@@ -26,4 +26,10 @@ public class Health : MonoBehaviour
         CurrentHP = Mathf.Min(MaxHP, CurrentHP + amount);
         Debug.Log($"[Health] {EntityName} healed {amount} -> {CurrentHP}/{MaxHP} HP");
     }
+
+    public void SetMaxHP(int newMax)
+    {
+        MaxHP = newMax;
+        CurrentHP = newMax;
+    }
 }
