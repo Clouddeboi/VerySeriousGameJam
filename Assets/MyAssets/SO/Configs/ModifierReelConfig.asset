@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d53eb42f589aeb4ea7a5e2bf53cda85, type: 3}
+  m_Name: ModifierReelConfig
+  m_EditorClassIdentifier: Assembly-CSharp::ModifierReelConfig
+  Entries:
+  - Symbol: {fileID: 11400000, guid: 9430f0b94d77a064ea3fbb1710262d29, type: 2}
+    Weight: 30
+  - Symbol: {fileID: 11400000, guid: 09308673fabe1784ba4a40dd6bec5dfb, type: 2}
+    Weight: 30
+  - Symbol: {fileID: 11400000, guid: 24131ded9a675a74d98ae0ad4a7bf61d, type: 2}
+    Weight: 40
