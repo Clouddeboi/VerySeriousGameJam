@@ -37,7 +37,10 @@ public class RewardSystem : MonoBehaviour
                 break;
 
             case RewardType.WeightAdjustment:
-                Debug.Log($"[Reward] (TODO) Adjust weight: {reward.DisplayName} by {reward.WeightDelta}");
+                if (reward.TargetElement != null)
+                    SlotMachine.AdjustElementWeight(reward.TargetElement, reward.WeightDelta);
+                else if (reward.TargetWeapon != null)
+                    SlotMachine.AdjustWeaponWeight(reward.TargetWeapon, reward.WeightDelta);
                 break;
         }
 

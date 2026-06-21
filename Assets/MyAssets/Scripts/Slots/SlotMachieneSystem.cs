@@ -7,6 +7,10 @@ public class SlotMachineSystem : MonoBehaviour
     public ElementReelConfig ElementConfig;
     public ModifierReelConfig ModifierConfig;
 
+    public bool WeaponLocked => weaponReel.Locked;
+    public bool ElementLocked => elementReel.Locked;
+    public bool ModifierLocked => modifierReel.Locked;
+
     private Reel<WeaponSymbol> weaponReel;
     private Reel<ElementSymbol> elementReel;
     private Reel<ModifierSymbol> modifierReel;
@@ -40,4 +44,8 @@ public class SlotMachineSystem : MonoBehaviour
             case "Modifier": modifierReel.Locked = !modifierReel.Locked; break;
         }
     }
+
+    public void AdjustElementWeight(ElementSymbol symbol, float delta) => elementReel.AdjustWeight(symbol, delta);
+    public void AdjustWeaponWeight(WeaponSymbol symbol, float delta) => weaponReel.AdjustWeight(symbol, delta);
+
 }

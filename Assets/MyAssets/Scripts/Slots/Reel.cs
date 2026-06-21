@@ -35,4 +35,18 @@ public class Reel<T>
         LastResult = entries[entries.Count - 1].Symbol;
         return LastResult;
     }
+
+    // New: lets RewardSystem's WeightAdjustment actually do something
+    public void AdjustWeight(T symbol, float delta)
+    {
+        foreach (var e in entries)
+        {
+            if (EqualityComparer<T>.Default.Equals(e.Symbol, symbol))
+            {
+                e.Weight = Mathf.Max(0f, e.Weight + delta);
+                Debug.Log($"[Reel] Adjusted weight of {symbol} by {delta} -> {e.Weight}");
+                return;
+            }
+        }
+    }
 }

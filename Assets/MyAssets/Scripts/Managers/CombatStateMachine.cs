@@ -6,6 +6,9 @@ public class CombatStateMachine : MonoBehaviour
     public AttackBuilder AttackBuilder;
     public AttackExecutionSystem AttackExecution;
     public RoomSystem RoomSystem;
+    public StatusEffectSystem StatusEffects;
+    public JackpotDetectionSystem JackpotSystem;
+    public SlotMachineUI SlotUI;
 
     public Health PlayerHealth;
     public EnemyAI Enemy;
@@ -25,7 +28,12 @@ public class CombatStateMachine : MonoBehaviour
         CurrentState = CombatState.ResolvingPlayerAttack;
 
         SlotResult result = SlotMachine.Spin();
+        SlotUI.RefreshDisplay(result);
+        
         Attack attack = AttackBuilder.Build(result);
+
+        JackpotType jackpot = JackpotSystem.Detect(result);
+        attack = JackpotSystem.ApplyJackpotBonus(attack, jackpot);
 
         AttackExecution.Execute(attack, Enemy.Health, OnPlayerAttackResolved);
     }
@@ -35,30 +43,36 @@ public class CombatStateMachine : MonoBehaviour
         if (Enemy.Health.IsDead)
         {
             CurrentState = CombatState.Victory;
-            Debug.Log("[Combat] Victory!");
-            RoomSystem.OnCombatVictory(); 
+            RoomSystem.OnCombatVictory();
             return;
         }
 
         CurrentState = CombatState.EnemyTurn;
         RunEnemyTurn();
     }
-
     private void RunEnemyTurn()
     {
         CurrentState = CombatState.ResolvingEnemyAttack;
 
-        int dmg = Enemy.DecideAndGetDamage();
-        PlayerHealth.ApplyDamage(dmg);
-
-        if (PlayerHealth.IsDead)
+        if (StatusEffects.IsFrozen(Enemy.Health))
         {
-            CurrentState = CombatState.Defeat;
-            Debug.Log("[Combat] Defeat...");
-            return;
+            Debug.Log($"[Combat] {Enemy.Data.EnemyName} is frozen and can't attack!");
+        }
+        else
+        {
+            int dmg = Enemy.DecideAndGetDamage();
+            PlayerHealth.ApplyDamage(dmg);
+
+            if (PlayerHealth.IsDead)
+            {
+                CurrentState = CombatState.Defeat;
+                return;
+            }
         }
 
+        StatusEffects.TickEffects(PlayerHealth);
+        StatusEffects.TickEffects(Enemy.Health);//Freeze counts down here regardless of whether they attacked
+
         CurrentState = CombatState.PlayerTurn;
-        Debug.Log("[Combat] Player's turn.");
     }
 }

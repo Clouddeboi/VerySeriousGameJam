@@ -4,6 +4,7 @@ public struct Attack
     public int HitCount;
     public ElementSymbol Element;
     public bool IsCrit;
+    public int FreezeDurationOverride;
 
     public override string ToString()
     {
