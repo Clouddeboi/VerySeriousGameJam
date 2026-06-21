@@ -5,11 +5,10 @@ public class RoomSystem : MonoBehaviour
 {
     public CombatStateMachine Combat;
     public RewardSystem Rewards;
-    public EnemyAI EnemySlot;
+    public EnemySpawner Spawner;
 
     public RoomState CurrentRoomState { get; private set; }
-
-    public event Action OnRoomComplete;
+    public System.Action OnRoomComplete;
 
     public void EnterRoom(RoomDataSO room)
     {
@@ -18,15 +17,13 @@ public class RoomSystem : MonoBehaviour
 
         if (room.Type == RoomType.Combat || room.Type == RoomType.Elite || room.Type == RoomType.Boss)
         {
-            var enemyData = room.PossibleEnemies[UnityEngine.Random.Range(0, room.PossibleEnemies.Length)];
-            EnemySlot.Initialize(enemyData);
+            var enemies = Spawner.SpawnForRoom(room);
 
             CurrentRoomState = RoomState.Combat;
-            Combat.StartCombat();
+            Combat.StartCombat(enemies);
         }
         else
         {
-            //Shop/Event rooms stub for now
             Debug.Log($"[Room] {room.Type} room not implemented yet — skipping to Exit.");
             CurrentRoomState = RoomState.Exit;
             OnRoomComplete?.Invoke();

@@ -15,4 +15,4 @@ MonoBehaviour:
   EnemyName: Enemy
   MaxHP: 30
   AttackDamage: 5
-  Portrait: {fileID: 0}
+  Portrait: {fileID: 21300000, guid: 6e9226d94c5b0744ab0cf292b79517b8, type: 3}

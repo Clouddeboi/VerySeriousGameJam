@@ -1,5 +1,6 @@
 public enum CombatState
 {
+    SelectingTarget,
     PlayerTurn,
     ResolvingPlayerAttack,
     EnemyTurn,

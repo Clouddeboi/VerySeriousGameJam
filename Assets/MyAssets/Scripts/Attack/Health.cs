@@ -7,6 +7,8 @@ public class Health : MonoBehaviour
     public int CurrentHP { get; private set; }
     public bool IsDead => CurrentHP <= 0;
 
+    public System.Action OnDeath;
+
     private void Awake()
     {
         CurrentHP = MaxHP;
@@ -14,22 +16,27 @@ public class Health : MonoBehaviour
 
     public void ApplyDamage(int amount)
     {
+        if (IsDead) return; //Guard against double-killing an already-dead target
+
         CurrentHP = Mathf.Max(0, CurrentHP - amount);
         Debug.Log($"[Health] {EntityName} took {amount} dmg -> {CurrentHP}/{MaxHP} HP");
 
         if (IsDead)
+        {
             Debug.Log($"[Health] {EntityName} died.");
-    }
-
-    public void Heal(int amount)
-    {
-        CurrentHP = Mathf.Min(MaxHP, CurrentHP + amount);
-        Debug.Log($"[Health] {EntityName} healed {amount} -> {CurrentHP}/{MaxHP} HP");
+            OnDeath?.Invoke();
+        }
     }
 
     public void SetMaxHP(int newMax)
     {
         MaxHP = newMax;
         CurrentHP = newMax;
+    }
+
+    public void Heal(int amount)
+    {
+        CurrentHP = Mathf.Min(MaxHP, CurrentHP + amount);
+        Debug.Log($"[Health] {EntityName} healed {amount} -> {CurrentHP}/{MaxHP} HP");
     }
 }
