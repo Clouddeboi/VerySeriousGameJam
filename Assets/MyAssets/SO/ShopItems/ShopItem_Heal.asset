@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2c9faa11a4c54e4eb5b10ca8077a3df, type: 3}
-  m_Name: Room_Boss
-  m_EditorClassIdentifier: Assembly-CSharp::RoomDataSO
-  Type: 4
-  PossibleEnemies:
-  - {fileID: 11400000, guid: 6df808b0af3559e40b06b7096367286d, type: 2}
+  m_Script: {fileID: 11500000, guid: 350e1f8643e36ef428cfddfc92a6dad3, type: 3}
+  m_Name: ShopItem_Heal
+  m_EditorClassIdentifier: Assembly-CSharp::ShopItemSO
+  Reward: {fileID: 11400000, guid: 9365d257545246b4fa62c15fd9ff31db, type: 2}
+  Price: 5

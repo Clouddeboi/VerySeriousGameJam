@@ -6,4 +6,5 @@ public class RoomDataSO : ScriptableObject
     public RoomType Type;
     public EnemyData[] PossibleEnemies;
     [Range(1, 4)] public int EnemyCount = 1;
+    public RoomLayoutPreset Layout;
 }

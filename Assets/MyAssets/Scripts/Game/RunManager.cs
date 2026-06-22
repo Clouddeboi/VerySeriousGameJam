@@ -9,6 +9,11 @@ public class RunManager : MonoBehaviour
 
     private int currentRoomIndex = -1;
 
+    private void Awake()
+    {
+        RoomSystem.OnRoomComplete += AdvanceToNextRoom;
+    }
+
     public void StartRun()
     {
         currentRoomIndex = -1;

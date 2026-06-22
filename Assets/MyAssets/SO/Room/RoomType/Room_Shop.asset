@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomDataSO
   Type: 2
   PossibleEnemies: []
+  EnemyCount: 1
+  Layout: {fileID: 11400000, guid: aa64ad4fb06577040a269c6858b0ca85, type: 2}
