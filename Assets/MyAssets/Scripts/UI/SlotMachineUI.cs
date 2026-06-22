@@ -19,12 +19,31 @@ public class SlotMachineUI : MonoBehaviour
         ElementText.text = result.Element ? result.Element.DisplayName : "-";
         ModifierText.text = result.Modifier ? result.Modifier.DisplayName : "-";
 
+        RefreshLockIcons();
+    }
+
+    public void RefreshLockIcons()
+    {
         WeaponLockIcon.SetActive(SlotMachine.WeaponLocked);
         ElementLockIcon.SetActive(SlotMachine.ElementLocked);
         ModifierLockIcon.SetActive(SlotMachine.ModifierLocked);
     }
 
-    public void OnWeaponLockClicked() => SlotMachine.ToggleLock("Weapon");
-    public void OnElementLockClicked() => SlotMachine.ToggleLock("Element");
-    public void OnModifierLockClicked() => SlotMachine.ToggleLock("Modifier");
+    public void OnWeaponLockClicked()
+    {
+        SlotMachine.ToggleLock("Weapon");
+        RefreshLockIcons(); //Immediate feedback, don't wait for next spin
+    }
+
+    public void OnElementLockClicked()
+    {
+        SlotMachine.ToggleLock("Element");
+        RefreshLockIcons();
+    }
+
+    public void OnModifierLockClicked()
+    {
+        SlotMachine.ToggleLock("Modifier");
+        RefreshLockIcons();
+    }
 }

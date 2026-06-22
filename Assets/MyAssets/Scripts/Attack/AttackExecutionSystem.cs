@@ -5,6 +5,7 @@ using UnityEngine;
 public class AttackExecutionSystem : MonoBehaviour
 {
     public DamageSystem DamageSystem;
+    public StatusEffectSystem StatusEffects;
 
     public void Execute(Attack attack, Health target, Action onComplete = null)
     {
@@ -17,7 +18,16 @@ public class AttackExecutionSystem : MonoBehaviour
         {
             DamageSystem.ResolveSingleHit(attack, target);
             if (target.IsDead) break;
-            yield return null; //one frame between hits, later we can add delays instead
+            yield return null;
+        }
+
+        //Element status effect applies once per attack, regardless of hit count
+        if (!target.IsDead && attack.Element != null && attack.Element.Type != ElementType.None)
+        {
+            if (attack.Element.Type == ElementType.Ice && attack.FreezeDurationOverride > 0)
+                StatusEffects.ApplyFreezeWithDuration(target, attack.FreezeDurationOverride);
+            else
+                StatusEffects.ApplyFromElement(attack.Element, target);
         }
 
         onComplete?.Invoke();

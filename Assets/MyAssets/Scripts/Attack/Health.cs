@@ -16,7 +16,7 @@ public class Health : MonoBehaviour
 
     public void ApplyDamage(int amount)
     {
-        if (IsDead) return; //Guard against double-killing an already-dead target
+        if (IsDead) return;
 
         CurrentHP = Mathf.Max(0, CurrentHP - amount);
         Debug.Log($"[Health] {EntityName} took {amount} dmg -> {CurrentHP}/{MaxHP} HP");

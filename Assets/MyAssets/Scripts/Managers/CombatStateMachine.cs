@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class CombatStateMachine : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class CombatStateMachine : MonoBehaviour
     {
         Enemies = enemies;
         CurrentTarget = null;
+        SlotMachine.ResetAllLocks();
+        SlotUI.RefreshLockIcons();
         CurrentState = CombatState.SelectingTarget;
         Debug.Log("[Combat] Combat started. Select a target.");
     }
@@ -43,6 +46,8 @@ public class CombatStateMachine : MonoBehaviour
         CurrentState = CombatState.ResolvingPlayerAttack;
 
         SlotResult result = SlotMachine.Spin();
+        SlotUI.RefreshDisplay(result);
+
         Attack attack = AttackBuilder.Build(result);
 
         JackpotType jackpot = JackpotSystem.Detect(result);
@@ -54,9 +59,7 @@ public class CombatStateMachine : MonoBehaviour
     private void OnPlayerAttackResolved()
     {
         if (CurrentTarget.Health.IsDead)
-        {
             HandleEnemyDeath(CurrentTarget);
-        }
 
         if (Enemies.TrueForAll(e => e == null || e.Health.IsDead))
         {
@@ -67,9 +70,10 @@ public class CombatStateMachine : MonoBehaviour
         }
 
         CurrentState = CombatState.EnemyTurn;
-        RunEnemyTurn();
+        StartCoroutine(RunEnemyTurnSequence());
     }
-    private void RunEnemyTurn()
+
+    private IEnumerator RunEnemyTurnSequence()
     {
         CurrentState = CombatState.ResolvingEnemyAttack;
 
@@ -88,30 +92,34 @@ public class CombatStateMachine : MonoBehaviour
             }
 
             StatusEffects.TickEffects(enemy.Health);
+
+            yield return new WaitForSeconds(0.4f);
+
+            if (PlayerHealth.IsDead)
+            {
+                CurrentState = CombatState.Defeat;
+                Debug.Log("[Combat] Defeat...");
+                yield break;
+            }
         }
 
         StatusEffects.TickEffects(PlayerHealth);
 
-        if (PlayerHealth.IsDead)
+        //Re-check victory here too cause if an enemy may have died from a DoT tick mid-sequence, not from the player's hit
+        if (Enemies.TrueForAll(e => e == null || e.Health.IsDead))
         {
-            CurrentState = CombatState.Defeat;
-            Debug.Log("[Combat] Defeat...");
-            return;
+            CurrentState = CombatState.Victory;
+            Debug.Log("[Combat] Victory! (enemy succumbed to status effect)");
+            RoomSystem.OnCombatVictory();
+            yield break;
         }
 
-        //If the current target died this round and no new target chosen yet, force re-selection
-        if (CurrentTarget == null || CurrentTarget.Health.IsDead)
-        {
-            CurrentTarget = null;
-            CurrentState = CombatState.SelectingTarget;
-            Debug.Log("[Combat] Select a new target.");
-        }
-        else
-        {
-            CurrentState = CombatState.PlayerTurn;
-        }
+        CurrentTarget = null;
+        SlotMachine.ResetAllLocks();
+        SlotUI.RefreshLockIcons();
+        CurrentState = CombatState.SelectingTarget;
+        Debug.Log("[Combat] Select a target.");
     }
-
 
     private void HandleEnemyDeath(EnemyAI enemy)
     {
