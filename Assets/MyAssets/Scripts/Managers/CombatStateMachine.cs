@@ -25,6 +25,7 @@ public class CombatStateMachine : MonoBehaviour
         CurrentTarget = null;
         SlotMachine.ResetAllLocks();
         SlotUI.RefreshLockIcons();
+        SlotUI.ResetReelsToIdle();
         CurrentState = CombatState.SelectingTarget;
         Debug.Log("[Combat] Combat started. Select a target.");
     }
@@ -46,14 +47,17 @@ public class CombatStateMachine : MonoBehaviour
         CurrentState = CombatState.ResolvingPlayerAttack;
 
         SlotResult result = SlotMachine.Spin();
-        SlotUI.RefreshDisplay(result);
 
-        Attack attack = AttackBuilder.Build(result);
+        SlotUI.PlaySpinAnimation(result, () =>
+        {
+            //This runs only after all 3 reels finish their spin animation
+            Attack attack = AttackBuilder.Build(result);
 
-        JackpotType jackpot = JackpotSystem.Detect(result);
-        attack = JackpotSystem.ApplyJackpotBonus(attack, jackpot);
+            JackpotType jackpot = JackpotSystem.Detect(result);
+            attack = JackpotSystem.ApplyJackpotBonus(attack, jackpot);
 
-        AttackExecution.Execute(attack, CurrentTarget.Health, OnPlayerAttackResolved);
+            AttackExecution.Execute(attack, CurrentTarget.Health, OnPlayerAttackResolved);
+        });
     }
 
     private void OnPlayerAttackResolved()
@@ -117,6 +121,7 @@ public class CombatStateMachine : MonoBehaviour
         CurrentTarget = null;
         SlotMachine.ResetAllLocks();
         SlotUI.RefreshLockIcons();
+        SlotUI.ResetReelsToIdle(); 
         CurrentState = CombatState.SelectingTarget;
         Debug.Log("[Combat] Select a target.");
     }

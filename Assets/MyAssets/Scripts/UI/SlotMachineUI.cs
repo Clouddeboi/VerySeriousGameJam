@@ -1,25 +1,54 @@
 using UnityEngine;
-using TMPro;
 
 public class SlotMachineUI : MonoBehaviour
 {
     public SlotMachineSystem SlotMachine;
 
-    public TMP_Text WeaponText;
-    public TMP_Text ElementText;
-    public TMP_Text ModifierText;
+    public SlotReelVisual WeaponReelVisual;
+    public SlotReelVisual ElementReelVisual;
+    public SlotReelVisual ModifierReelVisual;
 
     public GameObject WeaponLockIcon;
     public GameObject ElementLockIcon;
     public GameObject ModifierLockIcon;
 
-    public void RefreshDisplay(SlotResult result)
+    [Header("Idle State")]
+    public Sprite WeaponIdleSprite;
+    public Sprite ElementIdleSprite;
+    public Sprite ModifierIdleSprite;
+
+    private int reelsFinished;
+    private System.Action onAllReelsFinished;
+
+    public void PlaySpinAnimation(SlotResult result, System.Action onComplete)
     {
-        WeaponText.text = result.Weapon ? result.Weapon.DisplayName : "-";
-        ElementText.text = result.Element ? result.Element.DisplayName : "-";
-        ModifierText.text = result.Modifier ? result.Modifier.DisplayName : "-";
+        reelsFinished = 0;
+        onAllReelsFinished = onComplete;
+
+        Sprite weaponSprite = result.Weapon ? result.Weapon.Icon : null;
+        Sprite elementSprite = result.Element ? result.Element.Icon : null;
+        Sprite modifierSprite = result.Modifier ? result.Modifier.Icon : null;
+
+        WeaponReelVisual.PlaySpin(weaponSprite, OnReelFinished);
+        ElementReelVisual.PlaySpin(elementSprite, OnReelFinished);
+        ModifierReelVisual.PlaySpin(modifierSprite, OnReelFinished);
 
         RefreshLockIcons();
+    }
+
+    //Snaps all three reels back to a neutral idle look, no animation, instant
+    public void ResetReelsToIdle()
+    {
+        WeaponReelVisual.SetIdle(WeaponIdleSprite);
+        ElementReelVisual.SetIdle(ElementIdleSprite);
+        ModifierReelVisual.SetIdle(ModifierIdleSprite);
+    }
+
+    private void OnReelFinished()
+    {
+        reelsFinished++;
+        if (reelsFinished >= 3)
+            onAllReelsFinished?.Invoke();
     }
 
     public void RefreshLockIcons()
@@ -29,21 +58,7 @@ public class SlotMachineUI : MonoBehaviour
         ModifierLockIcon.SetActive(SlotMachine.ModifierLocked);
     }
 
-    public void OnWeaponLockClicked()
-    {
-        SlotMachine.ToggleLock("Weapon");
-        RefreshLockIcons(); //Immediate feedback, don't wait for next spin
-    }
-
-    public void OnElementLockClicked()
-    {
-        SlotMachine.ToggleLock("Element");
-        RefreshLockIcons();
-    }
-
-    public void OnModifierLockClicked()
-    {
-        SlotMachine.ToggleLock("Modifier");
-        RefreshLockIcons();
-    }
+    public void OnWeaponLockClicked() { SlotMachine.ToggleLock("Weapon"); RefreshLockIcons(); }
+    public void OnElementLockClicked() { SlotMachine.ToggleLock("Element"); RefreshLockIcons(); }
+    public void OnModifierLockClicked() { SlotMachine.ToggleLock("Modifier"); RefreshLockIcons(); }
 }

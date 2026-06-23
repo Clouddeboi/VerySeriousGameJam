@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ElementSymbol
   DisplayName: Ice
   Type: 2
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 50b6cd77e58898c41925cb6c30277ef6, type: 2}
