@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RoomLayoutController : MonoBehaviour
 {
-    public GameObject SlotMachineRoot;
+    public RectTransform SlotMachineRoot;
     public Transform EnemyContainer;
     public GameObject ShopPanelRoot;
     public Transform PlayerTransform;
@@ -10,8 +10,8 @@ public class RoomLayoutController : MonoBehaviour
 
     public void ApplyLayout(RoomLayoutPreset layout)
     {
-        SlotMachineRoot.SetActive(layout.SlotMachineVisible);
-        SlotMachineRoot.transform.position = layout.SlotMachinePosition;
+        SlotMachineRoot.gameObject.SetActive(layout.SlotMachineVisible);
+        SlotMachineRoot.anchoredPosition = layout.SlotMachinePosition;
 
         EnemyContainer.gameObject.SetActive(layout.EnemyContainerVisible);
         EnemyContainer.position = layout.EnemyContainerPosition;

@@ -5,7 +5,7 @@ public class RoomLayoutPreset : ScriptableObject
 {
     [Header("Slot Machine")]
     public bool SlotMachineVisible = true;
-    public Vector3 SlotMachinePosition = Vector3.zero;
+    public Vector2 SlotMachinePosition;
 
     [Header("Enemy Container")]
     public bool EnemyContainerVisible = true;
