@@ -4,6 +4,7 @@ public class PlayerCombatVisuals : MonoBehaviour
 {
     public Health Health;
     public SquashStretchAnimator Animator;
+    public HealthBarUI HealthBar;
 
     [Header("Damage Shake")]
     public float DamageShakeDuration = 0.15f;
@@ -12,6 +13,7 @@ public class PlayerCombatVisuals : MonoBehaviour
     private void Awake()
     {
         Health.OnDamaged += HandleDamaged;
+        HealthBar.Initialize(Health, transform);
     }
 
     private void HandleDamaged()
