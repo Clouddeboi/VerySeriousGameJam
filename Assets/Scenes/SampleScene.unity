@@ -165,9 +165,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SlotReelVisual
   IconImage: {fileID: 884776900}
   SpinSprites:
-  - {fileID: 21300000, guid: 83dae1ce2991a4c4b94df13f5f56cae7, type: 2}
-  - {fileID: 21300000, guid: a74ae3d3fae11134e97ce18168db803f, type: 2}
-  - {fileID: 21300000, guid: c068a78e48a5f5843959256b0f1938e3, type: 2}
+  - {fileID: 21300000, guid: 3b7dfea0e34700247896a0efdd51cb39, type: 2}
+  - {fileID: 21300000, guid: 21bc92e4fd5617044b57105639458e96, type: 2}
+  - {fileID: 21300000, guid: eee429204dbf8e24b9fc34cb145f30fa, type: 2}
+  - {fileID: 21300000, guid: 75983e2eff5eedb4187d48afa6906b8e, type: 2}
+  - {fileID: 21300000, guid: ebdfc1b900cbb8b41bb855413cb86f1e, type: 2}
+  - {fileID: 21300000, guid: 66c7e49df5d80f0469189f47bfe3508a, type: 2}
+  - {fileID: 21300000, guid: dbf78d05739709e4d893473b149e61be, type: 2}
   SpinDuration: 0.6
   SpinFrameRate: 0.05
   ImpactScaleMultiplier: 1.4
@@ -2975,6 +2979,8 @@ MonoBehaviour:
   PlayerHealth: {fileID: 997218462}
   Enemies: []
   Enemy: {fileID: 0}
+  DelayBeforeEnemyTurn: 0.6
+  DelayBetweenEnemyAttacks: 0.4
 --- !u!1 &882142839
 GameObject:
   m_ObjectHideFlags: 0
@@ -3847,7 +3853,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 2d5c9ae5f3426f9468d7bf34014f47cc, type: 2}
+  m_Sprite: {fileID: 21300000, guid: 07bef75242acbc9439d0816318dd1923, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3938,9 +3944,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SlotReelVisual
   IconImage: {fileID: 168074113}
   SpinSprites:
-  - {fileID: 21300000, guid: 50b6cd77e58898c41925cb6c30277ef6, type: 2}
-  - {fileID: 21300000, guid: 586d9f22bd825ef4a9f53d67adcfb2ca, type: 2}
-  - {fileID: 21300000, guid: 4cec4bc0eb4325247a9c240bd9ca4ed6, type: 2}
+  - {fileID: 21300000, guid: b9887bdcdb00bbc4a873f8201d38deed, type: 2}
+  - {fileID: 21300000, guid: b6b5052d2f90f6b41a70a554623974a7, type: 2}
+  - {fileID: 21300000, guid: bb9d7eb4237da0c4498bacfdadba826f, type: 2}
+  - {fileID: 21300000, guid: dab35d46331bf9b43ae13af624f00fcc, type: 2}
   SpinDuration: 0.6
   SpinFrameRate: 0.05
   ImpactScaleMultiplier: 1.4
@@ -4606,9 +4613,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SlotReelVisual
   IconImage: {fileID: 483137622}
   SpinSprites:
-  - {fileID: 21300000, guid: 55e90cc3844ca6343974f73a828c329f, type: 2}
-  - {fileID: 21300000, guid: db3938ecdcb8fca4ea1012cdb462fe6e, type: 2}
-  - {fileID: 21300000, guid: d35af99fb7e90ac4492a330424042d9c, type: 2}
+  - {fileID: 21300000, guid: 91da3c4dda58922469ed24c86ba9428a, type: 2}
+  - {fileID: 21300000, guid: 20bd1e267c3f0994f8428cc3f9e3ba97, type: 2}
+  - {fileID: 21300000, guid: ccc93e6581564114293545b8323213bb, type: 2}
+  - {fileID: 21300000, guid: 2ac08d1179c1e8e42abe87c5998c2814, type: 2}
+  - {fileID: 21300000, guid: 6a10bbc6989605a43b16120bc5b5a1d5, type: 2}
+  - {fileID: 21300000, guid: c5bc52c7f58fa97428311da2802865e2, type: 2}
+  - {fileID: 21300000, guid: 34d7f5ab933e6c849a47327600f354c3, type: 2}
   SpinDuration: 0.6
   SpinFrameRate: 0.05
   ImpactScaleMultiplier: 1.4

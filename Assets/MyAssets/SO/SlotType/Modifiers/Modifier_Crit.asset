@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModifierSymbol
   DisplayName: Critical
   Effect: 3
-  Icon: {fileID: 21300000, guid: 118c1647a4833a940980cd10bd034d6e, type: 2}
+  Icon: {fileID: 21300000, guid: 3b7dfea0e34700247896a0efdd51cb39, type: 2}

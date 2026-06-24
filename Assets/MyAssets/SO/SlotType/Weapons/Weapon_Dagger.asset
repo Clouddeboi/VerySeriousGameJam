@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSymbol
   DisplayName: Dagger
   BaseDamage: 2
-  Icon: {fileID: 21300000, guid: d35af99fb7e90ac4492a330424042d9c, type: 2}
+  Icon: {fileID: 21300000, guid: 20bd1e267c3f0994f8428cc3f9e3ba97, type: 2}

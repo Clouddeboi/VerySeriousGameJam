@@ -18,6 +18,10 @@ public class CombatStateMachine : MonoBehaviour
     public EnemyAI CurrentTarget { get; private set; }
     public EnemyAI Enemy;
 
+    [Header("Turn Pacing")]
+    public float DelayBeforeEnemyTurn = 0.6f;
+    public float DelayBetweenEnemyAttacks = 0.4f; 
+
     public CombatState CurrentState { get; private set; }
 
     public void StartCombat(List<EnemyAI> enemies)
@@ -33,8 +37,18 @@ public class CombatStateMachine : MonoBehaviour
 
     public void SelectTarget(EnemyAI enemy)
     {
-        if (CurrentState != CombatState.SelectingTarget) return;
+        //Allow selecting OR switching target any time before the spin commits
+        if (CurrentState != CombatState.SelectingTarget && CurrentState != CombatState.PlayerTurn) return;
         if (enemy.Health.IsDead) return;
+
+        if (CurrentTarget == enemy)
+        {
+            //Clicking the already-selected enemy again deselects it
+            CurrentTarget = null;
+            CurrentState = CombatState.SelectingTarget;
+            Debug.Log("[Combat] Target deselected.");
+            return;
+        }
 
         CurrentTarget = enemy;
         CurrentState = CombatState.PlayerTurn;
@@ -75,7 +89,13 @@ public class CombatStateMachine : MonoBehaviour
         }
 
         CurrentState = CombatState.EnemyTurn;
-        StartCoroutine(RunEnemyTurnSequence());
+        StartCoroutine(EnemyTurnWithDelay());
+    }
+
+    private IEnumerator EnemyTurnWithDelay()
+    {
+        yield return new WaitForSeconds(DelayBeforeEnemyTurn);
+        yield return RunEnemyTurnSequence();
     }
 
     private IEnumerator RunEnemyTurnSequence()
@@ -98,7 +118,7 @@ public class CombatStateMachine : MonoBehaviour
 
             StatusEffects.TickEffects(enemy.Health);
 
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(DelayBetweenEnemyAttacks);
 
             if (PlayerHealth.IsDead)
             {
@@ -110,7 +130,6 @@ public class CombatStateMachine : MonoBehaviour
 
         StatusEffects.TickEffects(PlayerHealth);
 
-        //Re-check victory here too cause if an enemy may have died from a DoT tick mid-sequence, not from the player's hit
         if (Enemies.TrueForAll(e => e == null || e.Health.IsDead))
         {
             CurrentState = CombatState.Victory;
@@ -122,7 +141,7 @@ public class CombatStateMachine : MonoBehaviour
         CurrentTarget = null;
         SlotMachine.ResetAllLocks();
         SlotUI.RefreshLockIcons();
-        SlotUI.ResetReelsToIdle(); 
+        SlotUI.ResetReelsToIdle();
         CurrentState = CombatState.SelectingTarget;
         Debug.Log("[Combat] Select a target.");
     }

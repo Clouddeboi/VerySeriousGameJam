@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ElementSymbol
   DisplayName: Fire
   Type: 1
-  Icon: {fileID: 21300000, guid: 4cec4bc0eb4325247a9c240bd9ca4ed6, type: 2}
+  Icon: {fileID: 21300000, guid: dab35d46331bf9b43ae13af624f00fcc, type: 2}

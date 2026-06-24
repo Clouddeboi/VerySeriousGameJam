@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModifierSymbol
   DisplayName: Double
   Effect: 1
-  Icon: {fileID: 21300000, guid: a74ae3d3fae11134e97ce18168db803f, type: 2}
+  Icon: {fileID: 21300000, guid: 21bc92e4fd5617044b57105639458e96, type: 2}

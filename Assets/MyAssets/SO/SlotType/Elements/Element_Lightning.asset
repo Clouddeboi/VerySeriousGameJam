@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ElementSymbol
   DisplayName: Lightning
   Type: 3
-  Icon: {fileID: 21300000, guid: 586d9f22bd825ef4a9f53d67adcfb2ca, type: 2}
+  Icon: {fileID: 21300000, guid: b6b5052d2f90f6b41a70a554623974a7, type: 2}

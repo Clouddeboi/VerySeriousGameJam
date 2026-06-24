@@ -1,5 +1,5 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class SquashStretchAnimator : MonoBehaviour
 {
@@ -27,11 +27,14 @@ public class SquashStretchAnimator : MonoBehaviour
 
     private void Update()
     {
-        if (!PlayIdle || reactionRoutine != null) return;//Pause idle while a reaction is playing
+        if (!PlayIdle || reactionRoutine != null) return;
 
         idleTimer += Time.deltaTime * IdleSpeed;
-        float stretch = 1f + (Mathf.Sin(idleTimer) * 0.5f + 0.5f) * (IdleStretchAmount - 1f);
-        transform.localScale = new Vector3(baseScale.x, baseScale.y * stretch, baseScale.z);
+        float stretchY = 1f + (Mathf.Sin(idleTimer) * 0.5f + 0.5f) * (IdleStretchAmount - 1f);
+
+        float stretchX = 1f - (stretchY - 1f) * 0.5f;
+
+        transform.localScale = new Vector3(baseScale.x * stretchX, baseScale.y * stretchY, baseScale.z);
     }
 
     public void PlayDamageReaction(System.Action onComplete = null)
@@ -46,27 +49,26 @@ public class SquashStretchAnimator : MonoBehaviour
         reactionRoutine = StartCoroutine(ReactionRoutine(AttackEnlargeAmount, AttackReactionDuration, onComplete));
     }
 
-    private IEnumerator ReactionRoutine(float targetScale, float duration, System.Action onComplete)
+    private IEnumerator ReactionRoutine(float targetY, float duration, System.Action onComplete)
     {
         float t = 0f;
-
-        //Punch to target scale
         while (t < duration * 0.5f)
         {
             float progress = t / (duration * 0.5f);
-            float scale = Mathf.Lerp(1f, targetScale, progress);
-            transform.localScale = baseScale * scale;
+            float y = Mathf.Lerp(1f, targetY, progress);
+            float x = 1f - (y - 1f) * 0.5f; // inverse X for squash/stretch volume feel
+            transform.localScale = new Vector3(baseScale.x * x, baseScale.y * y, baseScale.z);
             t += Time.deltaTime;
             yield return null;
         }
 
         t = 0f;
-        //Settle back to base
         while (t < duration * 0.5f)
         {
             float progress = t / (duration * 0.5f);
-            float scale = Mathf.Lerp(targetScale, 1f, progress);
-            transform.localScale = baseScale * scale;
+            float y = Mathf.Lerp(targetY, 1f, progress);
+            float x = 1f - (y - 1f) * 0.5f;
+            transform.localScale = new Vector3(baseScale.x * x, baseScale.y * y, baseScale.z);
             t += Time.deltaTime;
             yield return null;
         }

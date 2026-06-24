@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModifierSymbol
   DisplayName: Rapid
   Effect: 2
-  Icon: {fileID: 21300000, guid: c068a78e48a5f5843959256b0f1938e3, type: 2}
+  Icon: {fileID: 21300000, guid: 75983e2eff5eedb4187d48afa6906b8e, type: 2}

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSymbol
   DisplayName: Hammer
   BaseDamage: 8
-  Icon: {fileID: 21300000, guid: db3938ecdcb8fca4ea1012cdb462fe6e, type: 2}
+  Icon: {fileID: 21300000, guid: ccc93e6581564114293545b8323213bb, type: 2}
