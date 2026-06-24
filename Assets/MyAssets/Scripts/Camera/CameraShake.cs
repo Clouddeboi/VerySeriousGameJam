@@ -3,12 +3,18 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
+    public static CameraShake Instance { get; private set; }
+
     public Transform CameraTransform;
     private Vector3 originalLocalPos;
     private Coroutine activeShake;
 
     private void Awake()
     {
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        Instance = this;
+
+        if (CameraTransform == null) CameraTransform = transform;
         originalLocalPos = CameraTransform.localPosition;
     }
 

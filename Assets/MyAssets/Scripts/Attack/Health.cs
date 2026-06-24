@@ -8,6 +8,8 @@ public class Health : MonoBehaviour
     public bool IsDead => CurrentHP <= 0;
 
     public System.Action OnDeath;
+    public System.Action OnDamaged;
+    public System.Action OnHealed;
 
     private void Awake()
     {
@@ -20,6 +22,8 @@ public class Health : MonoBehaviour
 
         CurrentHP = Mathf.Max(0, CurrentHP - amount);
         Debug.Log($"[Health] {EntityName} took {amount} dmg -> {CurrentHP}/{MaxHP} HP");
+
+        OnDamaged?.Invoke();
 
         if (IsDead)
         {
@@ -38,5 +42,6 @@ public class Health : MonoBehaviour
     {
         CurrentHP = Mathf.Min(MaxHP, CurrentHP + amount);
         Debug.Log($"[Health] {EntityName} healed {amount} -> {CurrentHP}/{MaxHP} HP");
+        OnHealed?.Invoke(); // new
     }
 }

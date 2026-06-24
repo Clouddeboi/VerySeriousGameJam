@@ -2971,9 +2971,10 @@ MonoBehaviour:
   StatusEffects: {fileID: 2035272133}
   JackpotSystem: {fileID: 1429711272}
   SlotUI: {fileID: 582038753}
+  PlayerVisuals: {fileID: 997218466}
   PlayerHealth: {fileID: 997218462}
   Enemies: []
-  Enemy: {fileID: 1467699791}
+  Enemy: {fileID: 0}
 --- !u!1 &882142839
 GameObject:
   m_ObjectHideFlags: 0
@@ -3318,9 +3319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatUI
   PlayerHealth: {fileID: 997218462}
-  EnemyHealth: {fileID: 1467699790}
   PlayerHPText: {fileID: 1369606227}
-  EnemyHPText: {fileID: 550592157}
   TurnStateText: {fileID: 413390439}
   Combat: {fileID: 859669684}
 --- !u!1 &969313715
@@ -3761,6 +3760,8 @@ GameObject:
   - component: {fileID: 997218463}
   - component: {fileID: 997218462}
   - component: {fileID: 997218464}
+  - component: {fileID: 997218466}
+  - component: {fileID: 997218465}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3856,6 +3857,41 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &997218465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997218461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0a99bf55db0774dab0baffaae437cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SquashStretchAnimator
+  PlayIdle: 1
+  IdleStretchAmount: 1.08
+  IdleSpeed: 1.5
+  DamageShrinkAmount: 0.8
+  DamageReactionDuration: 0.25
+  AttackEnlargeAmount: 1.25
+  AttackReactionDuration: 0.2
+--- !u!114 &997218466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997218461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4bc9da9b04524c42a460ca1388cf414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatVisuals
+  Health: {fileID: 997218462}
+  Animator: {fileID: 997218465}
+  DamageShakeDuration: 0.15
+  DamageShakeMagnitude: 0.12
 --- !u!1 &1141870621
 GameObject:
   m_ObjectHideFlags: 0
@@ -3956,7 +3992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomLayoutController
   SlotMachineRoot: {fileID: 1946118980}
-  EnemyContainer: {fileID: 1467699789}
+  EnemyContainer: {fileID: 1845365927}
   ShopPanelRoot: {fileID: 605826490}
   PlayerTransform: {fileID: 997218463}
   BackgroundRenderer: {fileID: 127038174}
@@ -4849,68 +4885,6 @@ Transform:
   - {fileID: 609595742}
   m_Father: {fileID: 172523817}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1467699788
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1467699789}
-  - component: {fileID: 1467699790}
-  - component: {fileID: 1467699791}
-  m_Layer: 0
-  m_Name: Enemy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1467699789
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1467699788}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1922013977}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1467699790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1467699788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee5ea252c618b044f8bc524329a2ac29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Health
-  EntityName: Enemy
-  MaxHP: 30
---- !u!114 &1467699791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1467699788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87d4c98863e13f94c80cfeab30ee4975, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  Data: {fileID: 11400000, guid: 6df808b0af3559e40b06b7096367286d, type: 2}
-  Health: {fileID: 1467699790}
-  SpriteRenderer: {fileID: 0}
 --- !u!1 &1526940677
 GameObject:
   m_ObjectHideFlags: 0
@@ -5730,7 +5704,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1467699789}
   - {fileID: 997218463}
   - {fileID: 127038173}
   m_Father: {fileID: 0}

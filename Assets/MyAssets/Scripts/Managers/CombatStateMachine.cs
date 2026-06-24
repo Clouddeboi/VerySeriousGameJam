@@ -11,6 +11,7 @@ public class CombatStateMachine : MonoBehaviour
     public StatusEffectSystem StatusEffects;
     public JackpotDetectionSystem JackpotSystem;
     public SlotMachineUI SlotUI;
+    public PlayerCombatVisuals PlayerVisuals;
 
     public Health PlayerHealth;
     public List<EnemyAI> Enemies = new List<EnemyAI>();
@@ -50,12 +51,12 @@ public class CombatStateMachine : MonoBehaviour
 
         SlotUI.PlaySpinAnimation(result, () =>
         {
-            //This runs only after all 3 reels finish their spin animation
             Attack attack = AttackBuilder.Build(result);
 
             JackpotType jackpot = JackpotSystem.Detect(result);
             attack = JackpotSystem.ApplyJackpotBonus(attack, jackpot);
 
+            PlayerVisuals.PlayAttackAnimation();
             AttackExecution.Execute(attack, CurrentTarget.Health, OnPlayerAttackResolved);
         });
     }

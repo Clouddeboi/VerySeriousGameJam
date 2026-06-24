@@ -15,7 +15,7 @@ MonoBehaviour:
   SlotMachineVisible: 1
   SlotMachinePosition: {x: 0, y: 0}
   EnemyContainerVisible: 1
-  EnemyContainerPosition: {x: 0, y: 0, z: 0}
+  EnemyContainerPosition: {x: 5.5, y: 0, z: 0}
   ShopPanelVisible: 0
   PlayerPosition: {x: -6.25, y: 0, z: 0}
   BackgroundSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}

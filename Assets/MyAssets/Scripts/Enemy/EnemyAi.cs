@@ -5,6 +5,13 @@ public class EnemyAI : MonoBehaviour
     public EnemyData Data;
     public Health Health;
     public SpriteRenderer SpriteRenderer;
+    public SquashStretchAnimator Animator;
+    public HealthBarUI HealthBar;
+
+    [Header("Damage Shake")]
+    public float DamageShakeDuration = 0.15f;
+    public float DamageShakeMagnitude = 0.12f;
+
     private bool deathHandled = false;
 
     public void Initialize(EnemyData data)
@@ -16,9 +23,19 @@ public class EnemyAI : MonoBehaviour
         if (SpriteRenderer != null && data.Portrait != null)
             SpriteRenderer.sprite = data.Portrait;
 
-        Health.OnDeath -= HandleDeath; //Guard against double-subscribe
+        Health.OnDeath -= HandleDeath;
         Health.OnDeath += HandleDeath;
+        Health.OnDamaged -= HandleDamaged;
+        Health.OnDamaged += HandleDamaged;
+
+        HealthBar.Initialize(Health, transform);
         deathHandled = false;
+    }
+
+    private void HandleDamaged()
+    {
+        Animator.PlayDamageReaction();
+        CameraShake.Instance.Shake(DamageShakeDuration, DamageShakeMagnitude);
     }
 
     private void HandleDeath()
@@ -27,16 +44,17 @@ public class EnemyAI : MonoBehaviour
         deathHandled = true;
 
         Debug.Log($"[EnemyAI] Removing {Data.EnemyName} sprite.");
-        if (SpriteRenderer != null) SpriteRenderer.enabled = false; //Instant visual removal
+        if (SpriteRenderer != null) SpriteRenderer.enabled = false;
         var collider = GetComponent<Collider2D>();
-        if (collider != null) collider.enabled = false; //Stop further clicks on a corpse
+        if (collider != null) collider.enabled = false;
 
-        Destroy(gameObject); //No delay, removes any timing ambiguity
+        Destroy(gameObject);
     }
 
     public int DecideAndGetDamage()
     {
         Debug.Log($"[EnemyAI] {Data.EnemyName} attacks for {Data.AttackDamage}");
+        Animator.PlayAttackReaction();
         return Data.AttackDamage;
     }
 }
