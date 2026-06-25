@@ -18,6 +18,9 @@ public class SlotMachineUI : MonoBehaviour
     public Sprite ElementIdleSprite;
     public Sprite ModifierIdleSprite;
 
+    public FloatingTextSpawner TextSpawner;
+    public Transform SlotResultTextSpawnPoint;
+
     [Header("Camera Shake On Landing")]
     public float CameraShakeDuration = 0.15f;
     public float CameraShakeMagnitude = 0.1f;
@@ -30,7 +33,6 @@ public class SlotMachineUI : MonoBehaviour
         Sprite elementSprite = result.Element ? result.Element.Icon : null;
         Sprite modifierSprite = result.Modifier ? result.Modifier.Icon : null;
 
-        //Sequential order, weapon lands -> element starts -> element lands -> modifier starts -> modifier lands -> done
         WeaponReelVisual.PlaySpin(weaponSprite, () =>
         {
             CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
@@ -42,6 +44,10 @@ public class SlotMachineUI : MonoBehaviour
                 ModifierReelVisual.PlaySpin(modifierSprite, () =>
                 {
                     CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
+
+                    string comboText = $"{result.Weapon?.DisplayName} {result.Element?.DisplayName} {result.Modifier?.DisplayName}";
+                    TextSpawner.SpawnSlotResultText(comboText, SlotResultTextSpawnPoint.position);
+
                     onComplete?.Invoke();
                 });
             });
