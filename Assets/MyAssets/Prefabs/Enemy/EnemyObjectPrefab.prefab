@@ -489,8 +489,8 @@ MonoBehaviour:
   IdleSpeed: 1.5
   DamageShrinkAmount: 0.8
   DamageReactionDuration: 0.25
-  AttackEnlargeAmount: 1.25
-  AttackReactionDuration: 0.2
+  AttackEnlargeAmount: 1.75
+  AttackReactionDuration: 0.5
 --- !u!114 &174988694660288210
 MonoBehaviour:
   m_ObjectHideFlags: 0

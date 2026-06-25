@@ -1049,7 +1049,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &137101829
 Transform:
   m_ObjectHideFlags: 0
@@ -1082,6 +1082,9 @@ MonoBehaviour:
   SlotResultTypewriterDelay: 0.025
   DamageColor: {r: 0.854902, g: 0, b: 0, a: 1}
   HealColor: {r: 0, g: 1, b: 0, a: 1}
+  AttackActionColor: {r: 1, g: 0.3, b: 0.3, a: 1}
+  MissActionColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  HealActionColor: {r: 0.3, g: 1, b: 0.4, a: 1}
 --- !u!1 &168074111
 GameObject:
   m_ObjectHideFlags: 0
@@ -3699,6 +3702,7 @@ MonoBehaviour:
   SlotUI: {fileID: 582038753}
   PlayerVisuals: {fileID: 997218466}
   ActionWheel: {fileID: 487946881}
+  TextSpawner: {fileID: 137101830}
   PlayerHealth: {fileID: 997218462}
   Enemies: []
   Enemy: {fileID: 0}

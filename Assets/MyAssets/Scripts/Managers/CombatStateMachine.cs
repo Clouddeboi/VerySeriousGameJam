@@ -13,6 +13,7 @@ public class CombatStateMachine : MonoBehaviour
     public SlotMachineUI SlotUI;
     public PlayerCombatVisuals PlayerVisuals;
     public EnemyActionWheelVisual ActionWheel;
+    public FloatingTextSpawner TextSpawner;
 
     public Health PlayerHealth;
     public List<EnemyAI> Enemies = new List<EnemyAI>();
@@ -128,6 +129,8 @@ public class CombatStateMachine : MonoBehaviour
             ActionWheel.SpinAndLand(landingAngle, () => wheelDone = true);
 
             yield return new WaitUntil(() => wheelDone);
+
+            TextSpawner.SpawnActionResultText(chosenAction, ActionWheel.transform.position + Vector3.up * 0.5f);
 
             switch (chosenAction)
             {
