@@ -12,9 +12,9 @@ public class SystemTest : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Combat.PlayerSpinAndAttack();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     Combat.PlayerSpinAndAttack();
+        // }
     }
 }

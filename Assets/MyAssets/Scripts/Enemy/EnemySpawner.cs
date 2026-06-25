@@ -6,6 +6,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject EnemyPrefab; //A prefab with EnemyAI + Health + SpriteRenderer already wired
     public Transform EnemyContainer; //The GameObject all spawned enemies become children of
     public CombatStateMachine Combat;
+    public StatusEffectSystem StatusEffects;
 
     private List<EnemyAI> spawned = new List<EnemyAI>();
 
@@ -28,6 +29,14 @@ public class EnemySpawner : MonoBehaviour
             EnemyClickTarget clickTarget = go.GetComponent<EnemyClickTarget>();
             clickTarget.Enemy = ai;
             clickTarget.Combat = Combat;
+
+            StatusEffectVisual statusVisual = go.GetComponent<StatusEffectVisual>();
+            if (statusVisual != null)
+            {
+                statusVisual.StatusEffects = StatusEffects;
+                statusVisual.Target = ai.Health;
+                statusVisual.Initialize();
+            }
             
             spawned.Add(ai);
         }

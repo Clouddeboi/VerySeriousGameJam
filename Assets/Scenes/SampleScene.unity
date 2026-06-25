@@ -2676,6 +2676,7 @@ MonoBehaviour:
   EnemyPrefab: {fileID: 4333344120713635078, guid: 9d94705607ef6af4f95cf2fa9fad89f9, type: 3}
   EnemyContainer: {fileID: 1845365927}
   Combat: {fileID: 859669684}
+  StatusEffects: {fileID: 2035272133}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0

@@ -83,4 +83,15 @@ public class StatusEffectSystem : MonoBehaviour
             if (e.Type == StatusEffectType.Shock) bonus += e.Magnitude;
         return bonus;
     }
+
+    public List<StatusEffectType> GetActiveEffectTypes(Health target)
+    {
+        var result = new List<StatusEffectType>();
+        if (!activeEffects.ContainsKey(target)) return result;
+
+        foreach (var e in activeEffects[target])
+            if (!result.Contains(e.Type)) result.Add(e.Type);
+
+        return result;
+    }
 }
