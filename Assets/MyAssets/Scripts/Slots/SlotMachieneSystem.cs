@@ -52,6 +52,13 @@ public class SlotMachineSystem : MonoBehaviour
         modifierReel.Locked = false;
     }
 
+    public void ResetAllWeights()
+    {
+        weaponReel.ResetToOriginalWeights();
+        elementReel.ResetToOriginalWeights();
+        modifierReel.ResetToOriginalWeights();
+    }
+
     public void AdjustElementWeight(ElementSymbol symbol, float delta) => elementReel.AdjustWeight(symbol, delta);
     public void AdjustWeaponWeight(WeaponSymbol symbol, float delta) => weaponReel.AdjustWeight(symbol, delta);
 

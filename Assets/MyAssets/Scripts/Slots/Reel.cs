@@ -4,12 +4,15 @@ using UnityEngine;
 public class Reel<T>
 {
     private List<WeightedEntry<T>> entries;
+    private List<float> originalWeights;
     public bool Locked = false;
     public T LastResult;
 
     public Reel(WeightedEntry<T>[] entryArray)
     {
         entries = new List<WeightedEntry<T>>(entryArray);
+        originalWeights = new List<float>();
+        foreach (var e in entries) originalWeights.Add(e.Weight);
     }
 
     public T Spin()
@@ -36,17 +39,44 @@ public class Reel<T>
         return LastResult;
     }
 
-    // New: lets RewardSystem's WeightAdjustment actually do something
+    //Redistributes delta proportionally
     public void AdjustWeight(T symbol, float delta)
     {
-        foreach (var e in entries)
+        int targetIndex = -1;
+        for (int i = 0; i < entries.Count; i++)
         {
-            if (EqualityComparer<T>.Default.Equals(e.Symbol, symbol))
+            if (EqualityComparer<T>.Default.Equals(entries[i].Symbol, symbol))
             {
-                e.Weight = Mathf.Max(0f, e.Weight + delta);
-                Debug.Log($"[Reel] Adjusted weight of {symbol} by {delta} -> {e.Weight}");
-                return;
+                targetIndex = i;
+                break;
             }
         }
+
+        if (targetIndex == -1) return;
+
+        int othersCount = entries.Count - 1;
+        if (othersCount <= 0)
+        {
+            entries[targetIndex].Weight = Mathf.Max(0f, entries[targetIndex].Weight + delta);
+            return;
+        }
+
+        float deltaPerOther = delta / othersCount;
+
+        entries[targetIndex].Weight = Mathf.Max(0f, entries[targetIndex].Weight + delta);
+
+        for (int i = 0; i < entries.Count; i++)
+        {
+            if (i == targetIndex) continue;
+            entries[i].Weight = Mathf.Max(0f, entries[i].Weight - deltaPerOther);
+        }
+
+        Debug.Log($"[Reel] {symbol} +{delta}, others -{deltaPerOther} each");
+    }
+
+    public void ResetToOriginalWeights()
+    {
+        for (int i = 0; i < entries.Count; i++)
+            entries[i].Weight = originalWeights[i];
     }
 }

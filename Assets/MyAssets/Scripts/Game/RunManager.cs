@@ -6,6 +6,7 @@ public class RunManager : MonoBehaviour
     public RoomDataSO[] RoomSequence;//Linear for now
     public Health PlayerHealth;
     public GameStateManager gameStateManager;
+    public SlotMachineSystem SlotMachine;
 
     private int currentRoomIndex = -1;
 
@@ -17,6 +18,7 @@ public class RunManager : MonoBehaviour
     public void StartRun()
     {
         currentRoomIndex = -1;
+        SlotMachine.ResetAllWeights();
         Debug.Log("[Run] Run started.");
         gameStateManager.SetState(GameState.Combat);
         AdvanceToNextRoom();
