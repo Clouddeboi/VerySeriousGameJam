@@ -51,10 +51,15 @@ public class EnemyAI : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public int DecideAndGetDamage()
+    // public int DecideAndGetDamage()
+    // {
+    //     Debug.Log($"[EnemyAI] {Data.EnemyName} attacks for {Data.AttackDamage}");
+    //     Animator.PlayAttackReaction();
+    //     return Data.AttackDamage;
+    // }
+
+    public void PlayAttackAnimationOnly()
     {
-        Debug.Log($"[EnemyAI] {Data.EnemyName} attacks for {Data.AttackDamage}");
         Animator.PlayAttackReaction();
-        return Data.AttackDamage;
     }
 }

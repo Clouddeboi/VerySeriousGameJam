@@ -15,4 +15,8 @@ MonoBehaviour:
   EnemyName: Enemy
   MaxHP: 30
   AttackDamage: 5
+  HealAmount: 5
   Portrait: {fileID: 21300000, guid: b2f9a08484be3574b9542106f5be77ff, type: 2}
+  AttackWeight: 50
+  MissWeight: 45
+  HealWeight: 5

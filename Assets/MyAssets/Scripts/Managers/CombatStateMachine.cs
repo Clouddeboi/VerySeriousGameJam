@@ -12,6 +12,7 @@ public class CombatStateMachine : MonoBehaviour
     public JackpotDetectionSystem JackpotSystem;
     public SlotMachineUI SlotUI;
     public PlayerCombatVisuals PlayerVisuals;
+    public EnemyActionWheelVisual ActionWheel;
 
     public Health PlayerHealth;
     public List<EnemyAI> Enemies = new List<EnemyAI>();
@@ -109,11 +110,41 @@ public class CombatStateMachine : MonoBehaviour
             if (StatusEffects.IsFrozen(enemy.Health))
             {
                 Debug.Log($"[Combat] {enemy.Data.EnemyName} is frozen and can't attack!");
+                StatusEffects.TickEffects(enemy.Health);
+                yield return new WaitForSeconds(DelayBetweenEnemyAttacks);
+                continue;
             }
-            else
+
+            ActionWheel.transform.position = enemy.transform.position + Vector3.down * 1f;
+            ActionWheel.Setup(enemy.Data);
+
+            EnemyActionType chosenAction = EnemyActionWheel.PickAction(enemy.Data);
+            var slices = EnemyActionWheel.BuildSlices(enemy.Data);
+            float landingAngle = EnemyActionWheel.GetLandingAngle(slices, chosenAction);
+
+            Debug.Log($"[Wheel] Chosen action: {chosenAction}, landing angle: {landingAngle}");
+
+            bool wheelDone = false;
+            ActionWheel.SpinAndLand(landingAngle, () => wheelDone = true);
+
+            yield return new WaitUntil(() => wheelDone);
+
+            switch (chosenAction)
             {
-                int dmg = enemy.DecideAndGetDamage();
-                PlayerHealth.ApplyDamage(dmg);
+                case EnemyActionType.Attack:
+                    Debug.Log($"[EnemyAI] {enemy.Data.EnemyName} attacks for {enemy.Data.AttackDamage}");
+                    enemy.PlayAttackAnimationOnly();
+                    PlayerHealth.ApplyDamage(enemy.Data.AttackDamage);
+                    break;
+
+                case EnemyActionType.Miss:
+                    Debug.Log($"[EnemyAI] {enemy.Data.EnemyName} missed!");
+                    break;
+
+                case EnemyActionType.Heal:
+                    Debug.Log($"[EnemyAI] {enemy.Data.EnemyName} heals for {enemy.Data.HealAmount}");
+                    enemy.Health.Heal(enemy.Data.HealAmount);
+                    break;
             }
 
             StatusEffects.TickEffects(enemy.Health);
