@@ -23,7 +23,7 @@ public class FloatingTextSpawner : MonoBehaviour
     {
         var instance = Instantiate(FloatingTextPrefab, worldPosition, Quaternion.identity);
         instance.TypewriterCharDelay = 0f;
-        instance.Play(amount.ToString(), DamageColor);
+        instance.Play("-" + amount.ToString(), DamageColor);
     }
 
     public void SpawnHealNumber(int amount, Vector3 worldPosition)
