@@ -1,9 +1,10 @@
+using System.ComponentModel;
 using UnityEngine;
 
 public class RunManager : MonoBehaviour
 {
     public RoomSystem RoomSystem;
-    public RoomDataSO[] RoomSequence;//Linear for now
+    public RoomDataSO[] RoomSequence;
     public Health PlayerHealth;
     public GameStateManager gameStateManager;
     public SlotMachineSystem SlotMachine;
@@ -43,6 +44,6 @@ public class RunManager : MonoBehaviour
         }
 
         var room = RoomSequence[currentRoomIndex];
-        RoomSystem.EnterRoom(room);
+        RoomSystem.EnterRoom(room, null);
     }
 }

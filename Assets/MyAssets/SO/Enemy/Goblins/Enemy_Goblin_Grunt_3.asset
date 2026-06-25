@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69fc5bc385d25be44baef2a419aa279b, type: 3}
+  m_Name: Enemy_Goblin_Grunt_3
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  EnemyName: Warrior Goblin
+  MaxHP: 30
+  AttackDamage: 7
+  HealAmount: 5
+  Portrait: {fileID: 21300000, guid: f2cb52ab23b25b241ae3043a97f1a305, type: 2}
+  AttackWeight: 70
+  MissWeight: 10
+  HealWeight: 20

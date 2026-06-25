@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c9faa11a4c54e4eb5b10ca8077a3df, type: 3}
+  m_Name: Room_Combat_Early_2
+  m_EditorClassIdentifier: Assembly-CSharp::RoomDataSO
+  Type: 0
+  PossibleEnemies:
+  - {fileID: 11400000, guid: 1897899ef5188ff49b309a24f453b2d4, type: 2}
+  - {fileID: 11400000, guid: 37fb92d9a2f3aa04e8b8aa48ead32450, type: 2}
+  - {fileID: 11400000, guid: 79edfa6668126ab489838ffd9f1fb4a7, type: 2}
+  - {fileID: 11400000, guid: 9aff522752797d749ad0272d8c33eb29, type: 2}
+  EnemyCount: 1
+  Layout: {fileID: 11400000, guid: f371384cc355d3e4e9581499f91129d8, type: 2}

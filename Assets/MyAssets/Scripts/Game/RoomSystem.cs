@@ -11,8 +11,9 @@ public class RoomSystem : MonoBehaviour
     public TransitionController Transition;
 
     public System.Action OnRoomComplete;
+    private System.Action pendingRoomComplete;
 
-    public void EnterRoom(RoomDataSO room)
+    public void EnterRoom(RoomDataSO room, System.Action onComplete)
     {
         Transition.PlayTransition(() =>
         {
@@ -22,14 +23,15 @@ public class RoomSystem : MonoBehaviour
             {
                 var enemies = Spawner.SpawnForRoom(room);
                 Combat.StartCombat(enemies);
+                pendingRoomComplete = onComplete;
             }
             else if (room.Type == RoomType.Shop)
             {
-                Shop.OpenShop(() => OnRoomComplete?.Invoke());
+                Shop.OpenShop(() => onComplete?.Invoke());
             }
             else
             {
-                OnRoomComplete?.Invoke();
+                onComplete?.Invoke();
             }
         });
     }
@@ -38,7 +40,9 @@ public class RoomSystem : MonoBehaviour
     {
         Rewards.PresentChoices(() =>
         {
-            OnRoomComplete?.Invoke();
+            pendingRoomComplete?.Invoke();
+            pendingRoomComplete = null;
         });
     }
+
 }

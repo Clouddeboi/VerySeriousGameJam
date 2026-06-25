@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69fc5bc385d25be44baef2a419aa279b, type: 3}
+  m_Name: Enemy_Goblin_Red_!
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  EnemyName: Red Goblin
+  MaxHP: 30
+  AttackDamage: 5
+  HealAmount: 5
+  Portrait: {fileID: 21300000, guid: ba088ab329db5c34abca8a43d3b7e16c, type: 2}
+  AttackWeight: 80
+  MissWeight: 20
+  HealWeight: 0
