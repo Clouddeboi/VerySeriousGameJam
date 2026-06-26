@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System;
 
 public class MapRunner : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class MapRunner : MonoBehaviour
     public Health PlayerHealth;
     public GameStateManager GameStateManager;
     public MapUI UI;
+    public TransitionController Transition;
 
     private List<List<MapNode>> layers;
     private MapNode bossNode;
@@ -63,12 +65,17 @@ public class MapRunner : MonoBehaviour
 
     private void OnRoomFinished(MapNode node)
     {
-        Debug.Log($"[MapRunner] OnRoomFinished: {node.Id}, instance hash: {node.GetHashCode()}, visited={node.Visited}");
-
         if (PlayerHealth.IsDead)
         {
             Debug.Log("[Map] Player died. Run over.");
-            GameStateManager.SetState(GameState.GameOver);
+            GameStateManager.SetGameOver(GameOverReason.Defeat);
+            return;
+        }
+
+        if (node.Type == MapNodeType.Boss)
+        {
+            Debug.Log("[Map] Boss defeated! Run won!");
+            GameStateManager.SetGameOver(GameOverReason.Victory);
             return;
         }
 
@@ -80,8 +87,12 @@ public class MapRunner : MonoBehaviour
         }
 
         GameStateManager.SetState(GameState.Map);
-        UI.ShowMap();
-        UI.RefreshAvailability();
+
+        Transition.FadeToClearOnly(() =>
+        {
+            UI.ShowMap();
+            UI.RefreshAvailability();
+        });
     }
 
     private void LockSiblingsAndPast(MapNode chosen)

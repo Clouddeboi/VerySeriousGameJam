@@ -72,4 +72,16 @@ public class TransitionController : MonoBehaviour
         activeTransition = null; 
         onComplete?.Invoke();
     }
+
+    public void FadeToClearOnly(System.Action onComplete)
+    {
+        StartCoroutine(FadeToClearRoutine(onComplete));
+    }
+
+    private IEnumerator FadeToClearRoutine(System.Action onComplete)
+    {
+        yield return Fade(1f, 0f);
+        try { onComplete?.Invoke(); }
+        catch (System.Exception e) { Debug.LogError($"[Transition] Exception in FadeToClearOnly onComplete: {e}"); }
+    }
 }

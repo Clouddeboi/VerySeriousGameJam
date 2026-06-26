@@ -14,6 +14,7 @@ public class CombatStateMachine : MonoBehaviour
     public PlayerCombatVisuals PlayerVisuals;
     public EnemyActionWheelVisual ActionWheel;
     public FloatingTextSpawner TextSpawner;
+    public GameStateManager GameStateManager;
 
     public Health PlayerHealth;
     public List<EnemyAI> Enemies = new List<EnemyAI>();
@@ -158,6 +159,7 @@ public class CombatStateMachine : MonoBehaviour
             {
                 CurrentState = CombatState.Defeat;
                 Debug.Log("[Combat] Defeat...");
+                GameStateManager.SetGameOver(GameOverReason.Defeat);
                 yield break;
             }
         }
