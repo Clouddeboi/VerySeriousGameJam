@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class MapNodeButton : MonoBehaviour
 {
     public Image IconImage;
-    public Image BackgroundImage;
     public Button Button;
 
     [Header("State Colors")]
@@ -26,6 +25,6 @@ public class MapNodeButton : MonoBehaviour
     public void SetAvailability(bool available, bool visited)
     {
         Button.interactable = available;
-        BackgroundImage.color = visited ? VisitedColor : (available ? AvailableColor : LockedColor);
+        IconImage.color = visited ? VisitedColor : (available ? AvailableColor : LockedColor);
     }
 }

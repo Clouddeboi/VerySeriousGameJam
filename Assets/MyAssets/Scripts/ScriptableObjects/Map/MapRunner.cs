@@ -26,6 +26,12 @@ public class MapRunner : MonoBehaviour
 
     public void TrySelectNode(MapNode node)
     {
+        if (node.Visited)
+        {
+            Debug.Log("[Map] Already visited — can't re-enter.");
+            return;
+        }
+
         if (!node.IsAvailable)
         {
             Debug.Log("[Map] That node isn't reachable yet.");
@@ -37,7 +43,9 @@ public class MapRunner : MonoBehaviour
 
     private void EnterNode(MapNode node)
     {
+        Debug.Log($"[MapRunner] EnterNode: {node.Id}, instance hash: {node.GetHashCode()}");
         node.Visited = true;
+        node.IsAvailable = false; 
         currentNode = node;
 
         LockSiblingsAndPast(node);
@@ -55,6 +63,8 @@ public class MapRunner : MonoBehaviour
 
     private void OnRoomFinished(MapNode node)
     {
+        Debug.Log($"[MapRunner] OnRoomFinished: {node.Id}, instance hash: {node.GetHashCode()}, visited={node.Visited}");
+
         if (PlayerHealth.IsDead)
         {
             Debug.Log("[Map] Player died. Run over.");

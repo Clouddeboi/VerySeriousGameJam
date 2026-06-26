@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c9faa11a4c54e4eb5b10ca8077a3df, type: 3}
+  m_Name: Room_Elite_1
+  m_EditorClassIdentifier: Assembly-CSharp::RoomDataSO
+  Type: 1
+  PossibleEnemies:
+  - {fileID: 11400000, guid: bb2197eddfde36f4bacbc31a7b84b69a, type: 2}
+  - {fileID: 11400000, guid: 13db6426681c64b4f8abe6ad1d166ace, type: 2}
+  - {fileID: 11400000, guid: 7aa0e9d10bfcf7644a4568778fd945b8, type: 2}
+  EnemyCount: 1
+  Layout: {fileID: 11400000, guid: f371384cc355d3e4e9581499f91129d8, type: 2}

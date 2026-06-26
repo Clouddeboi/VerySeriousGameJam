@@ -92,6 +92,7 @@ public class MapUI : MonoBehaviour
 
     public void RefreshAvailability()
     {
+        Debug.Log($"[MapUI] RefreshAvailability called, {nodeButtons.Count} buttons");
         foreach (var kvp in nodeButtons)
             kvp.Value.SetAvailability(kvp.Key.IsAvailable, kvp.Key.Visited);
     }
