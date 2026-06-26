@@ -13,6 +13,8 @@ public class MapUI : MonoBehaviour
     public float HorizontalSpacing = 180f;
     public float VerticalSpacing = 120f;
 
+    public ScrollRect MapScrollRect;
+
     [Header("Node Type Colors/Icons")]
     public Sprite CombatIcon;
     public Sprite EliteIcon;
@@ -27,6 +29,10 @@ public class MapUI : MonoBehaviour
         currentLayers = layers;
         ClearExisting();
 
+        float maxX = 0f;
+        float minY = 0f;
+        float maxY = 0f;
+
         foreach (var layer in layers)
         {
             foreach (var node in layer)
@@ -36,6 +42,10 @@ public class MapUI : MonoBehaviour
 
                 Vector2 pos = new Vector2(node.Position.x * HorizontalSpacing, node.Position.y * VerticalSpacing);
                 buttonGO.GetComponent<RectTransform>().anchoredPosition = pos;
+
+                maxX = Mathf.Max(maxX, Mathf.Abs(pos.x));
+                minY = Mathf.Min(minY, pos.y);
+                maxY = Mathf.Max(maxY, pos.y);
 
                 Sprite icon = node.Type switch
                 {
@@ -52,8 +62,13 @@ public class MapUI : MonoBehaviour
         }
 
         DrawConnections();
+
+        float padding = 200f;
+        MapContainer.sizeDelta = new Vector2(maxX * 2f + padding, (maxY - minY) + padding);
+
         RefreshAvailability();
         ShowMap();
+        ScrollToNode(currentLayers[0][0]);
     }
 
     private void DrawConnections()
@@ -105,5 +120,17 @@ public class MapUI : MonoBehaviour
         foreach (Transform child in MapContainer)
             Destroy(child.gameObject);
         nodeButtons.Clear();
+    }
+
+    private void ScrollToNode(MapNode node)
+    {
+        if (MapScrollRect == null) return;
+
+        float targetX = node.Position.x * HorizontalSpacing;
+        float containerWidth = MapContainer.sizeDelta.x;
+        float viewportWidth = MapScrollRect.viewport.rect.width;
+
+        float normalizedX = Mathf.Clamp01((targetX + containerWidth / 2f) / containerWidth);
+        MapScrollRect.horizontalNormalizedPosition = normalizedX;
     }
 }
