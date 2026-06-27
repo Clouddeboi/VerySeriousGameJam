@@ -7,6 +7,7 @@ public class RewardData : ScriptableObject
 {
     public string DisplayName;
     public RewardType Type;
+    public Sprite Icon;
 
     [Header("Gold")]
     public int GoldAmount;

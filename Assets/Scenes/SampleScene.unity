@@ -1151,6 +1151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RewardChoiceButton
   NameText: {fileID: 1905339409}
   Button: {fileID: 119241900}
+  ButtonImage: {fileID: 119241901}
 --- !u!1 &127038172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1892,6 +1893,7 @@ MonoBehaviour:
   NameText: {fileID: 498413300}
   PriceText: {fileID: 975006663}
   Button: {fileID: 264836627}
+  ButtonImage: {fileID: 264836628}
 --- !u!114 &264836627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2360,6 +2362,7 @@ MonoBehaviour:
   NameText: {fileID: 8539539}
   PriceText: {fileID: 857904555}
   Button: {fileID: 359044879}
+  ButtonImage: {fileID: 359044880}
 --- !u!114 &359044879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6410,6 +6413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RewardChoiceButton
   NameText: {fileID: 461542809}
   Button: {fileID: 975801015}
+  ButtonImage: {fileID: 975801016}
 --- !u!1 &995521019
 GameObject:
   m_ObjectHideFlags: 0
@@ -6555,7 +6559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   EntityName: Player
-  MaxHP: 1
+  MaxHP: 100
 --- !u!4 &997218463
 Transform:
   m_ObjectHideFlags: 0
@@ -7696,6 +7700,7 @@ MonoBehaviour:
   NameText: {fileID: 1680888534}
   PriceText: {fileID: 515753850}
   Button: {fileID: 1226352757}
+  ButtonImage: {fileID: 1226352758}
 --- !u!114 &1226352757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10762,6 +10767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RewardChoiceButton
   NameText: {fileID: 1303055427}
   Button: {fileID: 2125471845}
+  ButtonImage: {fileID: 2125471846}
 --- !u!1 &2135225603
 GameObject:
   m_ObjectHideFlags: 0
