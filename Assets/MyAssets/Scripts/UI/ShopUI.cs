@@ -65,6 +65,6 @@ public class ShopUI : MonoBehaviour
 
     private void RefreshGoldText()
     {
-        GoldText.text = $"Gold: {currency.Gold}";
+        //GoldText.text = $"Gold: {currency.Gold}";
     }
 }

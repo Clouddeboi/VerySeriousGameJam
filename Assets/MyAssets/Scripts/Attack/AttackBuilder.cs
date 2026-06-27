@@ -30,7 +30,7 @@ public class AttackBuilder : MonoBehaviour
                 break;
         }
 
-        if (result.Weapon != null && result.Weapon.name == "Trident" &&
+        if (result.Weapon != null && result.Weapon.name == "Weapon_Trident" &&
             result.Element != null && result.Element.Type == ElementType.Water)
         {
             baseDamage += 15;
