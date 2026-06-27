@@ -10,12 +10,11 @@ public class ButtonHoverManager : MonoBehaviour
     [Header("Audio")]
     public AudioClip hoverSound;
 
-    private AudioSource audioSource;
+    public AudioSource audioSource;
 
     [System.Obsolete]
     private void Start()
     {
-        audioSource = gameObject.AddComponent<AudioSource>();
 
         Button[] buttons = FindObjectsByType<Button>(FindObjectsSortMode.None);
 
