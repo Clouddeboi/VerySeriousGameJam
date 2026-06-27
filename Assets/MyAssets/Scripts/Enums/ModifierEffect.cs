@@ -3,5 +3,8 @@ public enum ModifierEffect
     None, 
     Double, 
     Rapid, 
-    Crit 
+    Crit,
+    Heal, 
+    Confusion, 
+    OneShot 
 }

@@ -94,4 +94,12 @@ public class StatusEffectSystem : MonoBehaviour
 
         return result;
     }
+
+    public void ExtinguishBurn(Health target)
+    {
+        if (!activeEffects.ContainsKey(target)) return;
+        int removed = activeEffects[target].RemoveAll(e => e.Type == StatusEffectType.Burn);
+        if (removed > 0)
+            Debug.Log($"[StatusEffect] Extinguished Burn on {target.EntityName}");
+    }
 }

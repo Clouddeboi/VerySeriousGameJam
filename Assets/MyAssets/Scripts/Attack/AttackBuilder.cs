@@ -7,6 +7,7 @@ public class AttackBuilder : MonoBehaviour
         int baseDamage = result.Weapon ? result.Weapon.BaseDamage : 1;
         int hitCount = 1;
         bool isCrit = false;
+        bool isOneShot = false;
 
         ModifierEffect effect = result.Modifier ? result.Modifier.Effect : ModifierEffect.None;
 
@@ -23,14 +24,37 @@ public class AttackBuilder : MonoBehaviour
                 isCrit = true;
                 baseDamage = Mathf.RoundToInt(baseDamage * 1.5f);
                 break;
+            case ModifierEffect.OneShot:
+                isOneShot = true;
+                baseDamage = 999;
+                break;
         }
+
+        if (result.Weapon != null && result.Weapon.name == "Trident" &&
+            result.Element != null && result.Element.Type == ElementType.Water)
+        {
+            baseDamage += 15;
+            Debug.Log("[AttackBuilder] Trident + Water synergy: +15 damage");
+        }
+
+        int healAmount = 0;
+        int confusionDamage = 0;
+
+        if (effect == ModifierEffect.Heal)
+            healAmount = Mathf.RoundToInt(baseDamage * 0.5f);
+        else if (effect == ModifierEffect.Confusion)
+            confusionDamage = Mathf.RoundToInt(baseDamage * 0.25f);
 
         var attack = new Attack
         {
             BaseDamage = baseDamage,
             HitCount = hitCount,
             Element = result.Element,
-            IsCrit = isCrit
+            Weapon = result.Weapon,
+            IsCrit = isCrit,
+            IsOneShot = isOneShot,
+            HealPlayerAmount = healAmount,
+            ConfusionDamageToPlayer = confusionDamage
         };
 
         Debug.Log($"[AttackBuilder] Built: {attack}");

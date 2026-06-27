@@ -13,9 +13,23 @@ MonoBehaviour:
   m_Name: WeaponReelConfig
   m_EditorClassIdentifier: Assembly-CSharp::WeaponReelConfig
   Entries:
+  - Symbol: {fileID: 11400000, guid: 46b09c1055836af4395d246c85581dbe, type: 2}
+    Weight: 10
+  - Symbol: {fileID: 11400000, guid: 5031750bf7cf7a34284d7e707491ebef, type: 2}
+    Weight: 10
   - Symbol: {fileID: 11400000, guid: 641f17b9645722a468cc37823a0a6573, type: 2}
-    Weight: 30
+    Weight: 15
+  - Symbol: {fileID: 11400000, guid: ccad273c267e6d8418282c066b439463, type: 2}
+    Weight: 10
+  - Symbol: {fileID: 11400000, guid: db9e827b48ec10e47ad0d59c3fca692d, type: 2}
+    Weight: 5
   - Symbol: {fileID: 11400000, guid: 3e3b3d7b32009e24baa2654b6c0a4f12, type: 2}
-    Weight: 20
+    Weight: 10
+  - Symbol: {fileID: 11400000, guid: c41ae14cf5bd12b4aa16943621394d06, type: 2}
+    Weight: 10
+  - Symbol: {fileID: 11400000, guid: d66f7701973641546a08a4adb5828945, type: 2}
+    Weight: 10
   - Symbol: {fileID: 11400000, guid: 7a4f431b4a8b94f419f386716662f88d, type: 2}
-    Weight: 50
+    Weight: 15
+  - Symbol: {fileID: 11400000, guid: c524b32eed0f4f448b3ebe75fc3662fb, type: 2}
+    Weight: 5

@@ -199,8 +199,8 @@ MonoBehaviour:
   SpinSprites:
   - {fileID: 21300000, guid: 3b7dfea0e34700247896a0efdd51cb39, type: 2}
   - {fileID: 21300000, guid: 21bc92e4fd5617044b57105639458e96, type: 2}
-  - {fileID: 21300000, guid: eee429204dbf8e24b9fc34cb145f30fa, type: 2}
   - {fileID: 21300000, guid: 75983e2eff5eedb4187d48afa6906b8e, type: 2}
+  - {fileID: 21300000, guid: eee429204dbf8e24b9fc34cb145f30fa, type: 2}
   - {fileID: 21300000, guid: ebdfc1b900cbb8b41bb855413cb86f1e, type: 2}
   - {fileID: 21300000, guid: 66c7e49df5d80f0469189f47bfe3508a, type: 2}
   - {fileID: 21300000, guid: dbf78d05739709e4d893473b149e61be, type: 2}
@@ -6104,6 +6104,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackExecutionSystem
   DamageSystem: {fileID: 2019131212}
   StatusEffects: {fileID: 2035272133}
+  PlayerHealth: {fileID: 997218462}
+  TextSpawner: {fileID: 137101830}
 --- !u!1 &974556068
 GameObject:
   m_ObjectHideFlags: 0

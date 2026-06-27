@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ElementReelConfig
   Entries:
   - Symbol: {fileID: 11400000, guid: 7e772b99ab6555940a8ec46014d31a7d, type: 2}
-    Weight: 50
+    Weight: 25
   - Symbol: {fileID: 11400000, guid: f52d0d18d7532f44381ce5a4ab5593a1, type: 2}
-    Weight: 30
+    Weight: 25
   - Symbol: {fileID: 11400000, guid: 62708b2ba8185a247aff1a7b47521290, type: 2}
-    Weight: 20
+    Weight: 25
+  - Symbol: {fileID: 11400000, guid: 495649c99fab92941ab60e8b37bb4f09, type: 2}
+    Weight: 25
