@@ -17,11 +17,15 @@ MonoBehaviour:
   MinNodesPerLayer: 2
   MaxNodesPerLayer: 3
   CombatRooms:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: da66e9521321c324b9fc78015054fa72, type: 2}
+  - {fileID: 11400000, guid: 43a4fca06c0108d42ba2d4ced30228d6, type: 2}
   EliteRooms:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 86835af6f15409645a2e8c492562ad54, type: 2}
+  - {fileID: 11400000, guid: 2745af5cf7f4a9f4f96194b6ad19af7f, type: 2}
+  - {fileID: 11400000, guid: f54a4379be6b01e418af822f5a429025, type: 2}
+  - {fileID: 11400000, guid: 7c3485c90dc802d4c88ab48d198bc192, type: 2}
   ShopRooms:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 1f46a91c04b9a244b9f526b3eed9cedf, type: 2}
   CombatWeight: 50
   EliteWeight: 35
   ShopWeight: 15

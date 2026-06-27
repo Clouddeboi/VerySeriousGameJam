@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2c9faa11a4c54e4eb5b10ca8077a3df, type: 3}
-  m_Name: Room_Combat_Early_1
+  m_Name: Room_Elite_Mid_1
   m_EditorClassIdentifier: Assembly-CSharp::RoomDataSO
-  Type: 0
+  Type: 1
   PossibleEnemies:
-  - {fileID: 11400000, guid: 1897899ef5188ff49b309a24f453b2d4, type: 2}
-  EnemyCount: 1
+  - {fileID: 11400000, guid: ab735c72c432082449f188dba1803e8a, type: 2}
+  EnemyCount: 2
   Layout: {fileID: 11400000, guid: f371384cc355d3e4e9581499f91129d8, type: 2}
