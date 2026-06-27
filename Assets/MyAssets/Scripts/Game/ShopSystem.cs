@@ -39,6 +39,7 @@ public class ShopSystem : MonoBehaviour
         }
 
         RewardSystem.ApplyReward(item.Reward);
+        AudioManager.Instance.PlayBuyItem();
         Debug.Log($"[Shop] Purchased {item.Reward.DisplayName} for {item.Price} gold.");
         return true;
     }

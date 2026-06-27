@@ -44,7 +44,8 @@ public class SlotMachineUI : MonoBehaviour
                 ModifierReelVisual.PlaySpin(modifierSprite, () =>
                 {
                     CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
-
+                    AudioManager.Instance.PlaySlotResultShown();
+                    
                     string comboText = $"{result.Weapon?.DisplayName} {result.Element?.DisplayName} {result.Modifier?.DisplayName}";
                     TextSpawner.SpawnSlotResultText(comboText, SlotResultTextSpawnPoint.position);
 

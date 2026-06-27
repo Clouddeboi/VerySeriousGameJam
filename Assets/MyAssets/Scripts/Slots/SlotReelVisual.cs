@@ -27,6 +27,7 @@ public class SlotReelVisual : MonoBehaviour
     public void PlaySpin(Sprite finalSprite, System.Action onComplete = null)
     {
         StopAllCoroutines();
+        AudioManager.Instance.PlaySlotReelSpin();
         StartCoroutine(SpinRoutine(finalSprite, onComplete));
     }
 

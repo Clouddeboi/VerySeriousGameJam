@@ -18,7 +18,8 @@ public class RoomSystem : MonoBehaviour
         Transition.PlayTransition(() =>
         {
             LayoutController.ApplyLayout(room.Layout);
-
+            AudioManager.Instance.PlayEnterRoom();
+            
             if (room.Type == RoomType.Combat || room.Type == RoomType.Elite || room.Type == RoomType.Boss)
             {
                 var enemies = Spawner.SpawnForRoom(room);

@@ -1302,54 +1302,6 @@ MonoBehaviour:
   NameText: {fileID: 1905339409}
   Button: {fileID: 119241900}
   ButtonImage: {fileID: 119241901}
---- !u!1 &120596966
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 120596967}
-  - component: {fileID: 120596968}
-  m_Layer: 0
-  m_Name: ButtonHover
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &120596967
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 120596966}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 416464375}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &120596968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 120596966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 301b9b6c614c83349aaf1b018a314187, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverManager
-  hoverScale: 1.1
-  scaleSpeed: 10
-  hoverSound: {fileID: 8300000, guid: 2835774f9c1b5204886f989416ad1225, type: 3}
-  audioSource: {fileID: 307066899}
 --- !u!1 &127038172
 GameObject:
   m_ObjectHideFlags: 0
@@ -3283,7 +3235,6 @@ Transform:
   - {fileID: 137101829}
   - {fileID: 291965453}
   - {fileID: 1368731217}
-  - {fileID: 120596967}
   - {fileID: 1498479507}
   m_Father: {fileID: 172523817}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6466,6 +6417,17 @@ MonoBehaviour:
   musicSource: {fileID: 1530319139}
   SFXSource: {fileID: 307066899}
   backgroundMusic: {fileID: 8300000, guid: f0cbd7461a73c8d4f83a999075546fbe, type: 3}
+  slotReelSpin: {fileID: 8300000, guid: df6b3877029547d428e2655ba13f0cd6, type: 3}
+  slotResultShown: {fileID: 8300000, guid: 57ef8e4e8d3673a4ba4bcd2678962085, type: 3}
+  playerAttack: {fileID: 8300000, guid: 86ea7c045af840142bb75f4fe19acafc, type: 3}
+  enemyAttack: {fileID: 8300000, guid: 86ea7c045af840142bb75f4fe19acafc, type: 3}
+  playerHurt: {fileID: 8300000, guid: 73f47441e3d92c14589b673e9020c1c3, type: 3}
+  enemyHurt: {fileID: 8300000, guid: 86ea7c045af840142bb75f4fe19acafc, type: 3}
+  buyItem: {fileID: 8300000, guid: ef505e6cd488ce142969376662a103bd, type: 3}
+  enterRoom: {fileID: 8300000, guid: 94c8292f596c1d8438fe35bcffa9d922, type: 3}
+  exitRoom: {fileID: 8300000, guid: 94c8292f596c1d8438fe35bcffa9d922, type: 3}
+  enemyWheelSpin: {fileID: 8300000, guid: 98a135049a2238649b08fbc906f48137, type: 3}
+  enemyWheelResult: {fileID: 8300000, guid: b55b4217b303bbb4697285b05ef21d0a, type: 3}
 --- !u!1 &856613550
 GameObject:
   m_ObjectHideFlags: 0
@@ -6977,16 +6939,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RewardSystem
   RewardPool:
   - {fileID: 11400000, guid: daee1ab7d1d4fc64ab32b0769da069b8, type: 2}
+  - {fileID: 11400000, guid: 9365d257545246b4fa62c15fd9ff31db, type: 2}
   - {fileID: 11400000, guid: 584912d0e9c95d143978a5595e5912c5, type: 2}
   - {fileID: 11400000, guid: eba465b4ab902074ca60b5c3e3e5759b, type: 2}
   - {fileID: 11400000, guid: e79bb3d34454ecc47bb3b9621d1343dd, type: 2}
   - {fileID: 11400000, guid: c5929b1d9051f2848840588dd04e7680, type: 2}
-  - {fileID: 11400000, guid: 8e17fa29d260ac946810d1bdc6557543, type: 2}
-  - {fileID: 11400000, guid: daace2dc35d70c248bfd0069df38d85e, type: 2}
-  - {fileID: 11400000, guid: 95faadd325175e04e99ec92abb124088, type: 2}
-  - {fileID: 11400000, guid: bb9a11cd03181a4469881bf096556b28, type: 2}
-  - {fileID: 11400000, guid: 49ad9f3f698033841b3c46904d2f4d32, type: 2}
-  - {fileID: 11400000, guid: 596fc2bc1efeedc4681396ae351f5016, type: 2}
   Currency: {fileID: 543704088}
   PlayerHealth: {fileID: 997218462}
   SlotMachine: {fileID: 2120195890}
@@ -7991,6 +7948,7 @@ GameObject:
   - component: {fileID: 995521023}
   - component: {fileID: 995521022}
   - component: {fileID: 995521021}
+  - component: {fileID: 995521024}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -8093,6 +8051,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &995521024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995521019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 301b9b6c614c83349aaf1b018a314187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverManager
+  hoverScale: 1.1
+  scaleSpeed: 10
+  hoverSound: {fileID: 8300000, guid: 2835774f9c1b5204886f989416ad1225, type: 3}
+  audioSource: {fileID: 307066899}
 --- !u!1 &997218461
 GameObject:
   m_ObjectHideFlags: 0

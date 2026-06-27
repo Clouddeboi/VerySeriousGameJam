@@ -74,6 +74,7 @@ public class CombatStateMachine : MonoBehaviour
             attack = JackpotSystem.ApplyJackpotBonus(attack, jackpot);
 
             PlayerVisuals.PlayAttackAnimation();
+            AudioManager.Instance.PlayPlayerAttack();
             AttackExecution.Execute(attack, CurrentTarget.Health, OnPlayerAttackResolved);
         });
     }
@@ -138,6 +139,7 @@ public class CombatStateMachine : MonoBehaviour
                 case EnemyActionType.Attack:
                     Debug.Log($"[EnemyAI] {enemy.Data.EnemyName} attacks for {enemy.Data.AttackDamage}");
                     enemy.PlayAttackAnimationOnly();
+                    AudioManager.Instance.PlayEnemyAttack();
                     PlayerHealth.ApplyDamage(enemy.Data.AttackDamage);
                     break;
 

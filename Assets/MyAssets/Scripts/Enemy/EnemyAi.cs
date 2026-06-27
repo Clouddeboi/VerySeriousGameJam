@@ -36,6 +36,7 @@ public class EnemyAI : MonoBehaviour
     {
         Animator.PlayDamageReaction();
         CameraShake.Instance.Shake(DamageShakeDuration, DamageShakeMagnitude);
+        AudioManager.Instance.PlayEnemyHurt();
     }
 
     private void HandleDeath()

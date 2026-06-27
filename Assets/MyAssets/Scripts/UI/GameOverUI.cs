@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class GameOverUI : MonoBehaviour
 
     private void HandleMainMenuClicked()
     {
-        Debug.Log("[GameOverUI] Main Menu clicked, no main menu scene yet.");
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void OnDestroy()

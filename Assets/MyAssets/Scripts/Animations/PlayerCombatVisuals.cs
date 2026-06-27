@@ -20,6 +20,7 @@ public class PlayerCombatVisuals : MonoBehaviour
     {
         Animator.PlayDamageReaction();
         CameraShake.Instance.Shake(DamageShakeDuration, DamageShakeMagnitude);
+        AudioManager.Instance.PlayPlayerHurt();
     }
 
     public void PlayAttackAnimation()

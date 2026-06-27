@@ -45,6 +45,7 @@ public class EnemyActionWheelVisual : MonoBehaviour
     public void SpinAndLand(float landingAngle, System.Action onComplete)
     {
         gameObject.SetActive(true);
+        AudioManager.Instance.PlayEnemyWheelSpin();
         StartCoroutine(SpinRoutine(landingAngle, onComplete));
     }
 
@@ -69,6 +70,7 @@ public class EnemyActionWheelVisual : MonoBehaviour
         }
 
         Hand.localRotation = Quaternion.Euler(0f, 0f, finalTargetAngle);
+AudioManager.Instance.PlayEnemyWheelResult();
 
         t = 0f;
         while (t < LandEnlargeDuration * 0.5f)

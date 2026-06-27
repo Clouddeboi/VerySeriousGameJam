@@ -86,6 +86,7 @@ public class MapRunner : MonoBehaviour
             return;
         }
 
+        AudioManager.Instance.PlayExitRoom();
         GameStateManager.SetState(GameState.Map);
 
         Transition.FadeToClearOnly(() =>
