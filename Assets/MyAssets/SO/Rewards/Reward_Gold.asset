@@ -15,7 +15,7 @@ MonoBehaviour:
   DisplayName: Gold
   Type: 0
   Icon: {fileID: 21300000, guid: af8fd7dccb57c03438a3c60b08292885, type: 2}
-  GoldAmount: 10
+  GoldAmount: 15
   TargetWeapon: {fileID: 0}
   TargetElement: {fileID: 0}
   WeightDelta: 0

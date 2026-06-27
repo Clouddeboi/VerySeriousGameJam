@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 350e1f8643e36ef428cfddfc92a6dad3, type: 3}
-  m_Name: ShopItem_HammerWeightUp
+  m_Name: ShopItem_DaggerOdds
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemSO
-  Reward: {fileID: 11400000, guid: 8e17fa29d260ac946810d1bdc6557543, type: 2}
-  Price: 30
+  Reward: {fileID: 11400000, guid: bb9a11cd03181a4469881bf096556b28, type: 2}
+  Price: 5

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f5b4a19cca13e14eaf845b153cb5fbf, type: 3}
-  m_Name: Reward_Heal
+  m_Name: Reward_LightingOdds
   m_EditorClassIdentifier: Assembly-CSharp::RewardData
-  DisplayName: Heal
-  Type: 2
-  Icon: {fileID: 21300000, guid: 67a336367d0eb45478ba457d33e507ef, type: 2}
+  DisplayName: Lighting Chance Up +10
+  Type: 1
+  Icon: {fileID: 21300000, guid: b6b5052d2f90f6b41a70a554623974a7, type: 2}
   GoldAmount: 0
   TargetWeapon: {fileID: 0}
-  TargetElement: {fileID: 0}
-  WeightDelta: 0
-  HealAmount: 15
+  TargetElement: {fileID: 11400000, guid: 62708b2ba8185a247aff1a7b47521290, type: 2}
+  WeightDelta: 10
+  HealAmount: 0

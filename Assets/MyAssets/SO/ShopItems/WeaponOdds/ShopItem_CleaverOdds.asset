@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 350e1f8643e36ef428cfddfc92a6dad3, type: 3}
-  m_Name: ShopItem_SwordUP
+  m_Name: ShopItem_CleaverOdds
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemSO
-  Reward: {fileID: 11400000, guid: daace2dc35d70c248bfd0069df38d85e, type: 2}
+  Reward: {fileID: 11400000, guid: 95faadd325175e04e99ec92abb124088, type: 2}
   Price: 10

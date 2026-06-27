@@ -445,7 +445,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -150}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 350, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8539539
 MonoBehaviour:
@@ -3420,7 +3420,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -150}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 350, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &498413300
 MonoBehaviour:
@@ -6210,8 +6210,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RewardSystem
   RewardPool:
   - {fileID: 11400000, guid: daee1ab7d1d4fc64ab32b0769da069b8, type: 2}
+  - {fileID: 11400000, guid: 584912d0e9c95d143978a5595e5912c5, type: 2}
+  - {fileID: 11400000, guid: eba465b4ab902074ca60b5c3e3e5759b, type: 2}
+  - {fileID: 11400000, guid: e79bb3d34454ecc47bb3b9621d1343dd, type: 2}
+  - {fileID: 11400000, guid: c5929b1d9051f2848840588dd04e7680, type: 2}
   - {fileID: 11400000, guid: 8e17fa29d260ac946810d1bdc6557543, type: 2}
-  - {fileID: 11400000, guid: 9365d257545246b4fa62c15fd9ff31db, type: 2}
+  - {fileID: 11400000, guid: daace2dc35d70c248bfd0069df38d85e, type: 2}
+  - {fileID: 11400000, guid: 95faadd325175e04e99ec92abb124088, type: 2}
+  - {fileID: 11400000, guid: bb9a11cd03181a4469881bf096556b28, type: 2}
+  - {fileID: 11400000, guid: 49ad9f3f698033841b3c46904d2f4d32, type: 2}
+  - {fileID: 11400000, guid: 596fc2bc1efeedc4681396ae351f5016, type: 2}
   Currency: {fileID: 543704088}
   PlayerHealth: {fileID: 997218462}
   SlotMachine: {fileID: 2120195890}
@@ -6457,9 +6465,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopSystem
   ShopPool:
+  - {fileID: 11400000, guid: 18f2fe15734c7c047b1dcb2e34ac7d39, type: 2}
+  - {fileID: 11400000, guid: be49de2952a0c87458a22a749b1a62c7, type: 2}
+  - {fileID: 11400000, guid: ff6f1002d82b20648a21477a53965feb, type: 2}
+  - {fileID: 11400000, guid: 3c02b6a7e4fa2684e944f005f68a841a, type: 2}
+  - {fileID: 11400000, guid: da7d1c437a850184aa167f78e3683219, type: 2}
   - {fileID: 11400000, guid: 44853afdb193a054a9ea1dd87db83693, type: 2}
-  - {fileID: 11400000, guid: de5343377d73ba844bfc4044744047f5, type: 2}
+  - {fileID: 11400000, guid: efb69d80a38aac347ba411b995066fb1, type: 2}
+  - {fileID: 11400000, guid: bf73f3a9533e66a46a8ed9f508652ebd, type: 2}
   - {fileID: 11400000, guid: 57ed0c12a2ce14e41afa3c4355b198f0, type: 2}
+  - {fileID: 11400000, guid: 259adb5a9d3cb534c9841c561bdb29dc, type: 2}
+  - {fileID: 11400000, guid: 8e5eed9ed728f164583fd21f846734bc, type: 2}
+  - {fileID: 11400000, guid: 5158a848de7a6ad48b2f625030fe2ff0, type: 2}
+  - {fileID: 11400000, guid: 42bed235859ce8b4393c98854ea7d839, type: 2}
+  - {fileID: 11400000, guid: 9a62b3364d9815140b34bf8fc9044699, type: 2}
+  - {fileID: 11400000, guid: de5343377d73ba844bfc4044744047f5, type: 2}
   Currency: {fileID: 543704088}
   RewardSystem: {fileID: 882142841}
   UI: {fileID: 1526940679}
@@ -10377,7 +10397,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -150}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 350, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1680888534
 MonoBehaviour:

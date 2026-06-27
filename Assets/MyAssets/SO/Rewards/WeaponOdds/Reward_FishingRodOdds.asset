@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f5b4a19cca13e14eaf845b153cb5fbf, type: 3}
-  m_Name: Reward_Heal
+  m_Name: Reward_FishingRodOdds
   m_EditorClassIdentifier: Assembly-CSharp::RewardData
-  DisplayName: Heal
-  Type: 2
-  Icon: {fileID: 21300000, guid: 67a336367d0eb45478ba457d33e507ef, type: 2}
+  DisplayName: Fishing Rod Chance Up +5
+  Type: 1
+  Icon: {fileID: 21300000, guid: dd4dcf925c078904cbc02ea51158cdc4, type: 2}
   GoldAmount: 0
-  TargetWeapon: {fileID: 0}
+  TargetWeapon: {fileID: 11400000, guid: c524b32eed0f4f448b3ebe75fc3662fb, type: 2}
   TargetElement: {fileID: 0}
-  WeightDelta: 0
-  HealAmount: 15
+  WeightDelta: 5
+  HealAmount: 0
