@@ -376,6 +376,7 @@ Transform:
   - {fileID: 8671958967050063148}
   - {fileID: 7790468530726226588}
   - {fileID: 7400229294229501441}
+  - {fileID: 73800910589162302}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &5272706559296052234
@@ -441,6 +442,8 @@ MonoBehaviour:
   SpriteRenderer: {fileID: 5962496248234339116}
   Animator: {fileID: 6914490125312519551}
   HealthBar: {fileID: 389363402770511557}
+  StatusVisual: {fileID: 174988694660288210}
+  EffectGrid: {fileID: 7974446385129923393}
   DamageShakeDuration: 0.15
   DamageShakeMagnitude: 0.12
 --- !u!114 &7131475334494003200
@@ -503,13 +506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e25cde8c4c3b274d9f243a54fa28a95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusEffectVisual
-  StatusEffects: {fileID: 0}
+  BuffDebuff: {fileID: 0}
   Target: {fileID: 7131475334494003200}
   OverlayRenderer: {fileID: 9192635500640376022}
-  IconData:
-  - {fileID: 11400000, guid: 7cae35d53b9ca414f8e5ac6c360c0f6e, type: 2}
-  - {fileID: 11400000, guid: 7419219310ccfdf4fb33952dd07d5196, type: 2}
-  - {fileID: 11400000, guid: 74ed28ec230dc0746b7ac59c78b8cfba, type: 2}
   OverlayOpacity: 0.7
 --- !u!1 &4448278923637480994
 GameObject:
@@ -743,3 +742,76 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1001 &1086782720076804018
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5637401120906983511}
+    m_Modifications:
+    - target: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.62745
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.66823
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422193372914172177, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+      propertyPath: m_Name
+      value: EffectsGrid
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+--- !u!4 &73800910589162302 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1014214443685485708, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+  m_PrefabInstance: {fileID: 1086782720076804018}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7974446385129923393 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7043607400030719219, guid: b81a132bfb4d0d742885bc10227a7897, type: 3}
+  m_PrefabInstance: {fileID: 1086782720076804018}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15dff45f2f7905246a1bf43e0009feb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectGridUI

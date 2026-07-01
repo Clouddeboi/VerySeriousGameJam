@@ -6,4 +6,5 @@ public class ElementSymbol : ScriptableObject
     public string DisplayName;
     public ElementType Type;
     public Sprite Icon;
+    public EffectDataSO AppliedEffect;
 }

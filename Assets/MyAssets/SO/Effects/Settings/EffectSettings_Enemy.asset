@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e6aae840277f6a47a3714d3694e75ac, type: 3}
+  m_Name: EffectSettings_Enemy
+  m_EditorClassIdentifier: Assembly-CSharp::EffectVisualSettings
+  Columns: 5
+  Rows: 2
+  CellWidth: 0.3
+  CellHeight: 0.3
+  CellSpacing: 0.05
+  WorldOffset: {x: 0, y: 1.4, z: 0}
+  IconScale: 2
+  IconSortingOrder: 5
+  Font: {fileID: 11400000, guid: 1d58bfbe90e475e4b9d1c68ef94282c4, type: 2}
+  FontSize: 2
+  FontStyle: 1
+  TextColor: {r: 1, g: 1, b: 1, a: 1}
+  TextOffset: {x: 1, y: -0.5}
+  TextScale: 1
+  TextSortingOrder: 6
+  BuffColor: {r: 1, g: 1, b: 1, a: 1}
+  DebuffColor: {r: 1, g: 1, b: 1, a: 1}
+  NoIconColor: {r: 1, g: 1, b: 1, a: 1}

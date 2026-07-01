@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Effect_Burn
+  m_EditorClassIdentifier: Assembly-CSharp::EffectDataSO
+  EffectId: 1
+  DisplayName: Burn
+  Icon: {fileID: 21300000, guid: dab35d46331bf9b43ae13af624f00fcc, type: 2}
+  Category: 1
+  Stacking: 0
+  DurationTurns: 1
+  TicksDamage: 1
+  TickDamageAmount: 5
+  HealPerTurn: 0
+  PreventsAction: 0
+  BlocksIncomingDamage: 0
+  OnlyBlocksEnemyAttacks: 0
+  OutgoingDamageMultiplier: 1
+  Interactions:
+  - TargetEffect: {fileID: 11400000, guid: bb8d4705cd52d8149a8e1b2d6c18f7fa, type: 2}
+    InteractionType: 0

@@ -7,6 +7,9 @@ public class EnemyAI : MonoBehaviour
     public SpriteRenderer SpriteRenderer;
     public SquashStretchAnimator Animator;
     public HealthBarUI HealthBar;
+    private CameraShake cameraShake;
+    public StatusEffectVisual StatusVisual;
+    public EffectGridUI EffectGrid;
 
     [Header("Damage Shake")]
     public float DamageShakeDuration = 0.15f;
@@ -14,9 +17,10 @@ public class EnemyAI : MonoBehaviour
 
     private bool deathHandled = false;
 
-    public void Initialize(EnemyData data)
+    public void Initialize(EnemyData data, CameraShake shake)
     {
         Data = data;
+        cameraShake = shake;
         Health.EntityName = data.EnemyName;
         Health.SetMaxHP(data.MaxHP);
 
@@ -32,10 +36,22 @@ public class EnemyAI : MonoBehaviour
         deathHandled = false;
     }
 
+    public void InitializeStatusVisual(BuffDebuffSystem buffDebuff)
+    {
+        if (StatusVisual != null)
+        {
+            StatusVisual.BuffDebuff = buffDebuff;
+            StatusVisual.Target = Health;
+        }
+
+        if (EffectGrid != null)
+            EffectGrid.Initialize(buffDebuff, Health, transform); // new
+    }
+
     private void HandleDamaged()
     {
         Animator.PlayDamageReaction();
-        CameraShake.Instance.Shake(DamageShakeDuration, DamageShakeMagnitude);
+        cameraShake?.Shake(DamageShakeDuration, DamageShakeMagnitude);
         AudioManager.Instance.PlayEnemyHurt();
     }
 
@@ -44,7 +60,6 @@ public class EnemyAI : MonoBehaviour
         if (deathHandled) return;
         deathHandled = true;
 
-        Debug.Log($"[EnemyAI] Removing {Data.EnemyName} sprite.");
         if (SpriteRenderer != null) SpriteRenderer.enabled = false;
         var collider = GetComponent<Collider2D>();
         if (collider != null) collider.enabled = false;
@@ -52,15 +67,5 @@ public class EnemyAI : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // public int DecideAndGetDamage()
-    // {
-    //     Debug.Log($"[EnemyAI] {Data.EnemyName} attacks for {Data.AttackDamage}");
-    //     Animator.PlayAttackReaction();
-    //     return Data.AttackDamage;
-    // }
-
-    public void PlayAttackAnimationOnly()
-    {
-        Animator.PlayAttackReaction();
-    }
+    public void PlayAttackAnimationOnly() => Animator.PlayAttackReaction();
 }

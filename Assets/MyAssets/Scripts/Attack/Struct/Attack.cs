@@ -6,14 +6,8 @@ public struct Attack
     public WeaponSymbol Weapon;
     public bool IsCrit;
     public int FreezeDurationOverride;
-    
     public bool IsOneShot;
-    public int HealPlayerAmount;
     public int ConfusionDamageToPlayer;
-
-    public override string ToString()
-    {
-        string e = Element ? Element.DisplayName : "None";
-        return $"Attack(dmg={BaseDamage}, hits={HitCount}, element={e}, crit={IsCrit})";
-    }
+    public Health Source;
+    public EffectDataSO AppliedPlayerBuff;
 }

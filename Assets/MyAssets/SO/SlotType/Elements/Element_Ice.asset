@@ -15,3 +15,4 @@ MonoBehaviour:
   DisplayName: Ice
   Type: 2
   Icon: {fileID: 21300000, guid: b9887bdcdb00bbc4a873f8201d38deed, type: 2}
+  AppliedEffect: {fileID: 11400000, guid: bb8d4705cd52d8149a8e1b2d6c18f7fa, type: 2}

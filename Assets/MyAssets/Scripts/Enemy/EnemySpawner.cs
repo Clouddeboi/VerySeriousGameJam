@@ -6,11 +6,12 @@ public class EnemySpawner : MonoBehaviour
     public GameObject EnemyPrefab;
     public Transform EnemyContainer;
     public CombatStateMachine Combat;
+    public BuffDebuffSystem BuffDebuff;
+    public CameraShake CameraShake;
 
-    [Header("Layout")]
-    public float HorizontalSpacing = 2.5f; // fallback layout for counts with no custom diamond defined
-    public float DiamondHorizontalOffset = 1.5f; // left/right distance from center
-    public float DiamondVerticalOffset = 1.0f;   // top/bottom distance from center
+    public float DiamondHorizontalOffset = 1.5f;
+    public float DiamondVerticalOffset = 1.0f;
+    public float HorizontalSpacing = 2.5f;
 
     private List<EnemyAI> spawned = new List<EnemyAI>();
 
@@ -27,10 +28,11 @@ public class EnemySpawner : MonoBehaviour
 
             GameObject go = Instantiate(EnemyPrefab, EnemyContainer);
             go.transform.localPosition = positions[i];
-            go.transform.localScale = Vector3.one; // explicitly keep uniform scale regardless of position
+            go.transform.localScale = Vector3.one;
 
             EnemyAI ai = go.GetComponent<EnemyAI>();
-            ai.Initialize(data);
+            ai.Initialize(data, CameraShake);
+            ai.InitializeStatusVisual(BuffDebuff);
 
             EnemyClickTarget clickTarget = go.GetComponent<EnemyClickTarget>();
             clickTarget.Enemy = ai;
@@ -46,37 +48,26 @@ public class EnemySpawner : MonoBehaviour
     {
         switch (count)
         {
-            case 1:
-                return new List<Vector3> { Vector3.zero };
-
-            case 2:
-                return new List<Vector3>
-                {
-                    new Vector3(-DiamondHorizontalOffset, 0f, 0f),
-                    new Vector3(DiamondHorizontalOffset, 0f, 0f)
-                };
-
-            case 3:
-                // Triangle: top, bottom-left, bottom-right
-                return new List<Vector3>
-                {
-                    new Vector3(0f, DiamondVerticalOffset, 0f),
-                    new Vector3(-DiamondHorizontalOffset, -DiamondVerticalOffset, 0f),
-                    new Vector3(DiamondHorizontalOffset, -DiamondVerticalOffset, 0f)
-                };
-
-            case 4:
-                // Diamond: top, left, right, bottom — matches the layout you described
-                return new List<Vector3>
-                {
-                    new Vector3(0f, DiamondVerticalOffset, 0f),       // top
-                    new Vector3(-DiamondHorizontalOffset, 0f, 0f),    // left
-                    new Vector3(DiamondHorizontalOffset, 0f, 0f),     // right
-                    new Vector3(0f, -DiamondVerticalOffset, 0f)       // bottom
-                };
-
+            case 1: return new List<Vector3> { Vector3.zero };
+            case 2: return new List<Vector3>
+            {
+                new Vector3(-DiamondHorizontalOffset, 0f, 0f),
+                new Vector3(DiamondHorizontalOffset, 0f, 0f)
+            };
+            case 3: return new List<Vector3>
+            {
+                new Vector3(0f, DiamondVerticalOffset, 0f),
+                new Vector3(-DiamondHorizontalOffset, -DiamondVerticalOffset, 0f),
+                new Vector3(DiamondHorizontalOffset, -DiamondVerticalOffset, 0f)
+            };
+            case 4: return new List<Vector3>
+            {
+                new Vector3(0f, DiamondVerticalOffset, 0f),
+                new Vector3(-DiamondHorizontalOffset, 0f, 0f),
+                new Vector3(DiamondHorizontalOffset, 0f, 0f),
+                new Vector3(0f, -DiamondVerticalOffset, 0f)
+            };
             default:
-                // Fallback for counts beyond your defined layouts: simple horizontal line, same as before
                 var fallback = new List<Vector3>();
                 float startX = -(count - 1) * HorizontalSpacing / 2f;
                 for (int i = 0; i < count; i++)
@@ -92,8 +83,5 @@ public class EnemySpawner : MonoBehaviour
         spawned.Clear();
     }
 
-    public void RemoveDead(EnemyAI enemy)
-    {
-        spawned.Remove(enemy);
-    }
+    public void RemoveDead(EnemyAI enemy) => spawned.Remove(enemy);
 }

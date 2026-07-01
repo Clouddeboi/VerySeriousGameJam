@@ -8,22 +8,22 @@ public class CombatStateMachine : MonoBehaviour
     public AttackBuilder AttackBuilder;
     public AttackExecutionSystem AttackExecution;
     public RoomSystem RoomSystem;
-    public StatusEffectSystem StatusEffects;
     public JackpotDetectionSystem JackpotSystem;
     public SlotMachineUI SlotUI;
     public PlayerCombatVisuals PlayerVisuals;
     public EnemyActionWheelVisual ActionWheel;
     public FloatingTextSpawner TextSpawner;
     public GameStateManager GameStateManager;
+    public BuffDebuffSystem BuffDebuff;
+    public DamageSystem DamageSystem;
 
     public Health PlayerHealth;
     public List<EnemyAI> Enemies = new List<EnemyAI>();
     public EnemyAI CurrentTarget { get; private set; }
-    public EnemyAI Enemy;
 
     [Header("Turn Pacing")]
     public float DelayBeforeEnemyTurn = 0.6f;
-    public float DelayBetweenEnemyAttacks = 0.4f; 
+    public float DelayBetweenEnemyAttacks = 0.4f;
 
     public CombatState CurrentState { get; private set; }
 
@@ -34,19 +34,18 @@ public class CombatStateMachine : MonoBehaviour
         SlotMachine.ResetAllLocks();
         SlotUI.RefreshLockIcons();
         SlotUI.ResetReelsToIdle();
+        PlayerVisuals.Initialize(BuffDebuff);
         CurrentState = CombatState.SelectingTarget;
         Debug.Log("[Combat] Combat started. Select a target.");
     }
 
     public void SelectTarget(EnemyAI enemy)
     {
-        //Allow selecting OR switching target any time before the spin commits
         if (CurrentState != CombatState.SelectingTarget && CurrentState != CombatState.PlayerTurn) return;
         if (enemy.Health.IsDead) return;
 
         if (CurrentTarget == enemy)
         {
-            //Clicking the already-selected enemy again deselects it
             CurrentTarget = null;
             CurrentState = CombatState.SelectingTarget;
             Debug.Log("[Combat] Target deselected.");
@@ -69,6 +68,7 @@ public class CombatStateMachine : MonoBehaviour
         SlotUI.PlaySpinAnimation(result, () =>
         {
             Attack attack = AttackBuilder.Build(result);
+            attack.Source = PlayerHealth; // needed for Strength multiplier check in DamageSystem
 
             JackpotType jackpot = JackpotSystem.Detect(result);
             attack = JackpotSystem.ApplyJackpotBonus(attack, jackpot);
@@ -110,10 +110,11 @@ public class CombatStateMachine : MonoBehaviour
         {
             if (enemy == null || enemy.Health.IsDead) continue;
 
-            if (StatusEffects.IsFrozen(enemy.Health))
+            // Freeze check now uses BuffDebuff.IsActionPrevented instead of StatusEffects.IsFrozen
+            if (BuffDebuff.IsActionPrevented(enemy.Health))
             {
                 Debug.Log($"[Combat] {enemy.Data.EnemyName} is frozen and can't attack!");
-                StatusEffects.TickEffects(enemy.Health);
+                BuffDebuff.TickEffects(enemy.Health);
                 yield return new WaitForSeconds(DelayBetweenEnemyAttacks);
                 continue;
             }
@@ -140,7 +141,8 @@ public class CombatStateMachine : MonoBehaviour
                     Debug.Log($"[EnemyAI] {enemy.Data.EnemyName} attacks for {enemy.Data.AttackDamage}");
                     enemy.PlayAttackAnimationOnly();
                     AudioManager.Instance.PlayEnemyAttack();
-                    PlayerHealth.ApplyDamage(enemy.Data.AttackDamage);
+                    // Routes through DamageSystem so Shield blocks and Strength multipliers are both respected
+                    DamageSystem.ResolveDamage(enemy.Health, PlayerHealth, enemy.Data.AttackDamage, isEnemyAttack: true);
                     break;
 
                 case EnemyActionType.Miss:
@@ -153,7 +155,8 @@ public class CombatStateMachine : MonoBehaviour
                     break;
             }
 
-            StatusEffects.TickEffects(enemy.Health);
+            // Tick effects after the enemy acts (DoTs apply, durations count down)
+            BuffDebuff.TickEffects(enemy.Health);
 
             yield return new WaitForSeconds(DelayBetweenEnemyAttacks);
 
@@ -166,8 +169,10 @@ public class CombatStateMachine : MonoBehaviour
             }
         }
 
-        StatusEffects.TickEffects(PlayerHealth);
+        // Tick player effects at the end of the enemy's full turn (Burn on player, Regen, etc.)
+        BuffDebuff.TickEffects(PlayerHealth);
 
+        // Victory check after ticks — an enemy could die from a DoT during the enemy turn
         if (Enemies.TrueForAll(e => e == null || e.Health.IsDead))
         {
             CurrentState = CombatState.Victory;

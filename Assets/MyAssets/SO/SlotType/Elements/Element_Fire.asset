@@ -15,3 +15,4 @@ MonoBehaviour:
   DisplayName: Fire
   Type: 1
   Icon: {fileID: 21300000, guid: dab35d46331bf9b43ae13af624f00fcc, type: 2}
+  AppliedEffect: {fileID: 11400000, guid: 45d09d1424f9b424b92b8ff5c2a9aa0c, type: 2}
