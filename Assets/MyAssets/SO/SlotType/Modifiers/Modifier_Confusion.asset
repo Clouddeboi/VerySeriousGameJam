@@ -13,5 +13,12 @@ MonoBehaviour:
   m_Name: Modifier_Confusion
   m_EditorClassIdentifier: Assembly-CSharp::ModifierSymbol
   DisplayName: Confusion
-  Effect: 5
   Icon: {fileID: 21300000, guid: ebdfc1b900cbb8b41bb855413cb86f1e, type: 2}
+  DamageMultiplier: 1
+  IsCrit: 0
+  CritMultiplier: 1.5
+  OverrideDamage: 0
+  HitCountOverride: 0
+  HitDamageMultiplier: 1
+  SelfDamagePercent: 0.25
+  SelfAppliedEffect: {fileID: 0}

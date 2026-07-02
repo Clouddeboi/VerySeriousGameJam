@@ -13,5 +13,12 @@ MonoBehaviour:
   m_Name: Modifier_OHKO
   m_EditorClassIdentifier: Assembly-CSharp::ModifierSymbol
   DisplayName: OHKO
-  Effect: 6
   Icon: {fileID: 21300000, guid: dbf78d05739709e4d893473b149e61be, type: 2}
+  DamageMultiplier: 1
+  IsCrit: 0
+  CritMultiplier: 1.5
+  OverrideDamage: 999
+  HitCountOverride: 0
+  HitDamageMultiplier: 1
+  SelfDamagePercent: 0
+  SelfAppliedEffect: {fileID: 0}

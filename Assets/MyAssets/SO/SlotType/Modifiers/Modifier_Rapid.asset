@@ -13,5 +13,12 @@ MonoBehaviour:
   m_Name: Modifier_Rapid
   m_EditorClassIdentifier: Assembly-CSharp::ModifierSymbol
   DisplayName: Rapid
-  Effect: 2
   Icon: {fileID: 21300000, guid: 75983e2eff5eedb4187d48afa6906b8e, type: 2}
+  DamageMultiplier: 1
+  IsCrit: 0
+  CritMultiplier: 1.5
+  OverrideDamage: 0
+  HitCountOverride: 3
+  HitDamageMultiplier: 0.75
+  SelfDamagePercent: 0
+  SelfAppliedEffect: {fileID: 0}

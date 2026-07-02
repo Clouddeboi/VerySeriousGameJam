@@ -75,6 +75,14 @@ public class CombatStateMachine : MonoBehaviour
             JackpotType jackpot = JackpotSystem.Detect(result);
             JackpotSystem.TriggerVisuals(jackpot);
 
+            for (int i = 0; i < synergies.MatchedSynergies.Count; i++)
+            {
+                var synergy = synergies.MatchedSynergies[i];
+                string displayText = synergy.GetDisplayText(result);
+                Vector3 spawnPos = CurrentTarget.transform.position + Vector3.up * (1.5f + i * 0.6f);
+                TextSpawner.SpawnSynergyText(displayText, spawnPos);
+            }
+
             PlayerVisuals.PlayAttackAnimation();
             AudioManager.Instance.PlayPlayerAttack();
             AttackExecution.Execute(attack, CurrentTarget.Health, synergies, Enemies, OnPlayerAttackResolved);

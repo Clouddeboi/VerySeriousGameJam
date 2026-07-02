@@ -8,4 +8,5 @@ public class ResolvedSynergies
     public int HealSelfAmount = 0;
     public bool AffectsAllEnemies = false;
     public List<SynergyEffect> PostHitEffects = new List<SynergyEffect>();
+    public List<WeaponSynergy> MatchedSynergies = new List<WeaponSynergy>();
 }

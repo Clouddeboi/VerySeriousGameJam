@@ -17,6 +17,10 @@ public class FloatingTextSpawner : MonoBehaviour
     public Color MissActionColor = Color.gray;
     public Color HealActionColor = new Color(0.3f, 1f, 0.4f);
 
+    [Header("Synergy Text Style")]
+    public Color SynergyTextColor = new Color(1f, 0.85f, 0f);
+    public float SynergyTypewriterDelay = 0.04f;
+
     public void SpawnSlotResultText(string content, Vector3 worldPosition)
     {
         var instance = Instantiate(FloatingTextPrefab, worldPosition, Quaternion.identity);
@@ -59,5 +63,12 @@ public class FloatingTextSpawner : MonoBehaviour
         var instance = Instantiate(FloatingTextPrefab, worldPosition, Quaternion.identity);
         instance.TypewriterCharDelay = 0f; 
         instance.Play(label, color);
+    }
+
+    public void SpawnSynergyText(string content, Vector3 worldPosition)
+    {
+        var instance = Instantiate(FloatingTextPrefab, worldPosition, Quaternion.identity);
+        instance.TypewriterCharDelay = SynergyTypewriterDelay;
+        instance.Play(content, SynergyTextColor);
     }
 }

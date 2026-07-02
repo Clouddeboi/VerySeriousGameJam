@@ -1514,6 +1514,8 @@ MonoBehaviour:
   AttackActionColor: {r: 1, g: 0.3, b: 0.3, a: 1}
   MissActionColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   HealActionColor: {r: 0.3, g: 1, b: 0.4, a: 1}
+  SynergyTextColor: {r: 1, g: 0.85, b: 0, a: 1}
+  SynergyTypewriterDelay: 0.04
 --- !u!1 &141287525
 GameObject:
   m_ObjectHideFlags: 0
@@ -5011,6 +5013,7 @@ MonoBehaviour:
   Combat: {fileID: 859669684}
   BuffDebuff: {fileID: 906467901}
   CameraShake: {fileID: 519420033}
+  TextSpawner: {fileID: 137101830}
   DiamondHorizontalOffset: 1.5
   DiamondVerticalOffset: 1
   HorizontalSpacing: 2.5
@@ -5253,7 +5256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15dfdebffa35dc0449de3a1bcb54c238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SynergyResolver
-  AllSynergies: []
+  AllSynergies:
+  - {fileID: 11400000, guid: f04e0d312af2eed4d8e91669280e4dfd, type: 2}
   BuffDebuff: {fileID: 906467901}
   PlayerHealth: {fileID: 997218462}
 --- !u!1 &659990893
@@ -7473,6 +7477,7 @@ MonoBehaviour:
   PlayerHealth: {fileID: 997218462}
   TextSpawner: {fileID: 137101830}
   SynergyResolver: {fileID: 641583540}
+  DelayBetweenHits: 0.15
 --- !u!1 &974556068
 GameObject:
   m_ObjectHideFlags: 0
@@ -8235,6 +8240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   EntityName: Player
   MaxHP: 100
+  TextSpawner: {fileID: 137101830}
 --- !u!4 &997218463
 Transform:
   m_ObjectHideFlags: 0
@@ -11564,9 +11570,9 @@ MonoBehaviour:
   Dagger: {fileID: 11400000, guid: 641f17b9645722a468cc37823a0a6573, type: 2}
   Sword: {fileID: 11400000, guid: 7a4f431b4a8b94f419f386716662f88d, type: 2}
   Hammer: {fileID: 11400000, guid: 3e3b3d7b32009e24baa2654b6c0a4f12, type: 2}
-  RapidModifier: {fileID: 0}
-  DoubleModifier: {fileID: 0}
-  CritModifier: {fileID: 0}
+  RapidModifier: {fileID: 11400000, guid: 24131ded9a675a74d98ae0ad4a7bf61d, type: 2}
+  DoubleModifier: {fileID: 11400000, guid: 09308673fabe1784ba4a40dd6bec5dfb, type: 2}
+  CritModifier: {fileID: 11400000, guid: 9430f0b94d77a064ea3fbb1710262d29, type: 2}
 --- !u!1 &1462612332
 GameObject:
   m_ObjectHideFlags: 0

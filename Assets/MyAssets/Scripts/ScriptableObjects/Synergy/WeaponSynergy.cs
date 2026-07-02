@@ -20,4 +20,12 @@ public class WeaponSynergy : ScriptableObject
         if (RequiredModifier != null && result.Modifier != RequiredModifier) return false;
         return true;
     }
+
+    public string GetDisplayText(SlotResult result)
+    {
+        if (RequiredModifier != null || result.Modifier == null)
+            return SynergyName;
+
+        return $"{SynergyName} {result.Modifier.DisplayName}";
+    }
 }

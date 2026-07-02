@@ -10,6 +10,7 @@ public class Health : MonoBehaviour
     public System.Action OnDeath;
     public System.Action OnDamaged;
     public System.Action OnHealed;
+    public FloatingTextSpawner TextSpawner;
 
     private void Awake()
     {
@@ -42,6 +43,9 @@ public class Health : MonoBehaviour
     {
         CurrentHP = Mathf.Min(MaxHP, CurrentHP + amount);
         Debug.Log($"[Health] {EntityName} healed {amount} -> {CurrentHP}/{MaxHP} HP");
-        OnHealed?.Invoke(); // new
+        OnHealed?.Invoke();
+
+        if (amount > 0 && TextSpawner != null)
+            TextSpawner.SpawnHealNumber(amount, transform.position + Vector3.up * 0.5f);
     }
 }

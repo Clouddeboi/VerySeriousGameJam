@@ -7,7 +7,7 @@ public class JackpotDetectionSystem : MonoBehaviour
     public WeaponSymbol Sword;
     public WeaponSymbol Hammer;
 
-    [Header("Modifier References — drag the actual SO assets in")]
+    [Header("Modifier References")]
     public ModifierSymbol RapidModifier;
     public ModifierSymbol DoubleModifier;
     public ModifierSymbol CritModifier;

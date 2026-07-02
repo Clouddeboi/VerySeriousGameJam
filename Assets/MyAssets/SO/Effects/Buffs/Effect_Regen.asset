@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Effect_Regen
   m_EditorClassIdentifier: Assembly-CSharp::EffectDataSO
-  EffectId: 0
+  EffectId: 3
   DisplayName: Regeneration
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 66c7e49df5d80f0469189f47bfe3508a, type: 2}
   Category: 0
   Stacking: 0
-  DurationTurns: 1
+  DurationTurns: 2
   TicksDamage: 0
   TickDamageAmount: 0
   HealPerTurn: 20

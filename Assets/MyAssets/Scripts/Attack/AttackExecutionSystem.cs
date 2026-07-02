@@ -11,6 +11,9 @@ public class AttackExecutionSystem : MonoBehaviour
     public FloatingTextSpawner TextSpawner;
     public SynergyResolver SynergyResolver;
 
+    [Header("Multi-Hit Pacing")]
+    public float DelayBetweenHits = 0.15f;
+
     public void Execute(Attack attack, Health target, ResolvedSynergies synergies,
         List<EnemyAI> allEnemies, Action onComplete = null)
     {
@@ -22,9 +25,23 @@ public class AttackExecutionSystem : MonoBehaviour
     {
         for (int i = 0; i < attack.HitCount; i++)
         {
+            int hpBefore = target.CurrentHP;
             DamageSystem.ResolveSingleHit(attack, target);
+            int damageDealt = hpBefore - target.CurrentHP;
+
+            //Spawn damage number per hit, offset slightly each time so stacked numbers don't overlap
+            if (damageDealt > 0 && TextSpawner != null)
+            {
+                Vector3 offset = Vector3.up * (0.5f + i * 0.3f); //Each hit floats a little higher
+                TextSpawner.SpawnDamageNumber(damageDealt, target.transform.position + offset);
+            }
+
             if (target.IsDead) break;
-            yield return null;
+
+            if (i < attack.HitCount - 1)
+                yield return new WaitForSeconds(DelayBetweenHits);
+            else
+                yield return null;
         }
 
         if (!target.IsDead && attack.Element?.AppliedEffect != null)
@@ -41,6 +58,10 @@ public class AttackExecutionSystem : MonoBehaviour
 
         if (attack.SelfAppliedEffect != null)
             BuffDebuff.ApplyEffect(PlayerHealth, attack.SelfAppliedEffect);
+
+        if (synergies.HealSelfAmount > 0)
+            TextSpawner?.SpawnHealNumber(synergies.HealSelfAmount,
+                PlayerHealth.transform.position + Vector3.up * 0.5f);
 
         onComplete?.Invoke();
     }

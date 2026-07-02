@@ -13,5 +13,12 @@ MonoBehaviour:
   m_Name: Modifier_Crit
   m_EditorClassIdentifier: Assembly-CSharp::ModifierSymbol
   DisplayName: Critical
-  Effect: 3
   Icon: {fileID: 21300000, guid: 3b7dfea0e34700247896a0efdd51cb39, type: 2}
+  DamageMultiplier: 1
+  IsCrit: 1
+  CritMultiplier: 3
+  OverrideDamage: 0
+  HitCountOverride: 0
+  HitDamageMultiplier: 1
+  SelfDamagePercent: 0
+  SelfAppliedEffect: {fileID: 0}

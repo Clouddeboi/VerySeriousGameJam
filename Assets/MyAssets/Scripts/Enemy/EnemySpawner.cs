@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
     public CombatStateMachine Combat;
     public BuffDebuffSystem BuffDebuff;
     public CameraShake CameraShake;
+    public FloatingTextSpawner TextSpawner;
 
     public float DiamondHorizontalOffset = 1.5f;
     public float DiamondVerticalOffset = 1.0f;
@@ -32,6 +33,7 @@ public class EnemySpawner : MonoBehaviour
 
             EnemyAI ai = go.GetComponent<EnemyAI>();
             ai.Initialize(data, CameraShake);
+            ai.Health.TextSpawner = TextSpawner;
             ai.InitializeStatusVisual(BuffDebuff);
 
             EnemyClickTarget clickTarget = go.GetComponent<EnemyClickTarget>();

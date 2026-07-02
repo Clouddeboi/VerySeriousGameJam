@@ -13,5 +13,12 @@ MonoBehaviour:
   m_Name: Modifier_Heal
   m_EditorClassIdentifier: Assembly-CSharp::ModifierSymbol
   DisplayName: Heal
-  Effect: 4
   Icon: {fileID: 21300000, guid: 66c7e49df5d80f0469189f47bfe3508a, type: 2}
+  DamageMultiplier: 1
+  IsCrit: 0
+  CritMultiplier: 1.5
+  OverrideDamage: 0
+  HitCountOverride: 0
+  HitDamageMultiplier: 1
+  SelfDamagePercent: 0
+  SelfAppliedEffect: {fileID: 11400000, guid: af2da377f28da0e4e837aab753cde888, type: 2}

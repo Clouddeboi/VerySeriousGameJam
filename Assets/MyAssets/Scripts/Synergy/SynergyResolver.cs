@@ -16,6 +16,7 @@ public class SynergyResolver : MonoBehaviour
             if (synergy == null || !synergy.Matches(result)) continue;
 
             Debug.Log($"[Synergy] Triggered: {synergy.SynergyName}");
+            resolved.MatchedSynergies.Add(synergy);
 
             foreach (var effect in synergy.Effects)
                 CollectEffect(effect, resolved);
