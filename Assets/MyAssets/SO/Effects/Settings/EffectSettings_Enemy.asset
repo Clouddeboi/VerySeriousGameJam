@@ -24,7 +24,7 @@ MonoBehaviour:
   FontSize: 2
   FontStyle: 1
   TextColor: {r: 1, g: 1, b: 1, a: 1}
-  TextOffset: {x: 1, y: -0.5}
+  TextOffset: {x: 0.75, y: 0.25}
   TextScale: 1
   TextSortingOrder: 6
   BuffColor: {r: 1, g: 1, b: 1, a: 1}

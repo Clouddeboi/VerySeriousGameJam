@@ -5,5 +5,6 @@ public class WeaponSymbol : ScriptableObject
 {
     public string DisplayName;
     public int BaseDamage;
+    public int BaseHitCount = 1;
     public Sprite Icon;
 }

@@ -16,6 +16,7 @@ public class CombatStateMachine : MonoBehaviour
     public GameStateManager GameStateManager;
     public BuffDebuffSystem BuffDebuff;
     public DamageSystem DamageSystem;
+    public SynergyResolver SynergyResolver;
 
     public Health PlayerHealth;
     public List<EnemyAI> Enemies = new List<EnemyAI>();
@@ -67,15 +68,16 @@ public class CombatStateMachine : MonoBehaviour
 
         SlotUI.PlaySpinAnimation(result, () =>
         {
-            Attack attack = AttackBuilder.Build(result);
-            attack.Source = PlayerHealth; // needed for Strength multiplier check in DamageSystem
+            var synergies = SynergyResolver.Resolve(result);
+            Attack attack = AttackBuilder.Build(result, synergies);
+            attack.Source = PlayerHealth;
 
             JackpotType jackpot = JackpotSystem.Detect(result);
-            attack = JackpotSystem.ApplyJackpotBonus(attack, jackpot);
+            JackpotSystem.TriggerVisuals(jackpot);
 
             PlayerVisuals.PlayAttackAnimation();
             AudioManager.Instance.PlayPlayerAttack();
-            AttackExecution.Execute(attack, CurrentTarget.Health, OnPlayerAttackResolved);
+            AttackExecution.Execute(attack, CurrentTarget.Health, synergies, Enemies, OnPlayerAttackResolved);
         });
     }
 

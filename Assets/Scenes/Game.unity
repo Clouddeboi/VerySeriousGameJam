@@ -5209,6 +5209,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &641583538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 641583539}
+  - component: {fileID: 641583540}
+  m_Layer: 0
+  m_Name: Synergy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &641583539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641583538}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1048210809}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &641583540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641583538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15dfdebffa35dc0449de3a1bcb54c238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SynergyResolver
+  AllSynergies: []
+  BuffDebuff: {fileID: 906467901}
+  PlayerHealth: {fileID: 997218462}
 --- !u!1 &659990893
 GameObject:
   m_ObjectHideFlags: 0
@@ -6817,6 +6864,7 @@ MonoBehaviour:
   GameStateManager: {fileID: 1368563689}
   BuffDebuff: {fileID: 906467901}
   DamageSystem: {fileID: 2019131212}
+  SynergyResolver: {fileID: 641583540}
   PlayerHealth: {fileID: 997218462}
   Enemies: []
   DelayBeforeEnemyTurn: 1.25
@@ -7424,6 +7472,7 @@ MonoBehaviour:
   BuffDebuff: {fileID: 906467901}
   PlayerHealth: {fileID: 997218462}
   TextSpawner: {fileID: 137101830}
+  SynergyResolver: {fileID: 641583540}
 --- !u!1 &974556068
 GameObject:
   m_ObjectHideFlags: 0
@@ -8496,6 +8545,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047743430}
   m_CullTransparentMesh: 1
+--- !u!1 &1048210808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1048210809}
+  m_Layer: 0
+  m_Name: CombatSynergies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1048210809
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048210808}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 641583539}
+  m_Father: {fileID: 1462612333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1057992954
 GameObject:
   m_ObjectHideFlags: 0
@@ -11483,6 +11564,9 @@ MonoBehaviour:
   Dagger: {fileID: 11400000, guid: 641f17b9645722a468cc37823a0a6573, type: 2}
   Sword: {fileID: 11400000, guid: 7a4f431b4a8b94f419f386716662f88d, type: 2}
   Hammer: {fileID: 11400000, guid: 3e3b3d7b32009e24baa2654b6c0a4f12, type: 2}
+  RapidModifier: {fileID: 0}
+  DoubleModifier: {fileID: 0}
+  CritModifier: {fileID: 0}
 --- !u!1 &1462612332
 GameObject:
   m_ObjectHideFlags: 0
@@ -11517,6 +11601,7 @@ Transform:
   - {fileID: 543704087}
   - {fileID: 238341220}
   - {fileID: 1643736363}
+  - {fileID: 1048210809}
   m_Father: {fileID: 172523817}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1498479506
@@ -12224,8 +12309,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 016da4f975cf3454c9d7e435cf60034e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackBuilder
-  TridentWeapon: {fileID: 11400000, guid: c524b32eed0f4f448b3ebe75fc3662fb, type: 2}
-  RegenerationEffect: {fileID: 11400000, guid: af2da377f28da0e4e837aab753cde888, type: 2}
 --- !u!1 &1680888532
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,41 +2,64 @@ using UnityEngine;
 
 public class AttackBuilder : MonoBehaviour
 {
-    public WeaponSymbol TridentWeapon;
-    public EffectDataSO RegenerationEffect;
-
-    public Attack Build(SlotResult result)
+    public Attack Build(SlotResult result, ResolvedSynergies synergies)
     {
         int baseDamage = result.Weapon ? result.Weapon.BaseDamage : 1;
-        int hitCount = 1;
-        bool isCrit = false, isOneShot = false;
-        EffectDataSO appliedBuff = null;
-        int confusionDamage = 0;
+        int hitCount = result.Weapon ? result.Weapon.BaseHitCount : 1;
+        bool isCrit = false;
+        int selfDamage = 0;
+        EffectDataSO selfAppliedEffect = null;
 
-        ModifierEffect effect = result.Modifier ? result.Modifier.Effect : ModifierEffect.None;
-        switch (effect)
+        if (result.Modifier != null)
         {
-            case ModifierEffect.Double: baseDamage *= 2; break;
-            case ModifierEffect.Rapid: hitCount = 3; baseDamage = Mathf.RoundToInt(baseDamage * 0.5f); break;
-            case ModifierEffect.Crit: isCrit = true; baseDamage = Mathf.RoundToInt(baseDamage * 1.5f); break;
-            case ModifierEffect.OneShot: isOneShot = true; baseDamage = 999; break;
-            case ModifierEffect.Heal: appliedBuff = RegenerationEffect; break;
-            case ModifierEffect.Confusion: confusionDamage = Mathf.RoundToInt(baseDamage * 0.25f); break;
+            var mod = result.Modifier;
+
+            if (mod.OverrideDamage > 0)
+            {
+                baseDamage = mod.OverrideDamage;
+            }
+            else
+            {
+                baseDamage = Mathf.RoundToInt(baseDamage * mod.DamageMultiplier);
+
+                if (mod.IsCrit)
+                {
+                    isCrit = true;
+                    baseDamage = Mathf.RoundToInt(baseDamage * mod.CritMultiplier);
+                }
+            }
+
+            if (mod.HitCountOverride > 0)
+                hitCount = mod.HitCountOverride;
+
+            if (mod.HitDamageMultiplier != 1f)
+                baseDamage = Mathf.RoundToInt(baseDamage * mod.HitDamageMultiplier);
+
+            if (mod.SelfDamagePercent > 0f)
+                selfDamage = Mathf.RoundToInt(baseDamage * mod.SelfDamagePercent);
+
+            selfAppliedEffect = mod.SelfAppliedEffect;
         }
 
-        if (result.Weapon == TridentWeapon && result.Element != null && result.Element.Type == ElementType.Water)
-            baseDamage += 15;
+        //Apply pre-hit synergy bonuses on top of modifier behavior
+        baseDamage += synergies.BonusFlatDamage;
+        baseDamage = Mathf.RoundToInt(baseDamage * (1f + synergies.BonusPercentDamage));
+        hitCount += synergies.BonusHits;
+        hitCount = Mathf.Max(1, hitCount);
 
-        return new Attack
+        var attack = new Attack
         {
             BaseDamage = baseDamage,
             HitCount = hitCount,
             Element = result.Element,
             Weapon = result.Weapon,
             IsCrit = isCrit,
-            IsOneShot = isOneShot,
-            ConfusionDamageToPlayer = confusionDamage,
-            AppliedPlayerBuff = appliedBuff
+            Source = null,
+            SelfDamageAmount = selfDamage,
+            SelfAppliedEffect = selfAppliedEffect
         };
+
+        Debug.Log($"[AttackBuilder] Built: {attack}");
+        return attack;
     }
 }

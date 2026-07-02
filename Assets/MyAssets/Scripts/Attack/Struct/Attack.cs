@@ -5,9 +5,10 @@ public struct Attack
     public ElementSymbol Element;
     public WeaponSymbol Weapon;
     public bool IsCrit;
-    public int FreezeDurationOverride;
-    public bool IsOneShot;
-    public int ConfusionDamageToPlayer;
     public Health Source;
-    public EffectDataSO AppliedPlayerBuff;
+    public int SelfDamageAmount;
+    public EffectDataSO SelfAppliedEffect;
+
+    public override string ToString() =>
+        $"Attack(dmg={BaseDamage}, hits={HitCount}, element={Element?.DisplayName ?? "None"}, crit={IsCrit})";
 }
