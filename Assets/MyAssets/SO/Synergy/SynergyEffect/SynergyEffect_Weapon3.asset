@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3aa891cbd56734f8a16a543287d58f, type: 3}
-  m_Name: SynergyEffect_TridentWater
+  m_Name: SynergyEffect_Weapon3
   m_EditorClassIdentifier: Assembly-CSharp::SynergyEffect
-  Description: Grants Additional Flat Damage
-  Type: 0
-  FlatDamageBonus: 20
+  Description: Grants a huge heal
+  Type: 7
+  FlatDamageBonus: 0
   PercentDamageBonus: 0
   AdditionalHits: 0
   EffectData: {fileID: 0}
   DurationOverride: 0
-  HealAmount: 0
+  HealAmount: 50
   AffectsAllEnemies: 0

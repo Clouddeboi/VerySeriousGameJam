@@ -32,8 +32,8 @@ public class EnemySpawner : MonoBehaviour
             go.transform.localScale = Vector3.one;
 
             EnemyAI ai = go.GetComponent<EnemyAI>();
-            ai.Initialize(data, CameraShake);
             ai.Health.TextSpawner = TextSpawner;
+            ai.Initialize(data, CameraShake);
             ai.InitializeStatusVisual(BuffDebuff);
 
             EnemyClickTarget clickTarget = go.GetComponent<EnemyClickTarget>();

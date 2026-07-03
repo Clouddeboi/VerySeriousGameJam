@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce8c523e51a5fb64d94383b5a6a9bfa8, type: 3}
-  m_Name: Synergy_TridentWater
+  m_Name: Synergy_Weapon3
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSynergy
-  SynergyName: Poseidons Trident
-  RequiredWeapon: {fileID: 11400000, guid: c524b32eed0f4f448b3ebe75fc3662fb, type: 2}
-  RequiredElement: {fileID: 11400000, guid: 495649c99fab92941ab60e8b37bb4f09, type: 2}
-  RequiredModifier: {fileID: 0}
+  SynergyName: Paladins Sword
+  RequiredWeapon: {fileID: 11400000, guid: 7a4f431b4a8b94f419f386716662f88d, type: 2}
+  RequiredElement: {fileID: 0}
+  RequiredModifier: {fileID: 11400000, guid: 8ed931f7f266cee419b8b5b2437eba5e, type: 2}
   Effects:
-  - {fileID: 11400000, guid: 832c68b0458211e46b40e4f86b5c3094, type: 2}
+  - {fileID: 11400000, guid: d3bb1436255e99d4f9c3db36db331ac7, type: 2}

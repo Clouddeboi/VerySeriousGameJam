@@ -5258,6 +5258,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SynergyResolver
   AllSynergies:
   - {fileID: 11400000, guid: f04e0d312af2eed4d8e91669280e4dfd, type: 2}
+  - {fileID: 11400000, guid: e023a9c595ded7148864129ca5c7a36b, type: 2}
+  - {fileID: 11400000, guid: 465cf75c1cb6f244e93f02576e40adb4, type: 2}
   BuffDebuff: {fileID: 906467901}
   PlayerHealth: {fileID: 997218462}
 --- !u!1 &659990893
