@@ -8,6 +8,7 @@ public class EnemyActionWheelVisual : MonoBehaviour
     public Image AttackSlice;
     public Image MissSlice;
     public Image HealSlice;
+    public Image SupportSlice;
 
     [Header("Hand — arrow art must point straight UP at local rotation 0")]
     public RectTransform Hand;
@@ -32,6 +33,7 @@ public class EnemyActionWheelVisual : MonoBehaviour
                 EnemyActionType.Attack => AttackSlice,
                 EnemyActionType.Miss => MissSlice,
                 EnemyActionType.Heal => HealSlice,
+                EnemyActionType.Support => SupportSlice,
                 _ => null
             };
             if (targetImage == null) continue;

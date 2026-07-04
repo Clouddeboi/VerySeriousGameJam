@@ -2,5 +2,6 @@ public enum EnemyActionType
 { 
     Attack, 
     Miss, 
-    Heal 
+    Heal,
+    Support 
 }

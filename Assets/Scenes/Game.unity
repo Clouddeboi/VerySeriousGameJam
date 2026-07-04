@@ -2018,6 +2018,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 179495358}
   m_CullTransparentMesh: 1
+--- !u!1 &185488661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 185488662}
+  m_Layer: 0
+  m_Name: EnemyManagers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &185488662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185488661}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 609595742}
+  - {fileID: 2045473022}
+  m_Father: {fileID: 1462612333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &238341219
 GameObject:
   m_ObjectHideFlags: 0
@@ -2054,7 +2087,6 @@ Transform:
   - {fileID: 2019131211}
   - {fileID: 2035272132}
   - {fileID: 1429711271}
-  - {fileID: 609595742}
   - {fileID: 134532970}
   m_Father: {fileID: 1462612333}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3653,10 +3685,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 735151989450295727, guid: 2bacdf53af90d3f4e8976869612fd9ea, type: 3}
-      propertyPath: SpinDuration
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 735151989450295727, guid: 2bacdf53af90d3f4e8976869612fd9ea, type: 3}
       propertyPath: InvertDirection
       value: 0
       objectReference: {fileID: 0}
@@ -4999,7 +5027,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 238341220}
+  m_Father: {fileID: 185488662}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &609595743
 MonoBehaviour:
@@ -6927,6 +6955,7 @@ MonoBehaviour:
   BuffDebuff: {fileID: 906467901}
   DamageSystem: {fileID: 2019131212}
   SynergyResolver: {fileID: 641583540}
+  EnemyExecutor: {fileID: 2045473023}
   PlayerHealth: {fileID: 997218462}
   Enemies: []
   DelayBeforeEnemyTurn: 1.25
@@ -11667,6 +11696,7 @@ Transform:
   - {fileID: 238341220}
   - {fileID: 1643736363}
   - {fileID: 1048210809}
+  - {fileID: 185488662}
   m_Father: {fileID: 172523817}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1498479506
@@ -13562,6 +13592,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2045473021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2045473022}
+  - component: {fileID: 2045473023}
+  m_Layer: 0
+  m_Name: EnemyAIExecutor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2045473022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045473021}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 185488662}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2045473023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045473021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1744e8ee28db554cacbac140c614a52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAIExecutor
+  BuffDebuff: {fileID: 906467901}
+  DamageSystem: {fileID: 2019131212}
+  TextSpawner: {fileID: 137101830}
+  PlayerHealth: {fileID: 997218462}
 --- !u!1 &2058365099
 GameObject:
   m_ObjectHideFlags: 0

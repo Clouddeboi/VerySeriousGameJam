@@ -13,10 +13,19 @@ MonoBehaviour:
   m_Name: Enemy_Goblin_Elder_1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   EnemyName: Elder Goblin
-  MaxHP: 10
-  AttackDamage: 1
-  HealAmount: 10
   Portrait: {fileID: 21300000, guid: 52372f5be53f8ff47839ae2d83acf34d, type: 2}
+  Types:
+  - {fileID: 11400000, guid: 4573b658234ee164e9b635fda90e407e, type: 2}
+  Faction: {fileID: 11400000, guid: 8c276ae1f9cd59849a9a3ed87117582a, type: 2}
+  Role: {fileID: 11400000, guid: 3a15371fafbb2774eb96d6c8d357cc36, type: 2}
+  BaseMaxHP: 20
+  BaseAttackDamage: 3
+  HealAmount: 10
   AttackWeight: 20
-  MissWeight: 40
-  HealWeight: 40
+  MissWeight: 15
+  HealWeight: 15
+  SupportWeight: 50
+  AttackBehavior: {fileID: 11400000, guid: 9fea9da5d4e3ef64da88420ec2784b75, type: 2}
+  HealBehavior: {fileID: 11400000, guid: a6d431101eb60354b9b721f2833f61b8, type: 2}
+  SupportBehavior: {fileID: 11400000, guid: 41e6baa2db90a2042a1fa6b556b6706d, type: 2}
+  AffinityOverrides: []

@@ -14,19 +14,20 @@ public class AttackExecutionSystem : MonoBehaviour
     public float DelayBetweenHits = 0.15f;
 
     public void Execute(Attack attack, Health target, ResolvedSynergies synergies,
-        List<EnemyAI> allEnemies, Action onComplete = null)
+        List<EnemyAI> allEnemies, EnemyData targetData = null, Action onComplete = null)
     {
-        StartCoroutine(ExecuteRoutine(attack, target, synergies, allEnemies, onComplete));
+        StartCoroutine(ExecuteRoutine(attack, target, synergies,
+            allEnemies, targetData, onComplete));
     }
 
-    private IEnumerator ExecuteRoutine(Attack attack, Health target, ResolvedSynergies synergies,
-        List<EnemyAI> allEnemies, Action onComplete)
+    private IEnumerator ExecuteRoutine(Attack attack, Health target,
+        ResolvedSynergies synergies, List<EnemyAI> allEnemies,
+        EnemyData targetData, Action onComplete)
     {
         for (int i = 0; i < attack.HitCount; i++)
         {
-            DamageSystem.ResolveSingleHit(attack, target);
+            DamageSystem.ResolveSingleHit(attack, target, targetData); 
             if (target.IsDead) break;
-
             if (i < attack.HitCount - 1)
                 yield return new WaitForSeconds(DelayBetweenHits);
             else

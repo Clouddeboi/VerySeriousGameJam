@@ -17,6 +17,7 @@ public class CombatStateMachine : MonoBehaviour
     public BuffDebuffSystem BuffDebuff;
     public DamageSystem DamageSystem;
     public SynergyResolver SynergyResolver;
+    public EnemyAIExecutor EnemyExecutor;
 
     public Health PlayerHealth;
     public List<EnemyAI> Enemies = new List<EnemyAI>();
@@ -92,7 +93,7 @@ public class CombatStateMachine : MonoBehaviour
 
             PlayerVisuals.PlayAttackAnimation();
             AudioManager.Instance.PlayPlayerAttack();
-            AttackExecution.Execute(attack, CurrentTarget.Health, synergies, Enemies, OnPlayerAttackResolved);
+            AttackExecution.Execute(attack, CurrentTarget.Health, synergies, Enemies, CurrentTarget.Data, OnPlayerAttackResolved);
         });
     }
 
@@ -150,29 +151,11 @@ public class CombatStateMachine : MonoBehaviour
 
             yield return new WaitUntil(() => wheelDone);
 
-            TextSpawner.SpawnActionResultText(chosenAction, ActionWheel.transform.position + Vector3.up * 0.5f);
+            TextSpawner.SpawnActionResultText(chosenAction,
+                ActionWheel.transform.position + Vector3.up * 0.5f);
 
-            switch (chosenAction)
-            {
-                case EnemyActionType.Attack:
-                    Debug.Log($"[EnemyAI] {enemy.Data.EnemyName} attacks for {enemy.Data.AttackDamage}");
-                    enemy.PlayAttackAnimationOnly();
-                    AudioManager.Instance.PlayEnemyAttack();
-                    // Routes through DamageSystem so Shield blocks and Strength multipliers are both respected
-                    DamageSystem.ResolveDamage(enemy.Health, PlayerHealth, enemy.Data.AttackDamage, isEnemyAttack: true);
-                    break;
+            EnemyExecutor.ExecuteAction(enemy, chosenAction, Enemies);
 
-                case EnemyActionType.Miss:
-                    Debug.Log($"[EnemyAI] {enemy.Data.EnemyName} missed!");
-                    break;
-
-                case EnemyActionType.Heal:
-                    Debug.Log($"[EnemyAI] {enemy.Data.EnemyName} heals for {enemy.Data.HealAmount}");
-                    enemy.Health.Heal(enemy.Data.HealAmount);
-                    break;
-            }
-
-            // Tick effects after the enemy acts (DoTs apply, durations count down)
             BuffDebuff.TickEffects(enemy.Health);
 
             yield return new WaitForSeconds(DelayBetweenEnemyAttacks);

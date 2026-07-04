@@ -21,6 +21,7 @@ public class EnemyAI : MonoBehaviour
     {
         Data = data;
         cameraShake = shake;
+
         Health.EntityName = data.EnemyName;
         Health.SetMaxHP(data.MaxHP);
 
