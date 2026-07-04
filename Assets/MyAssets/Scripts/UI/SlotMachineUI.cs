@@ -36,19 +36,12 @@ public class SlotMachineUI : MonoBehaviour
         WeaponReelVisual.PlaySpin(weaponSprite, () =>
         {
             CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
-
             ElementReelVisual.PlaySpin(elementSprite, () =>
             {
                 CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
-
                 ModifierReelVisual.PlaySpin(modifierSprite, () =>
                 {
                     CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
-                    AudioManager.Instance.PlaySlotResultShown();
-                    
-                    string comboText = $"{result.Weapon?.DisplayName} {result.Element?.DisplayName} {result.Modifier?.DisplayName}";
-                    TextSpawner.SpawnSlotResultText(comboText, SlotResultTextSpawnPoint.position);
-
                     onComplete?.Invoke();
                 });
             });

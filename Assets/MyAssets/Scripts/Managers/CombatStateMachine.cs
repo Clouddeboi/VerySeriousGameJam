@@ -75,12 +75,19 @@ public class CombatStateMachine : MonoBehaviour
             JackpotType jackpot = JackpotSystem.Detect(result);
             JackpotSystem.TriggerVisuals(jackpot);
 
-            for (int i = 0; i < synergies.MatchedSynergies.Count; i++)
+            if (synergies.MatchedSynergies.Count > 0)
             {
-                var synergy = synergies.MatchedSynergies[i];
-                string displayText = synergy.GetDisplayText(result);
-                Vector3 spawnPos = CurrentTarget.transform.position + Vector3.up * (1.5f + i * 0.6f);
-                TextSpawner.SpawnSynergyText(displayText, spawnPos);
+                for (int i = 0; i < synergies.MatchedSynergies.Count; i++)
+                {
+                    string displayText = synergies.MatchedSynergies[i].GetDisplayText(result);
+                    TextSpawner.SpawnSynergyText(displayText, SlotUI.SlotResultTextSpawnPoint.position
+                        + Vector3.up * i * 0.5f);
+                }
+            }
+            else
+            {
+                string comboText = $"{result.Weapon?.DisplayName} {result.Element?.DisplayName} {result.Modifier?.DisplayName}";
+                TextSpawner.SpawnSlotResultText(comboText, SlotUI.SlotResultTextSpawnPoint.position);
             }
 
             PlayerVisuals.PlayAttackAnimation();

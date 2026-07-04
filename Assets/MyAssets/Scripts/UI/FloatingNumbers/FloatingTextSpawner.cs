@@ -21,6 +21,12 @@ public class FloatingTextSpawner : MonoBehaviour
     public Color SynergyTextColor = new Color(1f, 0.85f, 0f);
     public float SynergyTypewriterDelay = 0.04f;
 
+    [Header("Effect Text Style")]
+    public Color DebuffAppliedColor = new Color(1f, 0.4f, 0.2f);
+    public Color BuffAppliedColor = new Color(0.4f, 1f, 0.5f);
+    public Color EffectTickColor = new Color(1f, 0.6f, 0.2f);
+    public Color InteractionColor = new Color(0.4f, 0.8f, 1f);
+
     public void SpawnSlotResultText(string content, Vector3 worldPosition)
     {
         var instance = Instantiate(FloatingTextPrefab, worldPosition, Quaternion.identity);
@@ -70,5 +76,26 @@ public class FloatingTextSpawner : MonoBehaviour
         var instance = Instantiate(FloatingTextPrefab, worldPosition, Quaternion.identity);
         instance.TypewriterCharDelay = SynergyTypewriterDelay;
         instance.Play(content, SynergyTextColor);
+    }
+
+    public void SpawnEffectAppliedText(string effectName, bool isBuff, Vector3 worldPosition)
+    {
+        var instance = Instantiate(FloatingTextPrefab, worldPosition, Quaternion.identity);
+        instance.TypewriterCharDelay = 0f;
+        instance.Play(effectName, isBuff ? BuffAppliedColor : DebuffAppliedColor);
+    }
+
+    public void SpawnEffectTickText(string effectName, Vector3 worldPosition)
+    {
+        var instance = Instantiate(FloatingTextPrefab, worldPosition, Quaternion.identity);
+        instance.TypewriterCharDelay = 0f;
+        instance.Play(effectName, EffectTickColor);
+    }
+
+    public void SpawnInteractionText(string message, Vector3 worldPosition)
+    {
+        var instance = Instantiate(FloatingTextPrefab, worldPosition, Quaternion.identity);
+        instance.TypewriterCharDelay = 0.03f;
+        instance.Play(message, InteractionColor);
     }
 }

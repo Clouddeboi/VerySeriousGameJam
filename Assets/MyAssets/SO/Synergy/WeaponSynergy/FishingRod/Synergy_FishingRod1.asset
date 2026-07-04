@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce8c523e51a5fb64d94383b5a6a9bfa8, type: 3}
-  m_Name: Synergy_Weapon1
+  m_Name: Synergy_FishingRod1
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSynergy
-  SynergyName: Poseidons Trident
-  RequiredWeapon: {fileID: 11400000, guid: c524b32eed0f4f448b3ebe75fc3662fb, type: 2}
+  SynergyName: Savage Fishing
+  RequiredWeapon: {fileID: 11400000, guid: ccad273c267e6d8418282c066b439463, type: 2}
   RequiredElement: {fileID: 11400000, guid: 495649c99fab92941ab60e8b37bb4f09, type: 2}
   RequiredModifier: {fileID: 0}
   Effects:
-  - {fileID: 11400000, guid: 832c68b0458211e46b40e4f86b5c3094, type: 2}
+  - {fileID: 11400000, guid: a9f458caae68b1b48b54c984bbb1d7fc, type: 2}

@@ -3,94 +3,103 @@ using UnityEngine;
 
 public class BuffDebuffSystem : MonoBehaviour
 {
-    private Dictionary<Health, List<ActiveEffect>> activeEffects = new Dictionary<Health, List<ActiveEffect>>();
+    private Dictionary<Health, List<ActiveEffect>> activeEffects
+        = new Dictionary<Health, List<ActiveEffect>>();
 
-    public void ApplyEffect(Health target, EffectDataSO effect, int durationOverride = -1)
+    public System.Action<Health, ActiveEffect> OnEffectApplied;
+    public System.Action<Health, ActiveEffect> OnEffectTick;
+    public System.Action<Health, string> OnInteraction;
+    public System.Action<Health> OnEffectsChanged;
+
+    private void Awake()
     {
-        if (effect == null || target == null) return;
+        activeEffects.Clear();
+    }
 
-        //Interactions resolve FIRST and IMMEDIATELY, regardless of whether this effect itself persists
-        if (effect.Interactions != null)
-            foreach (var rule in effect.Interactions)
-                ResolveInteraction(target, rule);
+    public void ApplyEffect(Health target, EffectDataSO data, int durationOverride = -1)
+    {
+        if (target == null || data == null || target.IsDead) return;
 
-        int duration = durationOverride > 0 ? durationOverride : effect.DurationTurns;
-        if (duration <= 0)
+        if (data.Interactions != null)
         {
-            Debug.Log($"[BuffDebuff] {effect.DisplayName} resolved instantly on {target.EntityName}.");
-            return; //instant/interaction-only effect, e.g. Water, never added to the active list
+            foreach (var rule in data.Interactions)
+                ResolveInteraction(target, rule, data.DisplayName);
         }
+
+        int duration = durationOverride > 0 ? durationOverride : data.DurationTurns;
+
+        if (duration <= 0) return;
 
         if (!activeEffects.ContainsKey(target))
             activeEffects[target] = new List<ActiveEffect>();
 
         var list = activeEffects[target];
-        var existing = list.Find(e => e.Data.EffectId == effect.EffectId);
+        var existing = list.Find(e => e.Data.EffectId == data.EffectId);
 
-        if (existing == null)
+        if (existing != null)
         {
-            list.Add(new ActiveEffect { Data = effect, RemainingTurns = duration, StackCount = 1 });
-            Debug.Log($"[BuffDebuff] Applied {effect.DisplayName} to {target.EntityName} ({duration} turns)");
-        }
-        else
-        {
-            switch (effect.Stacking)
+            switch (data.Stacking)
             {
-                case StackBehavior.StackDuration: existing.RemainingTurns += duration; break;
+                case StackBehavior.StackDuration:
+                    existing.RemainingTurns += duration;
+                    break;
                 case StackBehavior.StackCount:
                     existing.StackCount++;
                     existing.RemainingTurns = Mathf.Max(existing.RemainingTurns, duration);
                     break;
-                case StackBehavior.RefreshDuration: existing.RemainingTurns = duration; break;
+                case StackBehavior.RefreshDuration:
+                    existing.RemainingTurns = duration;
+                    break;
                 case StackBehavior.ReplaceExisting:
                     existing.RemainingTurns = duration;
                     existing.StackCount = 1;
                     break;
             }
-            Debug.Log($"[BuffDebuff] {effect.DisplayName} on {target.EntityName} -> {existing.RemainingTurns} turns, {existing.StackCount} stacks");
-        }
-    }
-
-    public void RemoveEffect(Health target, EffectDataSO effect)
-    {
-        if (activeEffects.ContainsKey(target))
-            activeEffects[target].RemoveAll(e => e.Data.EffectId == effect.EffectId);
-    }
-
-    private void ResolveInteraction(Health target, EffectInteractionRule rule)
-    {
-        if (!activeEffects.ContainsKey(target) || rule.TargetEffect == null) return;
-
-        var list = activeEffects[target];
-        var match = list.Find(e => e.Data.EffectId == rule.TargetEffect.EffectId);
-        if (match == null) return;
-
-        if (rule.InteractionType == EffectInteractionType.RemoveCompletely)
-        {
-            list.Remove(match);
-            Debug.Log($"[BuffDebuff] Interaction removed {match.Data.DisplayName} from {target.EntityName}");
+            Debug.Log($"[BuffDebuff] {data.DisplayName} stacked on {target.EntityName} -> {existing.RemainingTurns} turns, {existing.StackCount} stacks");
+            OnEffectApplied?.Invoke(target, existing);
         }
         else
         {
-            match.StackCount--;
-            if (match.StackCount <= 0) list.Remove(match);
+            var effect = new ActiveEffect { Data = data, RemainingTurns = duration, StackCount = 1 };
+            list.Add(effect);
+            Debug.Log($"[BuffDebuff] Applied {data.DisplayName} to {target.EntityName} ({duration} turns)");
+            OnEffectApplied?.Invoke(target, effect);
+        }
+
+        OnEffectsChanged?.Invoke(target);
+    }
+
+    public void RemoveEffect(Health target, EffectDataSO data)
+    {
+        if (data == null || !activeEffects.ContainsKey(target)) return;
+        int removed = activeEffects[target].RemoveAll(e => e.Data.EffectId == data.EffectId);
+        if (removed > 0)
+        {
+            Debug.Log($"[BuffDebuff] Removed {data.DisplayName} from {target.EntityName}");
+            OnEffectsChanged?.Invoke(target);
         }
     }
 
     public void TickEffects(Health target)
     {
-        if (!activeEffects.ContainsKey(target)) return;
+        if (target == null || !activeEffects.ContainsKey(target)) return;
 
         var list = activeEffects[target];
         for (int i = list.Count - 1; i >= 0; i--)
         {
             var effect = list[i];
 
-            if (effect.Data.TicksDamage)
+            if (effect.Data.TicksDamage && effect.Data.TickDamageAmount > 0)
+            {
                 target.ApplyDamage(effect.Data.TickDamageAmount * effect.StackCount);
+                OnEffectTick?.Invoke(target, effect);
+            }
 
             if (effect.Data.HealPerTurn > 0)
+            {
                 target.Heal(effect.Data.HealPerTurn * effect.StackCount);
+                OnEffectTick?.Invoke(target, effect);
+            }
 
             effect.RemainingTurns--;
             if (effect.RemainingTurns <= 0)
@@ -99,28 +108,73 @@ public class BuffDebuffSystem : MonoBehaviour
                 list.RemoveAt(i);
             }
         }
+
+        if (list.Count == 0)
+            activeEffects.Remove(target);
+
+        OnEffectsChanged?.Invoke(target);
     }
 
-    public bool IsActionPrevented(Health target) =>
-        activeEffects.ContainsKey(target) && activeEffects[target].Exists(e => e.Data.PreventsAction);
-
-    public float GetOutgoingDamageMultiplier(Health source)
+    private void ResolveInteraction(Health target, EffectInteractionRule rule, string sourceName)
     {
-        if (source == null || !activeEffects.ContainsKey(source)) return 1f;
-        float mult = 1f;
-        foreach (var e in activeEffects[source]) mult *= e.Data.OutgoingDamageMultiplier;
-        return mult;
+        if (rule.TargetEffect == null || !activeEffects.ContainsKey(target)) return;
+
+        var list = activeEffects[target];
+        var match = list.Find(e => e.Data.EffectId == rule.TargetEffect.EffectId);
+        if (match == null) return;
+
+        string interactionText = $"{rule.TargetEffect.DisplayName} removed!";
+
+        switch (rule.InteractionType)
+        {
+            case EffectInteractionType.RemoveCompletely:
+                list.Remove(match);
+                Debug.Log($"[BuffDebuff] {sourceName} removed {match.Data.DisplayName} from {target.EntityName}");
+                break;
+            case EffectInteractionType.ReduceOneStack:
+                match.StackCount--;
+                if (match.StackCount <= 0) list.Remove(match);
+                Debug.Log($"[BuffDebuff] {sourceName} reduced {match.Data.DisplayName} stack on {target.EntityName}");
+                interactionText = $"{rule.TargetEffect.DisplayName} weakened!";
+                break;
+        }
+
+        OnInteraction?.Invoke(target, interactionText);
+        OnEffectsChanged?.Invoke(target);
+    }
+
+    public bool IsActionPrevented(Health target)
+    {
+        if (!activeEffects.ContainsKey(target)) return false;
+        return activeEffects[target].Exists(e => e.Data.PreventsAction);
     }
 
     public bool IsIncomingDamageBlocked(Health target, bool isEnemyAttack)
     {
         if (!activeEffects.ContainsKey(target)) return false;
-        foreach (var e in activeEffects[target])
-            if (e.Data.BlocksIncomingDamage && (!e.Data.OnlyBlocksEnemyAttacks || isEnemyAttack))
-                return true;
-        return false;
+        return activeEffects[target].Exists(e =>
+            e.Data.BlocksIncomingDamage &&
+            (!e.Data.OnlyBlocksEnemyAttacks || isEnemyAttack));
     }
 
-    public List<ActiveEffect> GetActiveEffects(Health target) =>
-        activeEffects.ContainsKey(target) ? activeEffects[target] : new List<ActiveEffect>();
+    public float GetOutgoingDamageMultiplier(Health source)
+    {
+        if (source == null || !activeEffects.ContainsKey(source)) return 1f;
+        float mult = 1f;
+        foreach (var e in activeEffects[source])
+            mult *= e.Data.OutgoingDamageMultiplier;
+        return mult;
+    }
+
+    public List<ActiveEffect> GetActiveEffects(Health target)
+    {
+        if (!activeEffects.ContainsKey(target)) return new List<ActiveEffect>();
+        return new List<ActiveEffect>(activeEffects[target]);
+    }
+
+    public bool HasEffect(Health target, EffectDataSO data)
+    {
+        if (!activeEffects.ContainsKey(target)) return false;
+        return activeEffects[target].Exists(e => e.Data.EffectId == data.EffectId);
+    }
 }

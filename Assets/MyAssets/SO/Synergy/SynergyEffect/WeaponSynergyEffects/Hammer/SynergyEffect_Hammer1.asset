@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d3aa891cbd56734f8a16a543287d58f, type: 3}
-  m_Name: SynergyEffect_Weapon1
+  m_Name: SynergyEffect_Hammer1
   m_EditorClassIdentifier: Assembly-CSharp::SynergyEffect
-  Description: Grants Additional Flat Damage
-  Type: 0
-  FlatDamageBonus: 20
-  PercentDamageBonus: 0
+  Description: 'Hammer+Lighting - 3x dmg multiplier '
+  Type: 1
+  FlatDamageBonus: 0
+  PercentDamageBonus: 3
   AdditionalHits: 0
   EffectData: {fileID: 0}
   DurationOverride: 0

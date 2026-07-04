@@ -1516,6 +1516,10 @@ MonoBehaviour:
   HealActionColor: {r: 0.3, g: 1, b: 0.4, a: 1}
   SynergyTextColor: {r: 1, g: 0.85, b: 0, a: 1}
   SynergyTypewriterDelay: 0.04
+  DebuffAppliedColor: {r: 1, g: 0.4, b: 0.2, a: 1}
+  BuffAppliedColor: {r: 0.4, g: 1, b: 0.5, a: 1}
+  EffectTickColor: {r: 1, g: 0.6, b: 0.2, a: 1}
+  InteractionColor: {r: 0.4, g: 0.8, b: 1, a: 1}
 --- !u!1 &141287525
 GameObject:
   m_ObjectHideFlags: 0
@@ -3277,6 +3281,7 @@ Transform:
   - {fileID: 291965453}
   - {fileID: 1368731217}
   - {fileID: 1498479507}
+  - {fileID: 631650612}
   m_Father: {fileID: 172523817}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &419095025
@@ -5176,6 +5181,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &631650611
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 631650612}
+  - component: {fileID: 631650613}
+  m_Layer: 0
+  m_Name: EffectTextController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &631650612
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631650611}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 416464375}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &631650613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631650611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 942c8af1da3d11542bb1dd5f21608e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EffectTextCoordinator
+  BuffDebuff: {fileID: 906467901}
+  TextSpawner: {fileID: 137101830}
+  AppliedTextOffset: 1.5
+  TickTextOffset: 1.2
+  InteractionTextOffset: 1.8
 --- !u!1 &639705395
 GameObject:
   m_ObjectHideFlags: 0
@@ -5260,6 +5314,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f04e0d312af2eed4d8e91669280e4dfd, type: 2}
   - {fileID: 11400000, guid: e023a9c595ded7148864129ca5c7a36b, type: 2}
   - {fileID: 11400000, guid: 465cf75c1cb6f244e93f02576e40adb4, type: 2}
+  - {fileID: 11400000, guid: cd47fca28cf07e040bf0a3ae0bf7197a, type: 2}
+  - {fileID: 11400000, guid: 7accc3f53054ef74db9b86d1aa2a0491, type: 2}
   BuffDebuff: {fileID: 906467901}
   PlayerHealth: {fileID: 997218462}
 --- !u!1 &659990893
@@ -7477,7 +7533,6 @@ MonoBehaviour:
   DamageSystem: {fileID: 2019131212}
   BuffDebuff: {fileID: 906467901}
   PlayerHealth: {fileID: 997218462}
-  TextSpawner: {fileID: 137101830}
   SynergyResolver: {fileID: 641583540}
   DelayBetweenHits: 0.15
 --- !u!1 &974556068
@@ -8243,6 +8298,8 @@ MonoBehaviour:
   EntityName: Player
   MaxHP: 100
   TextSpawner: {fileID: 137101830}
+  DamageNumberOffset: {x: 0, y: 0.5, z: 0}
+  HealNumberOffset: {x: 0, y: 0.5, z: 0}
 --- !u!4 &997218463
 Transform:
   m_ObjectHideFlags: 0
