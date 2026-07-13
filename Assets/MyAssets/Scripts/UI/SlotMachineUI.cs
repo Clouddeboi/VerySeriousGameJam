@@ -25,7 +25,8 @@ public class SlotMachineUI : MonoBehaviour
     public float CameraShakeDuration = 0.15f;
     public float CameraShakeMagnitude = 0.1f;
 
-    public void PlaySpinAnimation(SlotResult result, System.Action onComplete)
+    public void PlaySpinAnimation(SlotResult result, bool skipWeaponSpin,
+        System.Action onComplete)
     {
         RefreshLockIcons();
 
@@ -33,9 +34,10 @@ public class SlotMachineUI : MonoBehaviour
         Sprite elementSprite = result.Element ? result.Element.Icon : null;
         Sprite modifierSprite = result.Modifier ? result.Modifier.Icon : null;
 
-        WeaponReelVisual.PlaySpin(weaponSprite, () =>
+        if (skipWeaponSpin)
         {
-            CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
+            WeaponReelVisual.SetIdle(weaponSprite);
+
             ElementReelVisual.PlaySpin(elementSprite, () =>
             {
                 CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
@@ -45,12 +47,32 @@ public class SlotMachineUI : MonoBehaviour
                     onComplete?.Invoke();
                 });
             });
-        });
+        }
+        else
+        {
+            WeaponReelVisual.PlaySpin(weaponSprite, () =>
+            {
+                CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
+                ElementReelVisual.PlaySpin(elementSprite, () =>
+                {
+                    CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
+                    ModifierReelVisual.PlaySpin(modifierSprite, () =>
+                    {
+                        CameraShake.Shake(CameraShakeDuration, CameraShakeMagnitude);
+                        onComplete?.Invoke();
+                    });
+                });
+            });
+        }
     }
 
     public void ResetReelsToIdle()
     {
-        WeaponReelVisual.SetIdle(WeaponIdleSprite);
+        if (SlotMachine.IsWeaponLocked && SlotMachine.LockedWeapon?.Icon != null)
+            WeaponReelVisual.SetIdle(SlotMachine.LockedWeapon.Icon);
+        else
+            WeaponReelVisual.SetIdle(WeaponIdleSprite);
+
         ElementReelVisual.SetIdle(ElementIdleSprite);
         ModifierReelVisual.SetIdle(ModifierIdleSprite);
     }

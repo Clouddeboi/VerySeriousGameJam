@@ -14,8 +14,8 @@ public class RoomLayoutPreset : ScriptableObject
     [Header("Shop Panel")]
     public bool ShopPanelVisible = false;
 
-    [Header("Player")]
-    public Vector3 PlayerPosition = new Vector3(-3f, 0f, 0f);
+    // [Header("Player")]
+    // public Vector3 PlayerPosition = new Vector3(-3f, 0f, 0f);
 
     [Header("Background")]
     public Sprite BackgroundSprite;

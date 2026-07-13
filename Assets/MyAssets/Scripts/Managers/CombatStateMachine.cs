@@ -10,18 +10,30 @@ public class CombatStateMachine : MonoBehaviour
     public RoomSystem RoomSystem;
     public JackpotDetectionSystem JackpotSystem;
     public SlotMachineUI SlotUI;
-    public PlayerCombatVisuals PlayerVisuals;
     public EnemyActionWheelVisual ActionWheel;
     public FloatingTextSpawner TextSpawner;
     public GameStateManager GameStateManager;
     public BuffDebuffSystem BuffDebuff;
     public DamageSystem DamageSystem;
     public SynergyResolver SynergyResolver;
+    public PartyPassiveHandler PassiveHandler;
     public EnemyAIExecutor EnemyExecutor;
 
-    public Health PlayerHealth;
     public List<EnemyAI> Enemies = new List<EnemyAI>();
     public EnemyAI CurrentTarget { get; private set; }
+
+    private int currentPartyTurnIndex = 0;
+
+    private PartyMember CurrentPartyMember
+    {
+        get
+        {
+            var members = PartyManager.Instance.ActiveMembers;
+            if (currentPartyTurnIndex >= 0 && currentPartyTurnIndex < members.Count)
+                return members[currentPartyTurnIndex];
+            return null;
+        }
+    }
 
     [Header("Turn Pacing")]
     public float DelayBeforeEnemyTurn = 0.6f;
@@ -32,13 +44,19 @@ public class CombatStateMachine : MonoBehaviour
     public void StartCombat(List<EnemyAI> enemies)
     {
         Enemies = enemies;
+        currentPartyTurnIndex = 0;
+        SkipDeadPartyMembers();
+
         CurrentTarget = null;
-        SlotMachine.ResetAllLocks();
+
+        LoadCurrentPartyMemberReels();
         SlotUI.RefreshLockIcons();
         SlotUI.ResetReelsToIdle();
-        PlayerVisuals.Initialize(BuffDebuff);
+
+        PassiveHandler.HandleCombatStart(enemies);
+
         CurrentState = CombatState.SelectingTarget;
-        Debug.Log("[Combat] Combat started. Select a target.");
+        Debug.Log($"[Combat] Combat started. {CurrentPartyMember?.Data.CharacterName}'s turn — select a target.");
     }
 
     public void SelectTarget(EnemyAI enemy)
@@ -56,22 +74,34 @@ public class CombatStateMachine : MonoBehaviour
 
         CurrentTarget = enemy;
         CurrentState = CombatState.PlayerTurn;
-        Debug.Log($"[Combat] Target selected: {enemy.Data.EnemyName}");
+        Debug.Log($"[Combat] {CurrentPartyMember?.Data.CharacterName} targeting {enemy.Data.EnemyName}");
     }
 
     public void PlayerSpinAndAttack()
     {
         if (CurrentState != CombatState.PlayerTurn || CurrentTarget == null) return;
+        if (CurrentPartyMember == null || CurrentPartyMember.Health.IsDead)
+        {
+            AdvancePartyTurn();
+            return;
+        }
 
         CurrentState = CombatState.ResolvingPlayerAttack;
-
         SlotResult result = SlotMachine.Spin();
 
-        SlotUI.PlaySpinAnimation(result, () =>
+        SlotUI.PlaySpinAnimation(result, SlotMachine.IsWeaponLocked, () =>
         {
             var synergies = SynergyResolver.Resolve(result);
-            Attack attack = AttackBuilder.Build(result, synergies);
-            attack.Source = PlayerHealth;
+
+            bool isCrit = result.Modifier != null && result.Modifier.IsCrit;
+            ElementType element = result.Element?.Type ?? ElementType.None;
+
+            var passiveBonuses = PassiveHandler.EvaluateOffensivePassives(
+                CurrentPartyMember, CurrentTarget, element, isCrit);
+
+            Attack attack = AttackBuilder.Build(result, synergies,
+                passiveBonuses, CurrentPartyMember?.Data);
+            attack.Source = CurrentPartyMember?.Health;
 
             JackpotType jackpot = JackpotSystem.Detect(result);
             JackpotSystem.TriggerVisuals(jackpot);
@@ -81,25 +111,33 @@ public class CombatStateMachine : MonoBehaviour
                 for (int i = 0; i < synergies.MatchedSynergies.Count; i++)
                 {
                     string displayText = synergies.MatchedSynergies[i].GetDisplayText(result);
-                    TextSpawner.SpawnSynergyText(displayText, SlotUI.SlotResultTextSpawnPoint.position
-                        + Vector3.up * i * 0.5f);
+                    TextSpawner.SpawnSynergyText(displayText,
+                        SlotUI.SlotResultTextSpawnPoint.position + Vector3.up * i * 0.5f);
                 }
             }
             else
             {
-                string comboText = $"{result.Weapon?.DisplayName} {result.Element?.DisplayName} {result.Modifier?.DisplayName}";
-                TextSpawner.SpawnSlotResultText(comboText, SlotUI.SlotResultTextSpawnPoint.position);
+                string combo = $"{result.Weapon?.DisplayName} " +
+                    $"{result.Element?.DisplayName} {result.Modifier?.DisplayName}";
+                TextSpawner.SpawnSlotResultText(combo, SlotUI.SlotResultTextSpawnPoint.position);
             }
 
-            PlayerVisuals.PlayAttackAnimation();
+            foreach (var debuff in passiveBonuses.DebuffsToApplyToTarget)
+                BuffDebuff.ApplyEffect(CurrentTarget.Health, debuff);
+
+            foreach (var buff in passiveBonuses.BuffsToApplyToSelf)
+                BuffDebuff.ApplyEffect(CurrentPartyMember.Health, buff);
+
+            CurrentPartyMember?.PlayAttackAnimation();
             AudioManager.Instance.PlayPlayerAttack();
-            AttackExecution.Execute(attack, CurrentTarget.Health, synergies, Enemies, CurrentTarget.Data, OnPlayerAttackResolved);
+            AttackExecution.Execute(attack, CurrentTarget.Health,
+                synergies, Enemies, CurrentTarget.Data, OnPlayerAttackResolved);
         });
     }
 
     private void OnPlayerAttackResolved()
     {
-        if (CurrentTarget.Health.IsDead)
+        if (CurrentTarget != null && CurrentTarget.Health.IsDead)
             HandleEnemyDeath(CurrentTarget);
 
         if (Enemies.TrueForAll(e => e == null || e.Health.IsDead))
@@ -110,8 +148,29 @@ public class CombatStateMachine : MonoBehaviour
             return;
         }
 
-        CurrentState = CombatState.EnemyTurn;
-        StartCoroutine(EnemyTurnWithDelay());
+        AdvancePartyTurn();
+    }
+
+    private void AdvancePartyTurn()
+    {
+        currentPartyTurnIndex++;
+        SkipDeadPartyMembers();
+
+        if (currentPartyTurnIndex >= PartyManager.Instance.ActiveMembers.Count)
+        {
+            currentPartyTurnIndex = 0;
+            CurrentState = CombatState.EnemyTurn;
+            StartCoroutine(EnemyTurnWithDelay());
+        }
+        else
+        {
+            CurrentTarget = null;
+            LoadCurrentPartyMemberReels();
+            SlotUI.RefreshLockIcons();
+            SlotUI.ResetReelsToIdle();
+            CurrentState = CombatState.SelectingTarget;
+            Debug.Log($"[Combat] {CurrentPartyMember?.Data.CharacterName}'s turn — select a target.");
+        }
     }
 
     private IEnumerator EnemyTurnWithDelay()
@@ -128,7 +187,6 @@ public class CombatStateMachine : MonoBehaviour
         {
             if (enemy == null || enemy.Health.IsDead) continue;
 
-            // Freeze check now uses BuffDebuff.IsActionPrevented instead of StatusEffects.IsFrozen
             if (BuffDebuff.IsActionPrevented(enemy.Health))
             {
                 Debug.Log($"[Combat] {enemy.Data.EnemyName} is frozen and can't attack!");
@@ -144,23 +202,20 @@ public class CombatStateMachine : MonoBehaviour
             var slices = EnemyActionWheel.BuildSlices(enemy.Data);
             float landingAngle = EnemyActionWheel.GetLandingAngle(slices, chosenAction);
 
-            Debug.Log($"[Wheel] Chosen action: {chosenAction}, landing angle: {landingAngle}");
-
             bool wheelDone = false;
             ActionWheel.SpinAndLand(landingAngle, () => wheelDone = true);
-
+            AudioManager.Instance.PlayEnemyWheelSpin();
             yield return new WaitUntil(() => wheelDone);
 
             TextSpawner.SpawnActionResultText(chosenAction,
                 ActionWheel.transform.position + Vector3.up * 0.5f);
 
             EnemyExecutor.ExecuteAction(enemy, chosenAction, Enemies);
-
             BuffDebuff.TickEffects(enemy.Health);
 
             yield return new WaitForSeconds(DelayBetweenEnemyAttacks);
 
-            if (PlayerHealth.IsDead)
+            if (!PartyManager.Instance.IsPartyAlive())
             {
                 CurrentState = CombatState.Defeat;
                 Debug.Log("[Combat] Defeat...");
@@ -169,24 +224,44 @@ public class CombatStateMachine : MonoBehaviour
             }
         }
 
-        // Tick player effects at the end of the enemy's full turn (Burn on player, Regen, etc.)
-        BuffDebuff.TickEffects(PlayerHealth);
+        foreach (var member in PartyManager.Instance.ActiveMembers)
+            if (member != null && !member.Health.IsDead)
+                BuffDebuff.TickEffects(member.Health);
 
-        // Victory check after ticks — an enemy could die from a DoT during the enemy turn
         if (Enemies.TrueForAll(e => e == null || e.Health.IsDead))
         {
             CurrentState = CombatState.Victory;
-            Debug.Log("[Combat] Victory! (enemy succumbed to status effect)");
+            Debug.Log("[Combat] Victory! (DoT kill)");
             RoomSystem.OnCombatVictory();
             yield break;
         }
 
+        currentPartyTurnIndex = 0;
+        SkipDeadPartyMembers();
+
         CurrentTarget = null;
-        SlotMachine.ResetAllLocks();
+        LoadCurrentPartyMemberReels();
         SlotUI.RefreshLockIcons();
         SlotUI.ResetReelsToIdle();
         CurrentState = CombatState.SelectingTarget;
-        Debug.Log("[Combat] Select a target.");
+        Debug.Log($"[Combat] New round. {CurrentPartyMember?.Data.CharacterName}'s turn — select a target.");
+    }
+
+    private void SkipDeadPartyMembers()
+    {
+        var members = PartyManager.Instance.ActiveMembers;
+        while (currentPartyTurnIndex < members.Count)
+        {
+            var m = members[currentPartyTurnIndex];
+            if (m != null && !m.Health.IsDead) break;
+            currentPartyTurnIndex++;
+        }
+    }
+
+    private void LoadCurrentPartyMemberReels()
+    {
+        SlotMachine.ResetAllLocks();
+        SlotMachine.LoadCharacter(CurrentPartyMember?.Data);
     }
 
     private void HandleEnemyDeath(EnemyAI enemy)

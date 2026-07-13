@@ -2,41 +2,80 @@ using UnityEngine;
 
 public class SlotMachineSystem : MonoBehaviour
 {
-    [Header("Reel Configs")]
-    public WeaponReelConfig WeaponConfig;
-    public ElementReelConfig ElementConfig;
-    public ModifierReelConfig ModifierConfig;
-
-    public bool WeaponLocked => weaponReel.Locked;
-    public bool ElementLocked => elementReel.Locked;
-    public bool ModifierLocked => modifierReel.Locked;
+    [Header("Default Reel Configs (used when no character override exists)")]
+    public WeaponReelConfig DefaultWeaponConfig;
+    public ElementReelConfig DefaultElementConfig;
+    public ModifierReelConfig DefaultModifierConfig;
 
     private Reel<WeaponSymbol> weaponReel;
     private Reel<ElementSymbol> elementReel;
     private Reel<ModifierSymbol> modifierReel;
 
+    private WeaponSymbol weaponLock;
+
     private void Awake()
     {
-        weaponReel = new Reel<WeaponSymbol>(WeaponConfig.Entries);
-        elementReel = new Reel<ElementSymbol>(ElementConfig.Entries);
-        modifierReel = new Reel<ModifierSymbol>(ModifierConfig.Entries);
+        InitializeReels(null);
+    }
+
+    public void LoadCharacter(Character character)
+    {
+        weaponLock = character?.WeaponLock;
+
+        var weaponConfig = character?.WeaponReelConfig ?? DefaultWeaponConfig;
+        var elementConfig = character?.ElementReelConfig ?? DefaultElementConfig;
+        var modifierConfig = character?.ModifierReelConfig ?? DefaultModifierConfig;
+
+        InitializeReels(weaponConfig, elementConfig, modifierConfig);
+        ResetAllLocks();
+
+        Debug.Log($"[SlotMachine] Loaded config for {character?.CharacterName ?? "default"}. " +
+                  $"Weapon lock: {weaponLock?.DisplayName ?? "none"}");
+    }
+
+    private void InitializeReels(
+        WeaponReelConfig weaponConfig = null,
+        ElementReelConfig elementConfig = null,
+        ModifierReelConfig modifierConfig = null)
+    {
+        weaponConfig ??= DefaultWeaponConfig;
+        elementConfig ??= DefaultElementConfig;
+        modifierConfig ??= DefaultModifierConfig;
+
+        if (weaponConfig != null)
+            weaponReel = new Reel<WeaponSymbol>(weaponConfig.Entries);
+        if (elementConfig != null)
+            elementReel = new Reel<ElementSymbol>(elementConfig.Entries);
+        if (modifierConfig != null)
+            modifierReel = new Reel<ModifierSymbol>(modifierConfig.Entries);
     }
 
     public SlotResult Spin()
     {
+        WeaponSymbol weapon = weaponLock != null
+            ? weaponLock
+            : weaponReel?.Spin();
+
         var result = new SlotResult
         {
-            Weapon = weaponReel.Spin(),
-            Element = elementReel.Spin(),
-            Modifier = modifierReel.Spin()
+            Weapon = weapon,
+            Element = elementReel?.Spin(),
+            Modifier = modifierReel?.Spin()
         };
 
         Debug.Log($"[Slot] Spin result: {result}");
         return result;
     }
 
+    public bool IsWeaponLocked => weaponLock != null;
+
     public void ToggleLock(string reelName)
     {
+        if (reelName == "Weapon" && weaponLock != null)
+        {
+            Debug.Log("[SlotMachine] Weapon reel is locked to character — cannot toggle.");
+            return;
+        }
         switch (reelName)
         {
             case "Weapon": weaponReel.Locked = !weaponReel.Locked; break;
@@ -45,21 +84,29 @@ public class SlotMachineSystem : MonoBehaviour
         }
     }
 
+    public bool WeaponLocked => weaponLock != null || (weaponReel?.Locked ?? false);
+    public bool ElementLocked => elementReel?.Locked ?? false;
+    public bool ModifierLocked => modifierReel?.Locked ?? false;
+
+    public void AdjustWeaponWeight(WeaponSymbol symbol, float delta)
+        => weaponReel?.AdjustWeight(symbol, delta);
+
+    public void AdjustElementWeight(ElementSymbol symbol, float delta)
+        => elementReel?.AdjustWeight(symbol, delta);
+
     public void ResetAllLocks()
     {
-        weaponReel.Locked = false;
+        if (weaponLock == null) weaponReel.Locked = false;
         elementReel.Locked = false;
         modifierReel.Locked = false;
     }
 
     public void ResetAllWeights()
     {
-        weaponReel.ResetToOriginalWeights();
-        elementReel.ResetToOriginalWeights();
-        modifierReel.ResetToOriginalWeights();
+        weaponReel?.ResetToOriginalWeights();
+        elementReel?.ResetToOriginalWeights();
+        modifierReel?.ResetToOriginalWeights();
     }
 
-    public void AdjustElementWeight(ElementSymbol symbol, float delta) => elementReel.AdjustWeight(symbol, delta);
-    public void AdjustWeaponWeight(WeaponSymbol symbol, float delta) => weaponReel.AdjustWeight(symbol, delta);
-
+    public WeaponSymbol LockedWeapon => weaponLock;
 }

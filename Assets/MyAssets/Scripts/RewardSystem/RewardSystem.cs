@@ -6,7 +6,7 @@ public class RewardSystem : MonoBehaviour
 {
     public RewardData[] RewardPool;
     public CurrencySystem Currency;
-    public Health PlayerHealth;
+    //public Health PlayerHealth;
     public SlotMachineSystem SlotMachine;
     public RewardChoiceUI ChoiceUI;
 
@@ -42,9 +42,17 @@ public class RewardSystem : MonoBehaviour
             case RewardType.Gold:
                 Currency.AddGold(reward.GoldAmount);
                 break;
+
             case RewardType.Heal:
-                PlayerHealth.Heal(reward.HealAmount);
+                var lowestMember = PartyManager.Instance.GetLowestHPMember();
+                if (lowestMember != null)
+                {
+                    lowestMember.Health.Heal(reward.HealAmount);
+                    Debug.Log($"[Reward] Healed {lowestMember.Data.CharacterName} " +
+                        $"for {reward.HealAmount}");
+                }
                 break;
+
             case RewardType.WeightAdjustment:
                 if (reward.TargetElement != null)
                     SlotMachine.AdjustElementWeight(reward.TargetElement, reward.WeightDelta);

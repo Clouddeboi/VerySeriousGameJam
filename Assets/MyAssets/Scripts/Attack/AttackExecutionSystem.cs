@@ -7,14 +7,15 @@ public class AttackExecutionSystem : MonoBehaviour
 {
     public DamageSystem DamageSystem;
     public BuffDebuffSystem BuffDebuff;
-    public Health PlayerHealth;
+    //public Health PlayerHealth;
     public SynergyResolver SynergyResolver;
 
     [Header("Multi-Hit Pacing")]
     public float DelayBetweenHits = 0.15f;
 
-    public void Execute(Attack attack, Health target, ResolvedSynergies synergies,
-        List<EnemyAI> allEnemies, EnemyData targetData = null, Action onComplete = null)
+   public void Execute(Attack attack, Health target, ResolvedSynergies synergies,
+        List<EnemyAI> allEnemies, EnemyData targetData = null,
+        System.Action onComplete = null)
     {
         StartCoroutine(ExecuteRoutine(attack, target, synergies,
             allEnemies, targetData, onComplete));
@@ -22,12 +23,13 @@ public class AttackExecutionSystem : MonoBehaviour
 
     private IEnumerator ExecuteRoutine(Attack attack, Health target,
         ResolvedSynergies synergies, List<EnemyAI> allEnemies,
-        EnemyData targetData, Action onComplete)
+        EnemyData targetData, System.Action onComplete)
     {
         for (int i = 0; i < attack.HitCount; i++)
         {
-            DamageSystem.ResolveSingleHit(attack, target, targetData); 
+            DamageSystem.ResolveSingleHit(attack, target, targetData);
             if (target.IsDead) break;
+
             if (i < attack.HitCount - 1)
                 yield return new WaitForSeconds(DelayBetweenHits);
             else
@@ -39,11 +41,13 @@ public class AttackExecutionSystem : MonoBehaviour
 
         SynergyResolver.ApplyPostHitEffects(synergies, target, allEnemies);
 
+        // Self-damage goes to active party member
+        var activeHealth = PartyManager.Instance.ActiveHealth;
         if (attack.SelfDamageAmount > 0)
-            PlayerHealth.ApplyDamage(attack.SelfDamageAmount);
+            activeHealth?.ApplyDamage(attack.SelfDamageAmount);
 
         if (attack.SelfAppliedEffect != null)
-            BuffDebuff.ApplyEffect(PlayerHealth, attack.SelfAppliedEffect);
+            BuffDebuff.ApplyEffect(activeHealth, attack.SelfAppliedEffect);
 
         onComplete?.Invoke();
     }

@@ -35,6 +35,9 @@ public class EnemyData : ScriptableObject
     [Header("Elemental Affinities (overrides type defaults)")]
     public ElementalAffinityEntry[] AffinityOverrides;
 
+    [Header("Target Selection")]
+    public EnemyTargetStrategy TargetStrategy = EnemyTargetStrategy.Random;
+
     //Runtime stats after role multipliers apply
     public int MaxHP => Mathf.RoundToInt(BaseMaxHP * (Role != null ? Role.HPMultiplier : 1f));
     public int AttackDamage => Mathf.RoundToInt(BaseAttackDamage * (Role != null ? Role.DamageMultiplier : 1f));

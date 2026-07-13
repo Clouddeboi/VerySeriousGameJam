@@ -23,6 +23,8 @@ public class PlayerCombatVisuals : MonoBehaviour
     private void Awake()
     {
         Health.OnDamaged += HandleDamaged;
+        Debug.LogError("[PlayerCombatVisuals] This component is obsolete — remove it from the scene. Use PartyMember instead.");
+        Destroy(this);
     }
 
     private void HandleDamaged()

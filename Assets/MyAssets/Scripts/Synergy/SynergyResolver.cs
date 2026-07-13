@@ -5,7 +5,7 @@ public class SynergyResolver : MonoBehaviour
 {
     public WeaponSynergy[] AllSynergies;
     public BuffDebuffSystem BuffDebuff;
-    public Health PlayerHealth;
+    //public Health PlayerHealth;
 
     public ResolvedSynergies Resolve(SlotResult result)
     {
@@ -51,11 +51,13 @@ public class SynergyResolver : MonoBehaviour
             resolved.AffectsAllEnemies = true;
     }
 
-    public void ApplyPostHitEffects(ResolvedSynergies resolved, Health primaryTarget, List<EnemyAI> allEnemies)
+    public void ApplyPostHitEffects(ResolvedSynergies resolved,
+        Health primaryTarget, List<EnemyAI> allEnemies)
     {
         foreach (var effect in resolved.PostHitEffects)
         {
             var targets = ResolveTargets(effect, primaryTarget, allEnemies);
+            var activeHealth = PartyManager.Instance.ActiveHealth;
 
             foreach (var t in targets)
             {
@@ -64,51 +66,50 @@ public class SynergyResolver : MonoBehaviour
                     case SynergyEffectType.ApplyEffectToTarget:
                         if (effect.EffectData != null)
                         {
-                            int duration = effect.DurationOverride > 0 ? effect.DurationOverride : -1;
-                            BuffDebuff.ApplyEffect(t, effect.EffectData, duration);
+                            int dur = effect.DurationOverride > 0 ? effect.DurationOverride : -1;
+                            BuffDebuff.ApplyEffect(t, effect.EffectData, dur);
                         }
                         break;
-
                     case SynergyEffectType.RemoveEffectFromTarget:
                         if (effect.EffectData != null)
                             BuffDebuff.RemoveEffect(t, effect.EffectData);
                         break;
-
                     case SynergyEffectType.HealTarget:
                         t.Heal(effect.HealAmount);
                         break;
                 }
             }
 
-            if (effect.Type == SynergyEffectType.ApplyEffectToSelf && effect.EffectData != null)
+            if (effect.Type == SynergyEffectType.ApplyEffectToSelf
+                && effect.EffectData != null)
             {
-                int duration = effect.DurationOverride > 0 ? effect.DurationOverride : -1;
-                BuffDebuff.ApplyEffect(PlayerHealth, effect.EffectData, duration);
+                int dur = effect.DurationOverride > 0 ? effect.DurationOverride : -1;
+                BuffDebuff.ApplyEffect(PartyManager.Instance.ActiveHealth,
+                    effect.EffectData, dur);
             }
 
-            if (effect.Type == SynergyEffectType.RemoveEffectFromSelf && effect.EffectData != null)
-                BuffDebuff.RemoveEffect(PlayerHealth, effect.EffectData);
+            if (effect.Type == SynergyEffectType.RemoveEffectFromSelf
+                && effect.EffectData != null)
+                BuffDebuff.RemoveEffect(PartyManager.Instance.ActiveHealth, effect.EffectData);
         }
 
         if (resolved.HealSelfAmount > 0)
-            PlayerHealth.Heal(resolved.HealSelfAmount);
+            PartyManager.Instance.ActiveHealth?.Heal(resolved.HealSelfAmount);
     }
 
-    private List<Health> ResolveTargets(SynergyEffect effect, Health primary, List<EnemyAI> allEnemies)
+    private List<Health> ResolveTargets(SynergyEffect effect,
+        Health primary, List<EnemyAI> allEnemies)
     {
         var targets = new List<Health>();
-
         if (effect.AffectsAllEnemies)
         {
-            foreach (var enemy in allEnemies)
-                if (enemy != null && !enemy.Health.IsDead)
-                    targets.Add(enemy.Health);
+            foreach (var e in allEnemies)
+                if (e != null && !e.Health.IsDead) targets.Add(e.Health);
         }
         else if (primary != null && !primary.IsDead)
         {
             targets.Add(primary);
         }
-
         return targets;
     }
 }

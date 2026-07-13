@@ -5,7 +5,7 @@ public class RoomLayoutController : MonoBehaviour
     public RectTransform SlotMachineRoot;
     public Transform EnemyContainer;
     public GameObject ShopPanelRoot;
-    public Transform PlayerTransform;
+    //public Transform PlayerTransform;
     public SpriteRenderer BackgroundRenderer;
 
     public void ApplyLayout(RoomLayoutPreset layout)
@@ -18,11 +18,9 @@ public class RoomLayoutController : MonoBehaviour
 
         ShopPanelRoot.SetActive(layout.ShopPanelVisible);
 
-        PlayerTransform.position = layout.PlayerPosition;
-
         if (layout.BackgroundSprite != null && BackgroundRenderer != null)
             BackgroundRenderer.sprite = layout.BackgroundSprite;
 
-        Debug.Log($"[Layout] Applied layout: {layout.name}");
+        Debug.Log($"[Layout] Applied: {layout.name}");
     }
 }

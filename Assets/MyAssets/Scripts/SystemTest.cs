@@ -9,6 +9,7 @@ public class SystemTest : MonoBehaviour
     private void Start()
     {
         MapRunner.StartRun();
+        PartyManager.Instance.InitializeParty();
     }
 
     private void Update()

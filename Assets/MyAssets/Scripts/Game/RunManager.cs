@@ -5,7 +5,7 @@ public class RunManager : MonoBehaviour
 {
     public RoomSystem RoomSystem;
     public RoomDataSO[] RoomSequence;
-    public Health PlayerHealth;
+    //public Health PlayerHealth;
     public GameStateManager gameStateManager;
     public SlotMachineSystem SlotMachine;
 
@@ -21,6 +21,7 @@ public class RunManager : MonoBehaviour
         currentRoomIndex = -1;
         SlotMachine.ResetAllWeights();
         Debug.Log("[Run] Run started.");
+        PartyManager.Instance.InitializeParty();
         gameStateManager.SetState(GameState.Combat);
         AdvanceToNextRoom();
     }
@@ -36,12 +37,12 @@ public class RunManager : MonoBehaviour
             return;
         }
 
-        if (PlayerHealth.IsDead)
-        {
-            Debug.Log("[Run] Player is dead. Run over.");
-            gameStateManager.SetState(GameState.GameOver);
-            return;
-        }
+        // if (PlayerHealth.IsDead)
+        // {
+        //     Debug.Log("[Run] Player is dead. Run over.");
+        //     gameStateManager.SetState(GameState.GameOver);
+        //     return;
+        // }
 
         var room = RoomSequence[currentRoomIndex];
         RoomSystem.EnterRoom(room, null);

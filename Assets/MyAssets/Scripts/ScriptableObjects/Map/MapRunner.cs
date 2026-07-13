@@ -7,10 +7,11 @@ public class MapRunner : MonoBehaviour
 {
     public MapGenerator Generator;
     public RoomSystem RoomSystem;
-    public Health PlayerHealth;
+    //public Health PlayerHealth;
     public GameStateManager GameStateManager;
     public MapUI UI;
     public TransitionController Transition;
+    public PartyManager Party;
 
     private List<List<MapNode>> layers;
     private MapNode bossNode;
@@ -18,6 +19,8 @@ public class MapRunner : MonoBehaviour
 
     public void StartRun()
     {
+        Party.InitializeParty();
+
         layers = Generator.GenerateMap(out _, out bossNode);
         currentNode = null;
 
@@ -65,9 +68,9 @@ public class MapRunner : MonoBehaviour
 
     private void OnRoomFinished(MapNode node)
     {
-        if (PlayerHealth.IsDead)
+        if (!Party.IsPartyAlive())
         {
-            Debug.Log("[Map] Player died. Run over.");
+            Debug.Log("[Map] Party wiped. Run over.");
             GameStateManager.SetGameOver(GameOverReason.Defeat);
             return;
         }
@@ -76,13 +79,6 @@ public class MapRunner : MonoBehaviour
         {
             Debug.Log("[Map] Boss defeated! Run won!");
             GameStateManager.SetGameOver(GameOverReason.Victory);
-            return;
-        }
-
-        if (node.Type == MapNodeType.Boss)
-        {
-            Debug.Log("[Map] Boss defeated! Run won!");
-            GameStateManager.SetState(GameState.GameOver);
             return;
         }
 
