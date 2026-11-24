@@ -15,7 +15,7 @@ MonoBehaviour:
   Description: 'Heal Test Dummy '
   Type: 0
   EffectData: {fileID: 11400000, guid: af2da377f28da0e4e837aab753cde888, type: 2}
-  DurationOverride: 5
+  DurationOverride: 2
   FlatDamageBonus: 0
   PercentDamageBonus: 0
   HealAmount: 0

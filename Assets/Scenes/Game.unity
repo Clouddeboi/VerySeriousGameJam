@@ -6986,9 +6986,8 @@ MonoBehaviour:
   BuffDebuff: {fileID: 906467901}
   DamageSystem: {fileID: 2019131212}
   SynergyResolver: {fileID: 641583540}
-  EnemyExecutor: {fileID: 2045473023}
-  Party: {fileID: 1895720439}
   PassiveHandler: {fileID: 222486163}
+  EnemyExecutor: {fileID: 2045473023}
   Enemies: []
   DelayBeforeEnemyTurn: 1.25
   DelayBetweenEnemyAttacks: 1
@@ -12685,9 +12684,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartyManager
   StartingCharacters:
   - {fileID: 11400000, guid: 302a08b991042fd4cbd6a67b557b281f, type: 2}
-  - {fileID: 11400000, guid: 302a08b991042fd4cbd6a67b557b281f, type: 2}
-  - {fileID: 11400000, guid: 302a08b991042fd4cbd6a67b557b281f, type: 2}
-  - {fileID: 11400000, guid: 302a08b991042fd4cbd6a67b557b281f, type: 2}
+  - {fileID: 11400000, guid: ca7a59d792c30914390a56d5b6a3448e, type: 2}
+  - {fileID: 11400000, guid: a31ffcc9e60a4c04f8bb80c86fee2d25, type: 2}
   CameraShake: {fileID: 519420033}
   BuffDebuff: {fileID: 906467901}
   TextSpawner: {fileID: 137101830}

@@ -17,7 +17,7 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: b9887bdcdb00bbc4a873f8201d38deed, type: 2}
   Category: 1
   Stacking: 0
-  DurationTurns: 3
+  DurationTurns: 1
   TicksDamage: 0
   TickDamageAmount: 0
   HealPerTurn: 0

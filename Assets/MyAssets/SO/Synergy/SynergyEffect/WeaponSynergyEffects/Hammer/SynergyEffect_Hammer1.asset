@@ -15,7 +15,7 @@ MonoBehaviour:
   Description: 'Hammer+Lighting - 3x dmg multiplier '
   Type: 1
   FlatDamageBonus: 0
-  PercentDamageBonus: 3
+  PercentDamageBonus: 300
   AdditionalHits: 0
   EffectData: {fileID: 0}
   DurationOverride: 0
