@@ -21,10 +21,10 @@ MonoBehaviour:
   BaseAttackDamage: 3
   HealAmount: 0
   AttackWeight: 50
-  MissWeight: 50
-  HealWeight: 0
-  SupportWeight: 10
-  AttackBehavior: {fileID: 0}
+  MissWeight: 25
+  HealWeight: 25
+  SupportWeight: 0
+  AttackBehavior: {fileID: 11400000, guid: 2e298c581c229fc418f77ffc942d7007, type: 2}
   HealBehavior: {fileID: 0}
   SupportBehavior: {fileID: 0}
   AffinityOverrides: []

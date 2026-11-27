@@ -22,6 +22,7 @@ public class CombatStateMachine : MonoBehaviour
     public EnemyAI CurrentTarget { get; private set; }
 
     private int currentPartyTurnIndex = 0;
+    private readonly HashSet<PartyMember> skippedThisRound = new HashSet<PartyMember>();
 
     private PartyMember CurrentPartyMember
     {
@@ -224,8 +225,13 @@ public class CombatStateMachine : MonoBehaviour
         }
 
         foreach (var member in PartyManager.Instance.ActiveMembers)
-            if (member != null && !member.Health.IsDead)
+        {
+            if (member != null && !member.Health.IsDead
+                && !skippedThisRound.Contains(member)
+                && !BuffDebuff.IsActionPrevented(member.Health))
                 BuffDebuff.TickEffects(member.Health);
+        }
+        skippedThisRound.Clear();
 
         if (Enemies.TrueForAll(e => e == null || e.Health.IsDead))
         {
@@ -237,6 +243,23 @@ public class CombatStateMachine : MonoBehaviour
 
         currentPartyTurnIndex = 0;
         SkipDeadPartyMembers();
+
+        if (!PartyManager.Instance.IsPartyAlive())
+        {
+            CurrentState = CombatState.Defeat;
+            Debug.Log("[Combat] Defeat...");
+            GameStateManager.SetGameOver(GameOverReason.Defeat);
+            yield break;
+        }
+
+        // Every living member was prevented from acting: go straight to the next enemy turn
+        if (currentPartyTurnIndex >= PartyManager.Instance.ActiveMembers.Count)
+        {
+            currentPartyTurnIndex = 0;
+            yield return new WaitForSeconds(DelayBeforeEnemyTurn);
+            yield return RunEnemyTurnSequence();
+            yield break;
+        }
 
         CurrentTarget = null;
         LoadCurrentPartyMemberReels();
@@ -252,7 +275,17 @@ public class CombatStateMachine : MonoBehaviour
         while (currentPartyTurnIndex < members.Count)
         {
             var m = members[currentPartyTurnIndex];
-            if (m != null && !m.Health.IsDead) break;
+            if (m != null && !m.Health.IsDead)
+            {
+                if (!BuffDebuff.IsActionPrevented(m.Health)) break;
+
+                // Skipped turn: effects tick now (mirrors enemies), and are skipped at round end
+                Debug.Log($"[Combat] {m.Data.CharacterName} can't act and skips their turn!");
+                TextSpawner.SpawnSlotResultText($"{m.Data.CharacterName} can't act!",
+                    m.transform.position + Vector3.up * 1f);
+                BuffDebuff.TickEffects(m.Health);
+                skippedThisRound.Add(m);
+            }
             currentPartyTurnIndex++;
         }
     }
