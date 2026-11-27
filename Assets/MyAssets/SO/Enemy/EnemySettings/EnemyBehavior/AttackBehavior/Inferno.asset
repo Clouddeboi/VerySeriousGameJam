@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7447b9ff89857c54e875cf4fb9660bfe, type: 3}
+  m_Name: Inferno
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBehaviorSO
+  BehaviorName: Attack Player
+  Type: 0
+  DebuffsOnHit:
+  - Chance: 0.5
+    Debuff: {fileID: 11400000, guid: 45d09d1424f9b424b92b8ff5c2a9aa0c, type: 2}
+    DurationOverride: 5
+  BuffToApply: {fileID: 0}
+  BuffDurationOverride: 0
+  EnemyToSummon: {fileID: 0}

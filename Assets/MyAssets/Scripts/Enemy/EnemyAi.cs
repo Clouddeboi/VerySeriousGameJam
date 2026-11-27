@@ -41,8 +41,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (StatusVisual != null)
         {
-            StatusVisual.BuffDebuff = buffDebuff;
-            StatusVisual.Target = Health;
+            StatusVisual.Initialize(buffDebuff, Health);
         }
 
         if (EffectGrid != null)

@@ -13,10 +13,19 @@ MonoBehaviour:
   m_Name: Enemy_Elite_5
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   EnemyName: Executioner
-  MaxHP: 50
-  AttackDamage: 30
-  HealAmount: 0
   Portrait: {fileID: 21300000, guid: 57798af6472a6e447b1318728f78de30, type: 2}
+  Types: []
+  Faction: {fileID: 0}
+  Role: {fileID: 0}
+  BaseMaxHP: 75
+  BaseAttackDamage: 50
+  HealAmount: 0
   AttackWeight: 50
   MissWeight: 50
   HealWeight: 0
+  SupportWeight: 0
+  AttackBehavior: {fileID: 11400000, guid: 9fea9da5d4e3ef64da88420ec2784b75, type: 2}
+  HealBehavior: {fileID: 0}
+  SupportBehavior: {fileID: 11400000, guid: 41e6baa2db90a2042a1fa6b556b6706d, type: 2}
+  AffinityOverrides: []
+  TargetStrategy: 1

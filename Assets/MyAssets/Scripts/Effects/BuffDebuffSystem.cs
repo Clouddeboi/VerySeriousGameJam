@@ -6,6 +6,9 @@ public class BuffDebuffSystem : MonoBehaviour
     private Dictionary<Health, List<ActiveEffect>> activeEffects
         = new Dictionary<Health, List<ActiveEffect>>();
 
+    private static readonly List<ActiveEffect> emptyEffects = new List<ActiveEffect>();
+    private readonly List<Health> staleTargets = new List<Health>();
+
     public System.Action<Health, ActiveEffect> OnEffectApplied;
     public System.Action<Health, ActiveEffect> OnEffectTick;
     public System.Action<Health, string> OnInteraction;
@@ -19,6 +22,8 @@ public class BuffDebuffSystem : MonoBehaviour
     public void ApplyEffect(Health target, EffectDataSO data, int durationOverride = -1)
     {
         if (target == null || data == null || target.IsDead) return;
+
+        PruneDestroyedTargets();
 
         if (data.Interactions != null)
         {
@@ -166,10 +171,20 @@ public class BuffDebuffSystem : MonoBehaviour
         return mult;
     }
 
-    public List<ActiveEffect> GetActiveEffects(Health target)
+    // Returns the live list (no copy); callers must not modify it or hold it across effect changes.
+    public IReadOnlyList<ActiveEffect> GetActiveEffects(Health target)
     {
-        if (!activeEffects.ContainsKey(target)) return new List<ActiveEffect>();
-        return new List<ActiveEffect>(activeEffects[target]);
+        if (target != null && activeEffects.TryGetValue(target, out var list)) return list;
+        return emptyEffects;
+    }
+
+    private void PruneDestroyedTargets()
+    {
+        staleTargets.Clear();
+        foreach (var key in activeEffects.Keys)
+            if (key == null) staleTargets.Add(key);
+        foreach (var key in staleTargets)
+            activeEffects.Remove(key);
     }
 
     public bool HasEffect(Health target, EffectDataSO data)

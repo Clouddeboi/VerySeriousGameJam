@@ -13,10 +13,19 @@ MonoBehaviour:
   m_Name: Enemy_Goblin_Grunt_3
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   EnemyName: Warrior Goblin
-  MaxHP: 30
-  AttackDamage: 7
-  HealAmount: 5
   Portrait: {fileID: 21300000, guid: f2cb52ab23b25b241ae3043a97f1a305, type: 2}
+  Types: []
+  Faction: {fileID: 0}
+  Role: {fileID: 0}
+  BaseMaxHP: 40
+  BaseAttackDamage: 9
+  HealAmount: 5
   AttackWeight: 70
   MissWeight: 10
   HealWeight: 20
+  SupportWeight: 10
+  AttackBehavior: {fileID: 0}
+  HealBehavior: {fileID: 0}
+  SupportBehavior: {fileID: 11400000, guid: 41e6baa2db90a2042a1fa6b556b6706d, type: 2}
+  AffinityOverrides: []
+  TargetStrategy: 2

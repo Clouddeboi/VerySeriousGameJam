@@ -13,11 +13,18 @@ public class EffectGridUI : MonoBehaviour
 
     public void Initialize(BuffDebuffSystem system, Health health, Transform entityTransform)
     {
+        if (buffDebuff != null) buffDebuff.OnEffectsChanged -= HandleEffectsChanged;
         buffDebuff = system;
         target = health;
         followTarget = entityTransform;
 
         BuildSlots();
+
+        if (buffDebuff != null)
+        {
+            buffDebuff.OnEffectsChanged += HandleEffectsChanged;
+            Refresh(buffDebuff.GetActiveEffects(target));
+        }
     }
 
     private void BuildSlots()
@@ -89,12 +96,19 @@ public class EffectGridUI : MonoBehaviour
     {
         if (followTarget != null)
             transform.position = followTarget.position + Settings.WorldOffset;
-
-        if (buffDebuff != null && target != null)
-            Refresh(buffDebuff.GetActiveEffects(target));
     }
 
-    private void Refresh(List<ActiveEffect> effects)
+    private void OnDestroy()
+    {
+        if (buffDebuff != null) buffDebuff.OnEffectsChanged -= HandleEffectsChanged;
+    }
+
+    private void HandleEffectsChanged(Health changed)
+    {
+        if (changed == target) Refresh(buffDebuff.GetActiveEffects(target));
+    }
+
+    private void Refresh(IReadOnlyList<ActiveEffect> effects)
     {
         for (int i = 0; i < slots.Count; i++)
         {

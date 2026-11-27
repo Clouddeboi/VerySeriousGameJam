@@ -5,7 +5,6 @@ using System.Collections;
 public class CombatStateMachine : MonoBehaviour
 {
     public SlotMachineSystem SlotMachine;
-    public AttackBuilder AttackBuilder;
     public AttackExecutionSystem AttackExecution;
     public RoomSystem RoomSystem;
     public JackpotDetectionSystem JackpotSystem;

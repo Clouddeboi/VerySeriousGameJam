@@ -13,10 +13,19 @@ MonoBehaviour:
   m_Name: Enemy_Elite_6
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   EnemyName: Angel
-  MaxHP: 70
-  AttackDamage: 10
-  HealAmount: 30
   Portrait: {fileID: 21300000, guid: fb20eb59ef7a9824bb31fa9aecdf0095, type: 2}
-  AttackWeight: 50
-  MissWeight: 15
-  HealWeight: 35
+  Types: []
+  Faction: {fileID: 0}
+  Role: {fileID: 0}
+  BaseMaxHP: 100
+  BaseAttackDamage: 5
+  HealAmount: 50
+  AttackWeight: 45
+  MissWeight: 10
+  HealWeight: 40
+  SupportWeight: 15
+  AttackBehavior: {fileID: 0}
+  HealBehavior: {fileID: 0}
+  SupportBehavior: {fileID: 0}
+  AffinityOverrides: []
+  TargetStrategy: 2

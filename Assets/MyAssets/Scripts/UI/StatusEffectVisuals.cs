@@ -8,16 +8,44 @@ public class StatusEffectVisual : MonoBehaviour
     public SpriteRenderer OverlayRenderer;
     [Range(0f, 1f)] public float OverlayOpacity = 0.5f;
 
-    private void Update()
+    private BuffDebuffSystem subscribedTo;
+
+    public void Initialize(BuffDebuffSystem buffDebuff, Health target)
     {
-        if (BuffDebuff == null || Target == null) return;
+        Unsubscribe();
+        BuffDebuff = buffDebuff;
+        Target = target;
+        if (BuffDebuff != null)
+        {
+            subscribedTo = BuffDebuff;
+            subscribedTo.OnEffectsChanged += HandleEffectsChanged;
+        }
+        Refresh();
+    }
+
+    private void OnDestroy() => Unsubscribe();
+
+    private void Unsubscribe()
+    {
+        if (subscribedTo != null) subscribedTo.OnEffectsChanged -= HandleEffectsChanged;
+        subscribedTo = null;
+    }
+
+    private void HandleEffectsChanged(Health changed)
+    {
+        if (changed == Target) Refresh();
+    }
+
+    private void Refresh()
+    {
+        if (BuffDebuff == null || Target == null || OverlayRenderer == null) return;
 
         var active = BuffDebuff.GetActiveEffects(Target);
-        foreach (var effect in active)
+        for (int i = 0; i < active.Count; i++)
         {
-            if (effect.Data.Icon != null)
+            if (active[i].Data.Icon != null)
             {
-                OverlayRenderer.sprite = effect.Data.Icon;
+                OverlayRenderer.sprite = active[i].Data.Icon;
                 SetAlpha(OverlayOpacity);
                 return;
             }

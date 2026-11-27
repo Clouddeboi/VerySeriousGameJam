@@ -13,10 +13,19 @@ MonoBehaviour:
   m_Name: Enemy_Skeleton_1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   EnemyName: Skeleton
-  MaxHP: 15
-  AttackDamage: 5
-  HealAmount: 5
   Portrait: {fileID: 21300000, guid: 480d5af94b2c6f94d9cc86d2b1c7b083, type: 2}
+  Types: []
+  Faction: {fileID: 0}
+  Role: {fileID: 0}
+  BaseMaxHP: 25
+  BaseAttackDamage: 5
+  HealAmount: 5
   AttackWeight: 70
   MissWeight: 10
   HealWeight: 20
+  SupportWeight: 10
+  AttackBehavior: {fileID: 0}
+  HealBehavior: {fileID: 0}
+  SupportBehavior: {fileID: 11400000, guid: 41e6baa2db90a2042a1fa6b556b6706d, type: 2}
+  AffinityOverrides: []
+  TargetStrategy: 0

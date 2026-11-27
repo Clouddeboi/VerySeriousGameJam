@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5344225539513236030}
   - component: {fileID: 9063194065560672543}
   - component: {fileID: 5052527281263733885}
-  - component: {fileID: 3695894563271370513}
   - component: {fileID: 4344127316833444151}
   - component: {fileID: 8247635072163016515}
   m_Layer: 0
@@ -114,25 +113,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3695894563271370513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069642394253717483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4bc9da9b04524c42a460ca1388cf414, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatVisuals
-  Health: {fileID: 9063194065560672543}
-  Animator: {fileID: 4344127316833444151}
-  CameraShake: {fileID: 0}
-  HealthBar: {fileID: 8091313728008700786}
-  EffectGrid: {fileID: 4273372845456427652}
-  DamageShakeDuration: 0.15
-  DamageShakeMagnitude: 0.12
 --- !u!114 &4344127316833444151
 MonoBehaviour:
   m_ObjectHideFlags: 0

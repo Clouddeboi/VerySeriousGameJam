@@ -15,5 +15,7 @@ MonoBehaviour:
   Type: 4
   PossibleEnemies:
   - {fileID: 11400000, guid: 158f804a0a8e8524bb9828a7b59cbc02, type: 2}
-  EnemyCount: 1
+  - {fileID: 11400000, guid: 3f0c5224b3f3146449ad7349de16eee1, type: 2}
+  - {fileID: 11400000, guid: 51dba267518bc514998e684c02e00a5c, type: 2}
+  EnemyCount: 2
   Layout: {fileID: 11400000, guid: f371384cc355d3e4e9581499f91129d8, type: 2}

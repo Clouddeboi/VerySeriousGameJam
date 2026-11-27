@@ -17,7 +17,7 @@ MonoBehaviour:
   Portrait: {fileID: 21300000, guid: 9bc049e303031104f9331a4444ace138, type: 2}
   Role: {fileID: 11400000, guid: 7e4ed024855e2c24f9c0404372e3e942, type: 2}
   MaxHP: 70
-  DamageMultiplier: 1
+  DamageMultiplier: 0.85
   HealMultiplier: 1.25
   ElementalWeakness: 3
   WeaponLock: {fileID: 11400000, guid: ccad273c267e6d8418282c066b439463, type: 2}

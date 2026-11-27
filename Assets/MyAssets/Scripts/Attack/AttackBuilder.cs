@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class AttackBuilder : MonoBehaviour
+public static class AttackBuilder
 {
-    public Attack Build(SlotResult result, ResolvedSynergies synergies,
+    public static Attack Build(SlotResult result, ResolvedSynergies synergies,
         PassiveBonuses passiveBonuses = null, Character character = null)
     {
         int baseDamage = result.Weapon ? result.Weapon.BaseDamage : 1;

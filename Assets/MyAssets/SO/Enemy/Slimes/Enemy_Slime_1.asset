@@ -13,10 +13,19 @@ MonoBehaviour:
   m_Name: Enemy_Slime_1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   EnemyName: Slime
-  MaxHP: 10
-  AttackDamage: 3
-  HealAmount: 0
   Portrait: {fileID: 21300000, guid: 034d5b424fd02084a9e42b279cb9d313, type: 2}
+  Types: []
+  Faction: {fileID: 0}
+  Role: {fileID: 0}
+  BaseMaxHP: 25
+  BaseAttackDamage: 3
+  HealAmount: 0
   AttackWeight: 50
   MissWeight: 50
   HealWeight: 0
+  SupportWeight: 10
+  AttackBehavior: {fileID: 0}
+  HealBehavior: {fileID: 0}
+  SupportBehavior: {fileID: 0}
+  AffinityOverrides: []
+  TargetStrategy: 0

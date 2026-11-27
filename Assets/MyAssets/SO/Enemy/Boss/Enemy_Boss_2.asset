@@ -13,10 +13,19 @@ MonoBehaviour:
   m_Name: Enemy_Boss_2
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   EnemyName: Skeleton King
-  MaxHP: 50
-  AttackDamage: 10
-  HealAmount: 15
   Portrait: {fileID: 21300000, guid: 1cb870440e1dc5442a7e2eea38d98c28, type: 2}
+  Types: []
+  Faction: {fileID: 0}
+  Role: {fileID: 0}
+  BaseMaxHP: 150
+  BaseAttackDamage: 30
+  HealAmount: 30
   AttackWeight: 70
   MissWeight: 10
   HealWeight: 20
+  SupportWeight: 0
+  AttackBehavior: {fileID: 11400000, guid: 2e298c581c229fc418f77ffc942d7007, type: 2}
+  HealBehavior: {fileID: 11400000, guid: a6d431101eb60354b9b721f2833f61b8, type: 2}
+  SupportBehavior: {fileID: 0}
+  AffinityOverrides: []
+  TargetStrategy: 2

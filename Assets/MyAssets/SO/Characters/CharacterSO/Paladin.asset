@@ -16,7 +16,7 @@ MonoBehaviour:
   Description: Paladin
   Portrait: {fileID: 21300000, guid: fb23d87834578a64c9d068b5ee679a03, type: 2}
   Role: {fileID: 11400000, guid: b2f25813df80f4c49b122738e68996e7, type: 2}
-  MaxHP: 120
+  MaxHP: 115
   DamageMultiplier: 1
   HealMultiplier: 1.1
   ElementalWeakness: 1
