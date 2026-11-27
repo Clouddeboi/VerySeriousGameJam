@@ -21,6 +21,9 @@ public class EnemyData : ScriptableObject
     public int BaseAttackDamage = 3;
     public int HealAmount = 5;
 
+    [Header("Attack Element (None = non-elemental)")]
+    public ElementType AttackElement = ElementType.None;
+
     [Header("Action Wheel Weights")]
     public float AttackWeight = 70f;
     public float MissWeight = 10f;

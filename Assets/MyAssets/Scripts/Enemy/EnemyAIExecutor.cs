@@ -40,7 +40,8 @@ public class EnemyAIExecutor : MonoBehaviour
         {
             Debug.Log($"[EnemyAI] {actor.Data.EnemyName} attacks hostile {hostileEnemyTarget.Data.EnemyName}");
             DamageSystem.ResolveDamage(actor.Health, hostileEnemyTarget.Health,
-                actor.Data.AttackDamage, isEnemyAttack: false);
+                actor.Data.AttackDamage, isEnemyAttack: false,
+                actor.Data.AttackElement, hostileEnemyTarget.Data);
             return;
         }
 
@@ -69,7 +70,8 @@ public class EnemyAIExecutor : MonoBehaviour
         if (!immune)
         {
             DamageSystem.ResolveDamage(actor.Health, partyTarget.Health,
-                actor.Data.AttackDamage, isEnemyAttack: true);
+                actor.Data.AttackDamage, isEnemyAttack: true,
+                actor.Data.AttackElement, targetCharacter: partyTarget.Data);
 
             PassiveHandler.HandlePlayerAttacked(partyTarget, actor,
                 new List<EnemyAI>(allEnemies));

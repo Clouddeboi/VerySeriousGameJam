@@ -19,7 +19,10 @@ MonoBehaviour:
   MaxHP: 115
   DamageMultiplier: 1
   HealMultiplier: 1.1
-  ElementalWeakness: 1
+  ElementalWeakness: 0
+  ElementalAffinities:
+  - Element: 1
+    Response: 3
   WeaponLock: {fileID: 11400000, guid: 7a4f431b4a8b94f419f386716662f88d, type: 2}
   WeaponReelConfig: {fileID: 11400000, guid: 6bbe6c5caeb259947aabe41f4bb29b5d, type: 2}
   ElementReelConfig: {fileID: 11400000, guid: bbcbb465269cb934394b4d317d1af3a3, type: 2}

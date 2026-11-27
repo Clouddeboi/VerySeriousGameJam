@@ -5,7 +5,8 @@ public class DamageSystem : MonoBehaviour
     public BuffDebuffSystem BuffDebuff;
 
     public void ResolveDamage(Health source, Health target, int baseAmount, bool isEnemyAttack,
-        ElementType element = ElementType.None, EnemyData targetData = null)
+        ElementType element = ElementType.None, EnemyData targetData = null,
+        Character targetCharacter = null)
     {
         if (BuffDebuff.IsIncomingDamageBlocked(target, isEnemyAttack))
         {
@@ -16,14 +17,30 @@ public class DamageSystem : MonoBehaviour
         float mult = source != null ? BuffDebuff.GetOutgoingDamageMultiplier(source) : 1f;
         int damage = Mathf.RoundToInt(baseAmount * mult);
 
-        // Apply elemental affinity if target has EnemyDataSO and element is provided
-        if (element != ElementType.None && targetData != null)
+        // Elemental affinity comes from the enemy data or the character, whichever is the target
+        if (element != ElementType.None && (targetData != null || targetCharacter != null))
         {
-            var response = targetData.GetElementalResponse(element);
+            var response = targetData != null
+                ? targetData.GetElementalResponse(element)
+                : targetCharacter.GetElementalResponse(element);
             damage = ApplyAffinity(damage, response, element, target.EntityName);
+
+            if (response == ElementalResponse.Immune)
+            {
+                ShowImmune(target);
+                return;
+            }
         }
 
         target.ApplyDamage(damage);
+    }
+
+    private void ShowImmune(Health target)
+    {
+        if (target.TextSpawner == null) return;
+        target.TextSpawner.SpawnDamageNumber(0, target.transform.position + target.DamageNumberOffset);
+        target.TextSpawner.SpawnEffectAppliedText("Immune!", true,
+            target.transform.position + target.DamageNumberOffset + Vector3.up * 0.6f);
     }
 
     private int ApplyAffinity(int damage, ElementalResponse response,
