@@ -37,6 +37,12 @@ public class EffectDataSO : ScriptableObject
     [Header("Outgoing Damage Multiplier (exp. Strength)")]
     public float OutgoingDamageMultiplier = 1f;
 
+    [Header("Incoming Damage Multiplier (exp. Defense Up: 0.5 = half damage)")]
+    public float IncomingDamageMultiplier = 1f;
+
+    [Header("Damage Reflection (0.5 = reflect 50% of incoming damage to the attacker; independent of blocking)")]
+    [Range(0f, 1f)] public float ReflectPercent = 0f;
+
     [Header("Interactions: resolved immediately on application")]
     public EffectInteractionRule[] Interactions;
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   Types: []
   Faction: {fileID: 0}
   Role: {fileID: 0}
-  BaseMaxHP: 200
+  BaseMaxHP: 100
   BaseAttackDamage: 100
   HealAmount: 0
   AttackElement: 1

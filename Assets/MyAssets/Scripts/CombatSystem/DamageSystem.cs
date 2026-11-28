@@ -8,12 +8,6 @@ public class DamageSystem : MonoBehaviour
         ElementType element = ElementType.None, EnemyData targetData = null,
         Character targetCharacter = null)
     {
-        if (BuffDebuff.IsIncomingDamageBlocked(target, isEnemyAttack))
-        {
-            Debug.Log($"[Damage] {target.EntityName}'s Shield blocked the attack.");
-            return;
-        }
-
         float mult = source != null ? BuffDebuff.GetOutgoingDamageMultiplier(source) : 1f;
         int damage = Mathf.RoundToInt(baseAmount * mult);
 
@@ -30,6 +24,27 @@ public class DamageSystem : MonoBehaviour
                 ShowImmune(target);
                 return;
             }
+        }
+
+        // Defense Up and similar effects on the target
+        damage = Mathf.RoundToInt(damage * BuffDebuff.GetIncomingDamageMultiplier(target));
+
+        // Reflection is independent of blocking: it uses the damage that would have landed
+        float reflect = BuffDebuff.GetReflectPercent(target);
+        if (reflect > 0f && source != null && source != target && damage > 0)
+        {
+            int reflected = Mathf.RoundToInt(damage * reflect);
+            if (reflected > 0)
+            {
+                Debug.Log($"[Damage] {target.EntityName} reflects {reflected} damage to {source.EntityName}");
+                source.ApplyDamage(reflected);
+            }
+        }
+
+        if (BuffDebuff.IsIncomingDamageBlocked(target, isEnemyAttack))
+        {
+            Debug.Log($"[Damage] {target.EntityName}'s Shield blocked the attack.");
+            return;
         }
 
         target.ApplyDamage(damage);
