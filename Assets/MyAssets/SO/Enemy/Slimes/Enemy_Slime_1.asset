@@ -17,15 +17,16 @@ MonoBehaviour:
   Types: []
   Faction: {fileID: 0}
   Role: {fileID: 0}
-  BaseMaxHP: 25
-  BaseAttackDamage: 3
+  BaseMaxHP: 100
+  BaseAttackDamage: 100
   HealAmount: 0
-  AttackWeight: 50
-  MissWeight: 50
+  AttackElement: 1
+  AttackWeight: 100
+  MissWeight: 0
   HealWeight: 0
-  SupportWeight: 10
+  SupportWeight: 0
   AttackBehavior: {fileID: 0}
   HealBehavior: {fileID: 0}
   SupportBehavior: {fileID: 0}
   AffinityOverrides: []
-  TargetStrategy: 0
+  TargetStrategy: 2

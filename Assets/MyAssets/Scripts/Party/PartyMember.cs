@@ -33,6 +33,7 @@ public class PartyMember : MonoBehaviour
             SpriteRenderer.sprite = data.Portrait;
 
         Health.OnDamaged += HandleDamaged;
+        Health.OnDeath += HandleDeath;
 
         HealthBar?.Initialize(Health, transform);
         EffectGrid?.Initialize(buffDebuff, Health, transform);
@@ -44,10 +45,22 @@ public class PartyMember : MonoBehaviour
         cameraShake?.Shake(0.15f, 0.12f);
     }
 
+    // The object stays alive so the party list and turn order keep working
+    private void HandleDeath()
+    {
+        if (SpriteRenderer != null) SpriteRenderer.enabled = false;
+        if (HealthBar != null && HealthBar.gameObject != gameObject) HealthBar.gameObject.SetActive(false);
+        if (EffectGrid != null && EffectGrid.gameObject != gameObject) EffectGrid.gameObject.SetActive(false);
+    }
+
     public void PlayAttackAnimation() => Animator?.PlayAttackReaction();
 
     private void OnDestroy()
     {
-        if (Health != null) Health.OnDamaged -= HandleDamaged;
+        if (Health != null)
+        {
+            Health.OnDamaged -= HandleDamaged;
+            Health.OnDeath -= HandleDeath;
+        }
     }
 }

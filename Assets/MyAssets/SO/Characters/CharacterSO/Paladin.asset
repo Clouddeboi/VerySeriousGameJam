@@ -20,12 +20,14 @@ MonoBehaviour:
   DamageMultiplier: 1
   HealMultiplier: 1.1
   ElementalWeakness: 1
+  ElementalAffinities: []
   WeaponLock: {fileID: 11400000, guid: 7a4f431b4a8b94f419f386716662f88d, type: 2}
   WeaponReelConfig: {fileID: 11400000, guid: 6bbe6c5caeb259947aabe41f4bb29b5d, type: 2}
   ElementReelConfig: {fileID: 11400000, guid: bbcbb465269cb934394b4d317d1af3a3, type: 2}
   ModifierReelConfig: {fileID: 11400000, guid: 1d41901148798614bb445a1ea1042d54, type: 2}
   Passives:
   - {fileID: 11400000, guid: 7f135cb50e770d5448d0c5e68e08faa8, type: 2}
+  - {fileID: 11400000, guid: dd08472f3b3f1854997d935effd75f21, type: 2}
   Animations:
     Idle: {fileID: 0}
     Attack: {fileID: 0}

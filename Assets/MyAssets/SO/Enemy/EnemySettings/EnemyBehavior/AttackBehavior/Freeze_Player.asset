@@ -15,7 +15,7 @@ MonoBehaviour:
   BehaviorName: Attack Player
   Type: 0
   DebuffsOnHit:
-  - Chance: 0.75
+  - Chance: 0.7
     Debuff: {fileID: 11400000, guid: bb8d4705cd52d8149a8e1b2d6c18f7fa, type: 2}
     DurationOverride: 2
   BuffToApply: {fileID: 0}

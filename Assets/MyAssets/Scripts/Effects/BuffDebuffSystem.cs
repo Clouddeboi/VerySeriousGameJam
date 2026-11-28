@@ -171,6 +171,24 @@ public class BuffDebuffSystem : MonoBehaviour
         return mult;
     }
 
+    public float GetIncomingDamageMultiplier(Health target)
+    {
+        if (target == null || !activeEffects.ContainsKey(target)) return 1f;
+        float mult = 1f;
+        foreach (var e in activeEffects[target])
+            mult *= e.Data.IncomingDamageMultiplier;
+        return mult;
+    }
+
+    public float GetReflectPercent(Health target)
+    {
+        if (target == null || !activeEffects.ContainsKey(target)) return 0f;
+        float total = 0f;
+        foreach (var e in activeEffects[target])
+            total += e.Data.ReflectPercent;
+        return Mathf.Clamp01(total);
+    }
+
     // Returns the live list (no copy); callers must not modify it or hold it across effect changes.
     public IReadOnlyList<ActiveEffect> GetActiveEffects(Health target)
     {

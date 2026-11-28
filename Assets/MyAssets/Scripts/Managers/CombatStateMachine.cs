@@ -22,6 +22,7 @@ public class CombatStateMachine : MonoBehaviour
     public EnemyAI CurrentTarget { get; private set; }
 
     private int currentPartyTurnIndex = 0;
+    private readonly HashSet<PartyMember> skippedThisRound = new HashSet<PartyMember>();
 
     private PartyMember CurrentPartyMember
     {
@@ -139,13 +140,7 @@ public class CombatStateMachine : MonoBehaviour
         if (CurrentTarget != null && CurrentTarget.Health.IsDead)
             HandleEnemyDeath(CurrentTarget);
 
-        if (Enemies.TrueForAll(e => e == null || e.Health.IsDead))
-        {
-            CurrentState = CombatState.Victory;
-            Debug.Log("[Combat] Victory!");
-            RoomSystem.OnCombatVictory();
-            return;
-        }
+        if (TryFinishWithVictory()) return;
 
         AdvancePartyTurn();
     }
@@ -182,7 +177,8 @@ public class CombatStateMachine : MonoBehaviour
     {
         CurrentState = CombatState.ResolvingEnemyAttack;
 
-        foreach (var enemy in Enemies)
+        // Snapshot so enemies can be removed from Enemies without breaking iteration
+        foreach (var enemy in new List<EnemyAI>(Enemies))
         {
             if (enemy == null || enemy.Health.IsDead) continue;
 
@@ -191,6 +187,7 @@ public class CombatStateMachine : MonoBehaviour
                 Debug.Log($"[Combat] {enemy.Data.EnemyName} is frozen and can't attack!");
                 BuffDebuff.TickEffects(enemy.Health);
                 yield return new WaitForSeconds(DelayBetweenEnemyAttacks);
+                if (TryFinishWithVictory()) yield break;
                 continue;
             }
 
@@ -221,22 +218,40 @@ public class CombatStateMachine : MonoBehaviour
                 GameStateManager.SetGameOver(GameOverReason.Defeat);
                 yield break;
             }
+
+            if (TryFinishWithVictory()) yield break;
         }
 
         foreach (var member in PartyManager.Instance.ActiveMembers)
-            if (member != null && !member.Health.IsDead)
-                BuffDebuff.TickEffects(member.Health);
-
-        if (Enemies.TrueForAll(e => e == null || e.Health.IsDead))
         {
-            CurrentState = CombatState.Victory;
-            Debug.Log("[Combat] Victory! (DoT kill)");
-            RoomSystem.OnCombatVictory();
-            yield break;
+            if (member != null && !member.Health.IsDead
+                && !skippedThisRound.Contains(member)
+                && !BuffDebuff.IsActionPrevented(member.Health))
+                BuffDebuff.TickEffects(member.Health);
         }
+        skippedThisRound.Clear();
+
+        if (TryFinishWithVictory()) yield break;
 
         currentPartyTurnIndex = 0;
         SkipDeadPartyMembers();
+
+        if (!PartyManager.Instance.IsPartyAlive())
+        {
+            CurrentState = CombatState.Defeat;
+            Debug.Log("[Combat] Defeat...");
+            GameStateManager.SetGameOver(GameOverReason.Defeat);
+            yield break;
+        }
+
+        // Every living member was prevented from acting: go straight to the next enemy turn
+        if (currentPartyTurnIndex >= PartyManager.Instance.ActiveMembers.Count)
+        {
+            currentPartyTurnIndex = 0;
+            yield return new WaitForSeconds(DelayBeforeEnemyTurn);
+            yield return RunEnemyTurnSequence();
+            yield break;
+        }
 
         CurrentTarget = null;
         LoadCurrentPartyMemberReels();
@@ -252,7 +267,17 @@ public class CombatStateMachine : MonoBehaviour
         while (currentPartyTurnIndex < members.Count)
         {
             var m = members[currentPartyTurnIndex];
-            if (m != null && !m.Health.IsDead) break;
+            if (m != null && !m.Health.IsDead)
+            {
+                if (!BuffDebuff.IsActionPrevented(m.Health)) break;
+
+                // Skipped turn: effects tick now (mirrors enemies), and are skipped at round end
+                Debug.Log($"[Combat] {m.Data.CharacterName} can't act and skips their turn!");
+                TextSpawner.SpawnSlotResultText($"{m.Data.CharacterName} can't act!",
+                    m.transform.position + Vector3.up * 1f);
+                BuffDebuff.TickEffects(m.Health);
+                skippedThisRound.Add(m);
+            }
             currentPartyTurnIndex++;
         }
     }
@@ -266,5 +291,21 @@ public class CombatStateMachine : MonoBehaviour
     private void HandleEnemyDeath(EnemyAI enemy)
     {
         Debug.Log($"[Combat] {enemy.Data.EnemyName} died.");
+        CurrentTarget = null;
+    }
+
+    // Drops defeated enemies from the active list (their objects are destroyed on death),
+    // then ends combat if none remain.
+    private bool TryFinishWithVictory()
+    {
+        Enemies.RemoveAll(e => e == null || e.Health.IsDead);
+        if (CurrentTarget == null || CurrentTarget.Health.IsDead) CurrentTarget = null;
+
+        if (Enemies.Count > 0) return false;
+
+        CurrentState = CombatState.Victory;
+        Debug.Log("[Combat] Victory!");
+        RoomSystem.OnCombatVictory();
+        return true;
     }
 }

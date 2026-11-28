@@ -21,6 +21,7 @@ public class EnemyClickTarget : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (Enemy.Health.IsDead) return;
         Combat.SelectTarget(Enemy);
     }
 

@@ -28,6 +28,11 @@ public class AttackExecutionSystem : MonoBehaviour
         for (int i = 0; i < attack.HitCount; i++)
         {
             DamageSystem.ResolveSingleHit(attack, target, targetData);
+
+            // Self-damage (Confusion) is paid on every hit
+            if (attack.SelfDamageAmount > 0)
+                attack.Source?.ApplyDamage(attack.SelfDamageAmount);
+
             if (target.IsDead) break;
 
             if (i < attack.HitCount - 1)
@@ -39,15 +44,12 @@ public class AttackExecutionSystem : MonoBehaviour
         if (!target.IsDead && attack.Element?.AppliedEffect != null)
             BuffDebuff.ApplyEffect(target, attack.Element.AppliedEffect);
 
-        SynergyResolver.ApplyPostHitEffects(synergies, target, allEnemies);
+        SynergyResolver.ApplyPostHitEffects(synergies, attack.Source, target, allEnemies);
 
-        // Self-damage goes to active party member
-        var activeHealth = PartyManager.Instance.ActiveHealth;
-        if (attack.SelfDamageAmount > 0)
-            activeHealth?.ApplyDamage(attack.SelfDamageAmount);
-
-        if (attack.SelfAppliedEffect != null)
-            BuffDebuff.ApplyEffect(activeHealth, attack.SelfAppliedEffect);
+        // Self effects go to the attacking party member
+        var attacker = attack.Source;
+        if (attacker != null && attack.SelfAppliedEffect != null)
+            BuffDebuff.ApplyEffect(attacker, attack.SelfAppliedEffect);
 
         onComplete?.Invoke();
     }

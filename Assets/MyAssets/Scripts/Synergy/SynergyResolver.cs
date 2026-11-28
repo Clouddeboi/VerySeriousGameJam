@@ -51,13 +51,12 @@ public class SynergyResolver : MonoBehaviour
             resolved.AffectsAllEnemies = true;
     }
 
-    public void ApplyPostHitEffects(ResolvedSynergies resolved,
+    public void ApplyPostHitEffects(ResolvedSynergies resolved, Health attacker,
         Health primaryTarget, List<EnemyAI> allEnemies)
     {
         foreach (var effect in resolved.PostHitEffects)
         {
             var targets = ResolveTargets(effect, primaryTarget, allEnemies);
-            var activeHealth = PartyManager.Instance.ActiveHealth;
 
             foreach (var t in targets)
             {
@@ -84,17 +83,16 @@ public class SynergyResolver : MonoBehaviour
                 && effect.EffectData != null)
             {
                 int dur = effect.DurationOverride > 0 ? effect.DurationOverride : -1;
-                BuffDebuff.ApplyEffect(PartyManager.Instance.ActiveHealth,
-                    effect.EffectData, dur);
+                BuffDebuff.ApplyEffect(attacker, effect.EffectData, dur);
             }
 
             if (effect.Type == SynergyEffectType.RemoveEffectFromSelf
                 && effect.EffectData != null)
-                BuffDebuff.RemoveEffect(PartyManager.Instance.ActiveHealth, effect.EffectData);
+                BuffDebuff.RemoveEffect(attacker, effect.EffectData);
         }
 
         if (resolved.HealSelfAmount > 0)
-            PartyManager.Instance.ActiveHealth?.Heal(resolved.HealSelfAmount);
+            attacker?.Heal(resolved.HealSelfAmount);
     }
 
     private List<Health> ResolveTargets(SynergyEffect effect,

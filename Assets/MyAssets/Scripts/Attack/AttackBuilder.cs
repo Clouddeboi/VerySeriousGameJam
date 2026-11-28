@@ -32,7 +32,7 @@ public static class AttackBuilder
             if (mod.HitDamageMultiplier != 1f)
                 baseDamage = Mathf.RoundToInt(baseDamage * mod.HitDamageMultiplier);
             if (mod.SelfDamagePercent > 0f)
-                selfDamage = Mathf.RoundToInt(baseDamage * mod.SelfDamagePercent);
+                selfDamage = Mathf.Max(1, Mathf.RoundToInt(baseDamage * mod.SelfDamagePercent));
 
             selfAppliedEffect = mod.SelfAppliedEffect;
         }
