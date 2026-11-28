@@ -40,6 +40,12 @@ public static class AttackBuilder
         if (character != null && character.DamageMultiplier != 1f)
             baseDamage = Mathf.RoundToInt(baseDamage * character.DamageMultiplier);
 
+        if (character != null)
+        {
+            float bonus = RunState.Current.GetCharacter(character).DamageBonusPercent;
+            if (bonus != 0f) baseDamage = Mathf.RoundToInt(baseDamage * (1f + bonus));
+        }
+
         baseDamage += synergies.BonusFlatDamage;
         baseDamage = Mathf.RoundToInt(baseDamage * (1f + synergies.BonusPercentDamage));
         hitCount += synergies.BonusHits;

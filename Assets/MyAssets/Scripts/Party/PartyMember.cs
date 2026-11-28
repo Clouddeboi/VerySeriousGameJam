@@ -26,7 +26,7 @@ public class PartyMember : MonoBehaviour
         cameraShake = shake;
 
         Health.EntityName = data.CharacterName;
-        Health.SetMaxHP(data.MaxHP);
+        Health.SetMaxHP(data.MaxHP + (RunState.Current.GetCharacter(data)?.MaxHPBonus ?? 0));
         Health.TextSpawner = textSpawner;
 
         if (SpriteRenderer != null && data.Portrait != null)

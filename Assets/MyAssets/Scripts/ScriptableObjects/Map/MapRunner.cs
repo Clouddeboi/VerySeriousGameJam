@@ -19,6 +19,7 @@ public class MapRunner : MonoBehaviour
 
     public void StartRun()
     {
+        RunState.StartNew();
         Party.InitializeParty();
 
         layers = Generator.GenerateMap(out _, out bossNode);
@@ -83,6 +84,7 @@ public class MapRunner : MonoBehaviour
         }
 
         AudioManager.Instance.PlayExitRoom();
+        RunState.Current.RoomsCleared++;
         GameStateManager.SetState(GameState.Map);
 
         Transition.FadeToClearOnly(() =>

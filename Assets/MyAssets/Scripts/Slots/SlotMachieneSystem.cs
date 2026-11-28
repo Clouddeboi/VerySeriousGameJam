@@ -12,6 +12,13 @@ public class SlotMachineSystem : MonoBehaviour
     private Reel<ModifierSymbol> modifierReel;
 
     private WeaponSymbol weaponLock;
+    private Character currentCharacter;
+
+    private CharacterRunState RunData => RunState.Current.GetCharacter(currentCharacter);
+
+    // Character's own lock wins; otherwise a lock gained this run
+    private WeaponSymbol EffectiveWeaponLock
+        => weaponLock != null ? weaponLock : RunData?.LockedWeapon;
 
     private void Awake()
     {
@@ -20,6 +27,7 @@ public class SlotMachineSystem : MonoBehaviour
 
     public void LoadCharacter(Character character)
     {
+        currentCharacter = character;
         weaponLock = character?.WeaponLock;
 
         var weaponConfig = character?.WeaponReelConfig ?? DefaultWeaponConfig;
@@ -27,10 +35,20 @@ public class SlotMachineSystem : MonoBehaviour
         var modifierConfig = character?.ModifierReelConfig ?? DefaultModifierConfig;
 
         InitializeReels(weaponConfig, elementConfig, modifierConfig);
+        ApplySavedWeights();
         ResetAllLocks();
 
         Debug.Log($"[SlotMachine] Loaded config for {character?.CharacterName ?? "default"}. " +
-                  $"Weapon lock: {weaponLock?.DisplayName ?? "none"}");
+                  $"Weapon lock: {EffectiveWeaponLock?.DisplayName ?? "none"}");
+    }
+
+    private void ApplySavedWeights()
+    {
+        var data = RunData;
+        if (data == null) return;
+        weaponReel?.ApplyWeights(data.WeaponWeights);
+        elementReel?.ApplyWeights(data.ElementWeights);
+        modifierReel?.ApplyWeights(data.ModifierWeights);
     }
 
     private void InitializeReels(
@@ -52,30 +70,42 @@ public class SlotMachineSystem : MonoBehaviour
 
     public SlotResult Spin()
     {
-        WeaponSymbol weapon = weaponLock != null
-            ? weaponLock
+        WeaponSymbol weapon = EffectiveWeaponLock != null
+            ? EffectiveWeaponLock
             : weaponReel?.Spin();
+
+        var data = RunData;
+        ElementSymbol element = data?.LockedElement != null
+            ? data.LockedElement
+            : elementReel?.Spin();
+        ModifierSymbol modifier = data?.LockedModifier != null
+            ? data.LockedModifier
+            : modifierReel?.Spin();
 
         var result = new SlotResult
         {
             Weapon = weapon,
-            Element = elementReel?.Spin(),
-            Modifier = modifierReel?.Spin()
+            Element = element,
+            Modifier = modifier
         };
 
         Debug.Log($"[Slot] Spin result: {result}");
         return result;
     }
 
-    public bool IsWeaponLocked => weaponLock != null;
+    public bool IsWeaponLocked => EffectiveWeaponLock != null;
 
     public void ToggleLock(string reelName)
     {
-        if (reelName == "Weapon" && weaponLock != null)
+        var data = RunData;
+        if (reelName == "Weapon" && EffectiveWeaponLock != null)
         {
             Debug.Log("[SlotMachine] Weapon reel is locked to character — cannot toggle.");
             return;
         }
+        if (reelName == "Element" && data?.LockedElement != null) return;
+        if (reelName == "Modifier" && data?.LockedModifier != null) return;
+
         switch (reelName)
         {
             case "Weapon": weaponReel.Locked = !weaponReel.Locked; break;
@@ -84,29 +114,57 @@ public class SlotMachineSystem : MonoBehaviour
         }
     }
 
-    public bool WeaponLocked => weaponLock != null || (weaponReel?.Locked ?? false);
-    public bool ElementLocked => elementReel?.Locked ?? false;
-    public bool ModifierLocked => modifierReel?.Locked ?? false;
+    public bool WeaponLocked => EffectiveWeaponLock != null || (weaponReel?.Locked ?? false);
+    public bool ElementLocked => RunData?.LockedElement != null || (elementReel?.Locked ?? false);
+    public bool ModifierLocked => RunData?.LockedModifier != null || (modifierReel?.Locked ?? false);
 
-    public void AdjustWeaponWeight(WeaponSymbol symbol, float delta)
-        => weaponReel?.AdjustWeight(symbol, delta);
+    // Weight changes are saved to the character's run state and rebuilt on the next LoadCharacter.
+    // target defaults to the character currently loaded.
+    public void AdjustWeaponWeight(WeaponSymbol symbol, float delta, Character target = null)
+        => AdjustWeight(target, c => c?.WeaponReelConfig ?? DefaultWeaponConfig,
+            cfg => cfg.Entries, s => s.WeaponWeights, (s, w) => s.WeaponWeights = w, symbol, delta);
 
-    public void AdjustElementWeight(ElementSymbol symbol, float delta)
-        => elementReel?.AdjustWeight(symbol, delta);
+    public void AdjustElementWeight(ElementSymbol symbol, float delta, Character target = null)
+        => AdjustWeight(target, c => c?.ElementReelConfig ?? DefaultElementConfig,
+            cfg => cfg.Entries, s => s.ElementWeights, (s, w) => s.ElementWeights = w, symbol, delta);
+
+    public void AdjustModifierWeight(ModifierSymbol symbol, float delta, Character target = null)
+        => AdjustWeight(target, c => c?.ModifierReelConfig ?? DefaultModifierConfig,
+            cfg => cfg.Entries, s => s.ModifierWeights, (s, w) => s.ModifierWeights = w, symbol, delta);
+
+    private void AdjustWeight<TConfig, TSymbol>(Character target,
+        System.Func<Character, TConfig> getConfig,
+        System.Func<TConfig, WeightedEntry<TSymbol>[]> getEntries,
+        System.Func<CharacterRunState, float[]> getSaved,
+        System.Action<CharacterRunState, float[]> setSaved,
+        TSymbol symbol, float delta) where TConfig : Object
+    {
+        if (target == null) target = currentCharacter;
+        var state = RunState.Current.GetCharacter(target);
+        var config = getConfig(target);
+        if (state == null || config == null) return;
+
+        var reel = new Reel<TSymbol>(getEntries(config));
+        reel.ApplyWeights(getSaved(state));
+        reel.AdjustWeight(symbol, delta);
+        setSaved(state, reel.SnapshotWeights());
+
+        if (target == currentCharacter) ApplySavedWeights();
+    }
 
     public void ResetAllLocks()
     {
-        if (weaponLock == null) weaponReel.Locked = false;
-        elementReel.Locked = false;
-        modifierReel.Locked = false;
+        if (EffectiveWeaponLock == null && weaponReel != null) weaponReel.Locked = false;
+        if (elementReel != null) elementReel.Locked = false;
+        if (modifierReel != null) modifierReel.Locked = false;
     }
 
+    // Drops all run weight upgrades and locks for every character
     public void ResetAllWeights()
     {
-        weaponReel?.ResetToOriginalWeights();
-        elementReel?.ResetToOriginalWeights();
-        modifierReel?.ResetToOriginalWeights();
+        RunState.Current.ResetReelUpgrades();
+        if (currentCharacter != null) LoadCharacter(currentCharacter);
     }
 
-    public WeaponSymbol LockedWeapon => weaponLock;
+    public WeaponSymbol LockedWeapon => EffectiveWeaponLock;
 }
